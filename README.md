@@ -4,15 +4,26 @@ Component library built for [Ruby on Rails](https://rubyonrails.org/) with first
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Install AtomicView from [RubyGems](https://rubygems.org/) by adding it to your `Gemfile`, and then bundling.
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+# Gemfile
+gem "atomic_view"
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+```shell
+bundle install
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+## Getting Started
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+There isn't anything to get started on yet!
+
+## Leading principles
+
+1. Work with Ruby on Rails out of the box by supporting ActionView and it's helpers
+2. Build with accessibility and responsiveness at the forefront
+3. Provide really good defaults, but allow flexibility with theming and styling
 
 ## License
 
