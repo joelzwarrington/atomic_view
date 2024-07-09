@@ -1,0 +1,2 @@
+"Added":
+  - Add method to get preview folder path for Lookbook configuration (`AtomicView.preview_folder_path`)
