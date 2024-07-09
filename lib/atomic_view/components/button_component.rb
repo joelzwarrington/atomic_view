@@ -16,6 +16,8 @@ module AtomicView
           options ||= {}
         end
 
+        variant = options.delete(:variant)
+
         options[:class] = opts_to_class
         @options = options
       end

@@ -2,6 +2,7 @@
 
 require "rails"
 require "view_component"
+require "tailwind_merge"
 require_relative "atomic_view/version"
 require_relative "atomic_view/component"
 require_relative "atomic_view/components/button_component"

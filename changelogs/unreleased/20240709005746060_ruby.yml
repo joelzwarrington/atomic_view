@@ -1,0 +1,5 @@
+"Added":
+  - Added `tailwind_merge` utility gem
+
+"Changed":
+  - Updated Ruby version to 3.3.0 from 3.0.3
