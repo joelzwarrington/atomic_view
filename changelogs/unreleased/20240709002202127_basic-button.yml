@@ -1,0 +1,3 @@
+"Added":
+  - Basic `ButtonComponent` 
+  - Railtie to load custom ActionView helpers

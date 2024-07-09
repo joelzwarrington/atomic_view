@@ -31,7 +31,6 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "actionview"
-  spec.add_dependency "view_component"
-  spec.add_development_dependency "codelog"
+  spec.add_dependency "rails", "~> 7.1.3"
+  spec.add_dependency "view_component", "~> 3.12"
 end
