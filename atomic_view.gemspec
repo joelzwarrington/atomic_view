@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     "changelog_uri" => "https://github.com/joelzwarrington/atomic_view/blob/master/CHANGELOG.md",
     "source_code_uri" => "https://github.com/joelzwarrington/atomic_view",
     "bug_tracker_uri" => "https://github.com/joelzwarrington/atomic_view/issues",
-    "rubygems_mfa_required" => "true",
+    "rubygems_mfa_required" => "true"
   }
 
   spec.files = Dir.chdir(__dir__) do
@@ -31,5 +31,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "actionview"
+  spec.add_dependency "view_component"
   spec.add_development_dependency "codelog"
 end
