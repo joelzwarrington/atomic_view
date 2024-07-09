@@ -16,7 +16,7 @@ module AtomicView
           options ||= {}
         end
 
-        options.merge!(class: opts_to_class)
+        options[:class] = opts_to_class
         @options = options
       end
 

@@ -8,4 +8,4 @@ gemspec
 gem "codelog", github: "codus/codelog", branch: "master"
 gem "rake", "~> 13.0"
 gem "rspec", "~> 3.0"
-gem "rubocop", "~> 1.21"
+gem "standard", "~> 1.21"
