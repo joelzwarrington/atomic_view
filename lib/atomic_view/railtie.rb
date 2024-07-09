@@ -3,9 +3,9 @@
 require "atomic_view/helpers/form_tag_helper"
 
 module AtomicView
-  class Railtie < Rails::Railtie # rubocop:disable Style/Documentation
+  class Railtie < Rails::Railtie
     initializer "atomic_view.helpers" do
-      ActiveSupport.on_load(:action_view) { include AtomicView::Helpers }
+      ActiveSupport.on_load(:action_view) { include Helpers::FormTagHelper }
     end
   end
 end

@@ -2,9 +2,7 @@
 
 module AtomicView
   module Helpers
-    module FormTagHelper # rubocop:disable Style/Documentation
-      extend ActiveSupport::Concern
-
+    module FormTagHelper
       def button_tag(...)
         render Components::ButtonComponent.new(...)
       end

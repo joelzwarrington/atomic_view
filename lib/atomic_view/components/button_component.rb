@@ -22,9 +22,9 @@ module AtomicView
 
       def call
         if content?
-          button_tag(@options, atomic_view_component: true) { content }
+          content_tag(:button, @options) { content }
         else
-          button_tag(label, @options, atomic_view_component: true)
+          content_tag(:button, label, @options)
         end
       end
 
