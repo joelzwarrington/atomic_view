@@ -6,7 +6,7 @@ gem "puma", ">= 5.0"
 
 gem "tailwindcss-rails"
 gem "lookbook"
-gem "atomic_view"
+gem "atomic_view", "~> 0.0.2"
 
 group :development do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
