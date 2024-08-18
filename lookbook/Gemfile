@@ -1,0 +1,14 @@
+source "https://rubygems.org"
+
+gem "rails", "~> 7.2.0"
+gem "sprockets-rails"
+gem "puma", ">= 5.0"
+
+gem "tailwindcss-rails"
+gem "lookbook"
+gem "atomic_view", path: File.expand_path("..", __dir__)
+
+group :development do
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude"
+  gem "standardrb"
+end

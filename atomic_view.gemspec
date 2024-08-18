@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir.chdir(__dir__) do
     `git ls-files -z`.split("\x0").reject do |f|
-      (File.expand_path(f) == __FILE__) || f.start_with?(*%w[bin/ test/ spec/ features/ .git .circleci appveyor])
+      (File.expand_path(f) == __FILE__) || f.start_with?(*%w[bin/ test/ spec/ lookbook/ .git .circleci appveyor Procfile.dev])
     end
   end
 
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "rails", "~> 7.1.3"
-  spec.add_dependency "view_component", "~> 3.12"
+  spec.add_dependency "rails", "~> 7.2.0"
+  spec.add_dependency "view_component", "~> 3.13"
   spec.add_dependency "tailwind_merge", "~> 0.12"
 end

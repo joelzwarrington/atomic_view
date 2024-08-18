@@ -1,0 +1,2 @@
+web: cd lookbook && bin/rails server
+css: cd lookbook && bin/rails tailwindcss:watch
