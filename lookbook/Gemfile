@@ -6,7 +6,7 @@ gem "puma", ">= 5.0"
 
 gem "tailwindcss-rails"
 gem "lookbook"
-gem "atomic_view", path: File.expand_path("..", __dir__)
+gem "atomic_view"
 
 group :development do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
