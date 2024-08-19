@@ -1,8 +1,10 @@
 Rails.application.configure do
   config.lookbook.project_name = "AtomicView"
+  config.lookbook.ui_theme = "zinc"
   config.lookbook.project_logo = false
-  config.lookbook.preview_collection_label = "Component Previews"
-  config.lookbook.preview_paths.push AtomicView.preview_folder_path
+  config.lookbook.ui_favicon = false
+
+  config.lookbook.preview_collection_label = "Components"
   config.lookbook.preview_display_options = {
     theme: ["light", "dark"]
   }
