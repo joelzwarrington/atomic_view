@@ -3,6 +3,7 @@
 require "rails"
 require "view_component"
 require "tailwind_merge"
+require "view_component/form"
 
 require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem

@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/joelzwarrington/atomic_view.git
-  revision: 8f3df99e39202a20d821ef7c450260782309aab2
+  revision: 6f8178180e8a177e3b0e8c0c6636d3d0f488adcc
   branch: main
   specs:
     atomic_view (0.0.2)
@@ -8,6 +8,17 @@ GIT
       tailwind_merge (~> 0.12)
       view_component (~> 3.13)
       zeitwerk (~> 2.6.17)
+
+GIT
+  remote: https://github.com/pantographe/view_component-form.git
+  revision: b62066691d03b737edea98427ddfa5d3af2a2448
+  branch: main
+  specs:
+    view_component-form (0.2.7)
+      actionview (>= 6.1.0, < 8.0)
+      activesupport (>= 6.1.0, < 8.0)
+      view_component (>= 2.34.0, < 4.0)
+      zeitwerk (~> 2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -307,6 +318,7 @@ DEPENDENCIES
   sprockets-rails
   standardrb
   tailwindcss-rails
+  view_component-form!
 
 BUNDLED WITH
    2.5.17
