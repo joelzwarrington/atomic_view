@@ -6,7 +6,7 @@ require "tailwind_merge"
 require "view_component/form"
 
 require "zeitwerk"
-loader = Zeitwerk::Loader.for_gem
+loader = Zeitwerk::Loader.for_gem(warn_on_extra_files: false)
 
 vcf_gem_dir = Gem::Specification.find_by_name("view_component-form").gem_dir
 loader.push_dir File.join(vcf_gem_dir, "app", "components")
