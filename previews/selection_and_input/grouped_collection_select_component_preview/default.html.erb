@@ -1,0 +1,16 @@
+<% objects = [
+    OpenStruct.new(group_name: "Lorem", items: [
+      OpenStruct.new(name: "Foo", id: 1),
+      OpenStruct.new(name: "Bar", id: 2)
+    ]),
+    OpenStruct.new(group_name: "Ipsum", items: [
+      OpenStruct.new(name: "Foo", id: 3),
+      OpenStruct.new(name: "Bar", id: 4)
+    ]),
+  ] 
+%>
+
+
+<%= form_with model: model do |form| %>
+  <%= form.grouped_collection_select :attribute, objects, :items, :group_name, :id, :name %>
+<% end %>

@@ -1,5 +1,5 @@
 class Model
   include ActiveModel::Model
 
-  attr_reader :name
+  attr_reader :attribute
 end

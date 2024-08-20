@@ -1,5 +1,5 @@
 module SelectionAndInput
-  class ButtonComponentPreview < ViewComponent::Preview
+  class CheckBoxComponentPreview < Lookbook::Preview
     def default
       render_with_template locals: {model: Model.new}
     end
