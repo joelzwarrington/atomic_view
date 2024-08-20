@@ -21,16 +21,7 @@ Gem::Specification.new do |spec|
     "rubygems_mfa_required" => "true"
   }
 
-  spec.files = Dir.chdir(__dir__) do
-    commited_files = `git ls-files -z`.split("\x0")
-
-    commited_files.filter do |file|
-      next false if File.expand_path(file) == __FILE__
-
-      file.start_with?("lib/", "docs/", "previews/", "CHANGELOG", "LICENSE")
-    end
-  end
-
+  spec.files = Dir["CHANGELOG.md", "LICENSE.txt", "README.md", "lib/**/*"]
   spec.add_dependency "zeitwerk", "~> 2.6.17"
   spec.add_dependency "rails", "~> 7.2.0"
   spec.add_dependency "view_component", "~> 3.13"
