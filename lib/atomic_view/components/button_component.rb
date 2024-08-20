@@ -3,10 +3,12 @@
 module AtomicView
   module Components
     # Button
-    class ButtonComponent < Component
+    class ButtonComponent < ViewComponent::Form::ButtonComponent
+      # TODO: this is an example, should build out common system to handle size, variant, etc.
+
       attr_reader :label, :size, :variant
 
-      def initialize(label_or_options = nil, options = nil)
+      def initialize(form, label_or_options = nil, options = nil)
         super
 
         if label_or_options.is_a?(Hash)

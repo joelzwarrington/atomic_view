@@ -7,6 +7,7 @@ Rails.application.configure do
   config.lookbook.page_route = "docs"
   config.lookbook.page_paths = [Rails.root.join("docs")]
 
+  config.lookbook.preview_controller = "PreviewController"
   config.lookbook.preview_collection_label = "Components"
   config.lookbook.preview_paths = [Rails.root.join("previews")]
 

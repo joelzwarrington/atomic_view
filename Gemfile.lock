@@ -7,11 +7,11 @@ GIT
       thor (~> 1.0)
 
 GIT
-  remote: https://github.com/pantographe/view_component-form.git
-  revision: b62066691d03b737edea98427ddfa5d3af2a2448
-  branch: main
+  remote: https://github.com/joelzwarrington/view_component-form.git
+  revision: 104499ac7b687246cb4d85aa69ced8ff256e71ef
+  branch: without-autoload
   specs:
-    view_component-form (0.2.7)
+    view_component-form (0.2.8)
       actionview (>= 6.1.0, < 8.0)
       activesupport (>= 6.1.0, < 8.0)
       view_component (>= 2.34.0, < 4.0)

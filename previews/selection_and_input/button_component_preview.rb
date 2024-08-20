@@ -1,7 +1,6 @@
 module SelectionAndInput
-  class ButtonComponentPreview < ViewComponent::Preview
+  class ButtonComponentPreview < Lookbook::Preview
     def default
-      binding.irb
       render_with_template locals: {model: Model.new}
     end
   end
