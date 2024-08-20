@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "rails", "~> 7.2.0"
 gem "sprockets-rails"
@@ -6,7 +7,7 @@ gem "puma", ">= 5.0"
 
 gem "tailwindcss-rails"
 gem "lookbook"
-gem "atomic_view", "~> 0.0.2"
+gem "atomic_view", github: "joelzwarrington/atomic_view", branch: "main"
 
 group :development do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"

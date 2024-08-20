@@ -1,3 +1,14 @@
+GIT
+  remote: https://github.com/joelzwarrington/atomic_view.git
+  revision: 8f3df99e39202a20d821ef7c450260782309aab2
+  branch: main
+  specs:
+    atomic_view (0.0.2)
+      rails (~> 7.2.0)
+      tailwind_merge (~> 0.12)
+      view_component (~> 3.13)
+      zeitwerk (~> 2.6.17)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -74,10 +85,6 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
-    atomic_view (0.0.2)
-      rails (~> 7.2.0)
-      tailwind_merge (~> 0.12)
-      view_component (~> 3.13)
     base64 (0.2.0)
     bigdecimal (3.1.8)
     builder (3.3.0)
@@ -292,7 +299,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  atomic_view (~> 0.0.2)
+  atomic_view!
   debug
   lookbook
   puma (>= 5.0)

@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "zeitwerk", "~> 2.6.17"
   spec.add_dependency "rails", "~> 7.2.0"
   spec.add_dependency "view_component", "~> 3.13"
   spec.add_dependency "tailwind_merge", "~> 0.12"
