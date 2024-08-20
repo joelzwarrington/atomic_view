@@ -6,11 +6,13 @@ require "tailwind_merge"
 require "view_component/form"
 
 require "zeitwerk"
-loader = Zeitwerk::Loader.for_gem(warn_on_extra_files: false)
+loader = Zeitwerk::Loader.for_gem
 
-vcf_gem_dir = Gem::Specification.find_by_name("view_component-form").gem_dir
-loader.push_dir File.join(vcf_gem_dir, "app", "components")
-loader.push_dir File.join(vcf_gem_dir, "app", "components", "concerns")
+loader.ignore("#{__dir__}/atomic_view/components")
+
+# vcf_gem_dir = Gem::Specification.find_by_name("view_component-form").gem_dir
+# loader.push_dir File.join(vcf_gem_dir, "app", "components")
+# loader.push_dir File.join(vcf_gem_dir, "app", "components", "concerns")
 
 loader.setup
 

@@ -2,6 +2,6 @@
 
 module AtomicView
   class FormBuilder < ViewComponent::Form::Builder
-    namespace AtomicView::Components
+    # namespace AtomicView::Components
   end
 end

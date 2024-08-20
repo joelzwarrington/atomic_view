@@ -22,14 +22,14 @@ Gem::Specification.new do |spec|
   }
 
   spec.files = Dir.chdir(__dir__) do
-    `git ls-files -z`.split("\x0").reject do |f|
-      (File.expand_path(f) == __FILE__) || f.start_with?(*%w[bin/ test/ spec/ lookbook/ .git .circleci appveyor Procfile.dev])
+    commited_files = `git ls-files -z`.split("\x0")
+
+    commited_files.filter do |file|
+      next false if File.expand_path(file) == __FILE__
+
+      file.start_with?("lib/", "docs/", "previews/", "CHANGELOG", "LICENSE")
     end
   end
-
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
 
   spec.add_dependency "zeitwerk", "~> 2.6.17"
   spec.add_dependency "rails", "~> 7.2.0"
