@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["CHANGELOG.md", "LICENSE.txt", "README.md", "lib/**/*"]
   spec.add_dependency "zeitwerk", "~> 2.6.17"
-  spec.add_dependency "rails", "~> 7.2.0"
+  spec.add_dependency "rails", "> 7.2.0"
   spec.add_dependency "view_component", "~> 3.13"
   spec.add_dependency "tailwindcss-rails", "~> 2.7"
   spec.add_dependency "tailwind_merge", "~> 0.12"
