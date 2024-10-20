@@ -10,7 +10,7 @@
       </div>
     <% end %>
   <% end %>
-  <%= ActionView::Helpers::Tags::TextField.new(object_name, method_name, @view_context, options).render %>
+  <%= tag_klass.new(@object_name, @method_name, @view_context, @options).render %>
   <% if right_section? %>
     <% if right_section_addon? %>
       <span class="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 px-3 text-gray-500 sm:text-sm"><%= right_section %></span>

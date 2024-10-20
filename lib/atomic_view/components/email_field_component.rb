@@ -2,14 +2,12 @@ module AtomicView
   module Components
     class EmailFieldComponent < ViewComponent::Form::EmailFieldComponent
       def call
-        render TextFieldComponent.new(
-          @form,
-          @object_name,
-          @object_method,
-          @options.merge(
-            type: "email",
-            left_section: icon("at-symbol", variant: :mini, options: {class: "size-5 text-gray-500"})
-          )
+        render FieldComponent.new(
+          form,
+          object_name,
+          method_name,
+          options,
+          ActionView::Helpers::Tags::EmailField
         )
       end
     end
