@@ -46,7 +46,7 @@ module AtomicView
       end
 
       def right_section
-        options[:right_section] || method_errors? && icon("exclamation-circle", variant: :mini, options: {class: "size-5 text-red-500"})
+        options[:right_section] || method_errors? && raw(icon("exclamation-circle", variant: :mini, options: {class: "size-5 text-red-500"}))
       end
 
       def right_section?
