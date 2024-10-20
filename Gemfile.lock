@@ -21,7 +21,7 @@ PATH
   remote: .
   specs:
     atomic_view (0.0.2)
-      heroicon (~> 1.0)
+      heroicons (~> 2.0)
       rails (> 7.2.0)
       tailwind_merge (~> 0.12)
       tailwindcss-rails (~> 2.7)
@@ -121,8 +121,9 @@ GEM
     erubi (1.13.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    heroicon (1.0.0)
-      rails (>= 5.2)
+    heroicons (2.0.1)
+      nokogiri
+      railties (>= 5.2)
     htmlbeautifier (1.4.3)
     htmlentities (4.3.4)
     i18n (1.14.5)

@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "view_component", "~> 3.13"
   spec.add_dependency "tailwindcss-rails", "~> 2.7"
   spec.add_dependency "tailwind_merge", "~> 0.12"
-  spec.add_dependency "heroicon", "~> 1.0"
+  spec.add_dependency "heroicons", "~> 2.0"
 end

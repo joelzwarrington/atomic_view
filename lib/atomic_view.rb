@@ -3,13 +3,11 @@
 require "rails"
 require "view_component"
 require "tailwind_merge"
-require "heroicon"
+require "heroicons"
 require "view_component/form"
 
 require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem
-
-loader.push_dir File.join(Gem::Specification.find_by_name("heroicon").gem_dir, "app", "helpers")
 
 vcf_gem_dir = Gem::Specification.find_by_name("view_component-form").gem_dir
 loader.push_dir File.join(vcf_gem_dir, "app", "components")

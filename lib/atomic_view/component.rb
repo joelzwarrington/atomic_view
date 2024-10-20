@@ -2,9 +2,16 @@
 
 module AtomicView
   class Component < ViewComponent::Base
-    include Heroicon::Engine.helpers
+    include Heroicons::Engine.helpers
 
-    alias_method :icon, :heroicon
+    def icon(name, variant: Heroicons.configuration.variant, options: {}, path_options: {})
+      Heroicons::Icon.render(
+        name: name,
+        variant: variant,
+        options: options,
+        path_options: path_options
+      )
+    end
 
     def class_names(...)
       classes = super
