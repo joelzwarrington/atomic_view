@@ -19,7 +19,7 @@ module SelectionAndInput
       render_with_template locals: {model: Model.new}
     end
 
-    def with_left_section_button
+    def with_left_section_interaction
       render_with_template locals: {model: Model.new}
     end
 
@@ -31,7 +31,7 @@ module SelectionAndInput
       render_with_template locals: {model: Model.new}
     end
 
-    def with_right_section_button
+    def with_right_section_interaction
       render_with_template locals: {model: Model.new}
     end
     # @!endgroup

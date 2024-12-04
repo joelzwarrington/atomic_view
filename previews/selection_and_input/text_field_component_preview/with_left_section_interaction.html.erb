@@ -1,0 +1,9 @@
+<%= form_with model: model do |form| %>
+  <%= form.label :attribute %>
+  <%= form.text_field :attribute, left_section_as_interaction: true, left_section: form.button("Do Things", class: "relative -mr-px inline-flex items-center gap-x-1.5 rounded-l-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50") %>
+<% end %>
+<br>
+<%= form_with model: model do |form| %>
+  <%= form.label :attribute %>
+  <%= form.text_field :attribute, left_section_as_interaction: true, left_section: form.select(:example, [["Lorem", 1], ["Ipsum", 2]], class: "max-w-24 rounded-r-none") %>
+<% end %>

@@ -13,10 +13,10 @@ module AtomicView
           *%W[block w-full h-9 min-w-0 z-10 flex-1 rounded-md border-0 py-1 text-sm shadow-sm ring-1],
           "disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200",
           "text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-neutral-700",
-          "pl-10" => left_section? && !(left_section_addon? || left_section_button?),
-          "pr-10" => right_section? && !(right_section_addon? || right_section_button?),
-          "shadow-none rounded-none rounded-r-md" => left_section_addon? || left_section_button?,
-          "shadow-none rounded-none rounded-l-md" => right_section_addon? || right_section_button?,
+          "pl-10" => left_section? && !(left_section_addon? || left_section_interaction?),
+          "pr-10" => right_section? && !(right_section_addon? || right_section_interaction?),
+          "shadow-none rounded-none rounded-r-md" => left_section_addon? || left_section_interaction?,
+          "shadow-none rounded-none rounded-l-md" => right_section_addon? || right_section_interaction?,
           "text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500" => method_errors?
         )
       end
@@ -24,7 +24,7 @@ module AtomicView
       def container_html_class
         class_names(
           "relative rounded-md shadow-sm",
-          {"flex" => left_section_addon? || left_section_button? || right_section_addon? || right_section_button?},
+          {"flex" => left_section_addon? || left_section_interaction? || right_section_addon? || right_section_interaction?},
           options[:container_class]
         )
       end
@@ -41,8 +41,8 @@ module AtomicView
         options[:left_section_as_addon].present?
       end
 
-      def left_section_button?
-        options[:left_section_as_button].present?
+      def left_section_interaction?
+        options[:left_section_as_interaction].present?
       end
 
       def right_section
@@ -57,8 +57,8 @@ module AtomicView
         options[:right_section_as_addon].present?
       end
 
-      def right_section_button?
-        options[:right_section_as_button].present?
+      def right_section_interaction?
+        options[:right_section_as_interaction].present?
       end
     end
   end

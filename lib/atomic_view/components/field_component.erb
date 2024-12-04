@@ -2,7 +2,7 @@
   <% if left_section? %>
     <% if left_section_addon? %>
       <span class="inline-flex items-center rounded-l-md ring-1 ring-gray-300 px-3 text-gray-500 sm:text-sm"><%= left_section %></span>
-    <% elsif left_section_button? %>
+    <% elsif left_section_interaction? %>
       <%= left_section %>
     <% else %>
       <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -14,7 +14,7 @@
   <% if right_section? %>
     <% if right_section_addon? %>
       <span class="inline-flex items-center rounded-r-md ring-1 ring-gray-300 px-3 text-gray-500 sm:text-sm"><%= right_section %></span>
-    <% elsif right_section_button? %>
+    <% elsif right_section_interaction? %>
       <%= right_section %>
     <% else %>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
