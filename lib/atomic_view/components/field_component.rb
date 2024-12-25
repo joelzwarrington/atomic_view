@@ -10,7 +10,7 @@ module AtomicView
 
       def html_class
         class_names(
-          *%W[block w-full h-9 min-w-0 z-10 flex-1 rounded-md border-0 py-1 text-sm shadow-sm ring-1],
+          *%W[block w-full h-9 min-w-0 z-10 flex-1 rounded-md border-0 py-1 text-base shadow-sm ring-1],
           "disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200",
           "text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-neutral-700",
           "pl-10" => left_section? && !(left_section_addon? || left_section_interaction?),
