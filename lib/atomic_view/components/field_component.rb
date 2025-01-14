@@ -10,20 +10,20 @@ module AtomicView
 
       def html_class
         class_names(
-          *%W[block w-full h-9 min-w-0 z-10 flex-1 rounded-md border-0 py-1 text-base shadow-sm ring-1],
-          "disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:ring-gray-200",
-          "text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-neutral-700",
+          *%W[block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-lg border-0 py-1 text-base shadow-sm ring-1],
+          "disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-zinc-500 disabled:ring-zinc-200",
+          "bg-transparent dark:bg-white/5 text-zinc-950 ring-zinc-950/10 dark:ring-white/10 placeholder:text-zinc-500 dark:text-white focus:ring-neutral-700 focus:border-zinc-950/20 dark:focus:ring-white/20",
           "pl-10" => left_section? && !(left_section_addon? || left_section_interaction?),
           "pr-10" => right_section? && !(right_section_addon? || right_section_interaction?),
-          "shadow-none rounded-none rounded-r-md" => left_section_addon? || left_section_interaction?,
-          "shadow-none rounded-none rounded-l-md" => right_section_addon? || right_section_interaction?,
+          "shadow-none rounded-none rounded-r-lg" => left_section_addon? || left_section_interaction?,
+          "shadow-none rounded-none rounded-l-lg" => right_section_addon? || right_section_interaction?,
           "text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500" => method_errors?
         )
       end
 
       def container_html_class
         class_names(
-          "relative rounded-md shadow-sm",
+          "relative rounded-lg shadow-sm",
           {"flex" => left_section_addon? || left_section_interaction? || right_section_addon? || right_section_interaction?},
           options[:container_class]
         )
