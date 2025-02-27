@@ -1,7 +1,7 @@
 <%= content_tag :div, class: container_html_class do %>
   <% if left_section? %>
     <% if left_section_addon? %>
-      <span class="inline-flex items-center rounded-l-lg bg-transparent dark:bg-white/5 ring-1 ring-zinc-950/10 dark:ring-white/10 px-3 text-zinc-950 dark:text-white sm:text-sm"><%= left_section %></span>
+      <span class="inline-flex items-center rounded-sm-l-lg bg-transparent dark:bg-white/5 ring-1 ring-zinc-950/10 dark:ring-white/10 px-3 text-zinc-950 dark:text-white sm:text-sm"><%= left_section %></span>
     <% elsif left_section_interaction? %>
       <%= left_section %>
     <% else %>
@@ -13,7 +13,7 @@
   <%= tag_klass.new(@object_name, @method_name, @view_context, @options).render %>
   <% if right_section? %>
     <% if right_section_addon? %>
-      <span class="inline-flex items-center rounded-r-lg bg-transparent dark:bg-white/5 ring-1 ring-zinc-950/10 dark:ring-white/10 px-3 text-zinc-950 dark:text-white sm:text-sm"><%= right_section %></span>
+      <span class="inline-flex items-center rounded-sm-r-lg bg-transparent dark:bg-white/5 ring-1 ring-zinc-950/10 dark:ring-white/10 px-3 text-zinc-950 dark:text-white sm:text-sm"><%= right_section %></span>
     <% elsif right_section_interaction? %>
       <%= right_section %>
     <% else %>
