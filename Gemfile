@@ -10,7 +10,7 @@ gem "rake", "~> 13.0"
 gem "rspec", "~> 3.0"
 gem "standard", "~> 1.21"
 
-gem "rails", "~> 7.2.0"
+gem "rails", "~> 8.0.1"
 gem "sprockets-rails"
 gem "puma", ">= 5.0"
 
