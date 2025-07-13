@@ -11,10 +11,11 @@ gem "rspec", "~> 3.0"
 gem "standard", "~> 1.21"
 
 gem "rails", "~> 8.0.1"
+gem "sqlite3"
 gem "sprockets-rails"
 gem "puma", ">= 5.0"
 
-gem "tailwindcss-rails"
+gem "tailwindcss-rails", "4.3"
 gem "lookbook"
 gem "view_component-form", github: "joelzwarrington/view_component-form", branch: "without-autoload"
 

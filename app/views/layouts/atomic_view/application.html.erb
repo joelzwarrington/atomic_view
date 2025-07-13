@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AtomicView</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "atomic_view/tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= javascript_import_module_tag "atomic_view/application" %>
+    <%= stylesheet_link_tag "atomic_view/application", media: "all" %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

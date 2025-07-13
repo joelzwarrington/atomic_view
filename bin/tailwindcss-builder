@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+$(bundle show tailwindcss-rails)/exe/tailwindcss \
+  -i app/assets/stylesheets/atomic_view/application.tailwind.css \
+  -o app/assets/dist/atomic_view/tailwind.css \
+  -c config/tailwind.config.js \
+  --minify \
+  -w

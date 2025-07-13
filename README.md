@@ -15,20 +15,8 @@ gem "atomic_view"
 bundle install
 ```
 
-In your `tailwind.config.js`, add:
-
-```js
-const execSync = require("child_process").execSync;
-const atomicViewPath =
-  execSync("bundle show atomic_view", { encoding: "utf-8" }).trim() +
-  "/lib/atomic_view/components/**/*.{erb,rb}";
-
-module.exports = {
-  content: [
-    // other paths...
-    atomicViewPath,
-  ],
-};
+```shell
+rails atomic_view:install
 ```
 
 ## Getting Started
