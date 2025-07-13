@@ -24,7 +24,7 @@ PATH
       heroicons (~> 2.0)
       rails (~> 8.0.1)
       tailwind_merge (~> 0.12)
-      tailwindcss-rails (~> 4.1.0)
+      tailwindcss-rails (~> 4.3)
       view_component (~> 3.21)
       zeitwerk (~> 2.7.2)
 
@@ -293,7 +293,7 @@ GEM
     strscan (3.1.0)
     tailwind_merge (0.12.0)
       lru_redux (~> 1.1)
-    tailwindcss-rails (4.1.0)
+    tailwindcss-rails (4.3.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
     tailwindcss-ruby (4.0.9-aarch64-linux-gnu)

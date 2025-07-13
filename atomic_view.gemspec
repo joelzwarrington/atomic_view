@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "zeitwerk", "~> 2.7.2"
   spec.add_dependency "rails", "~> 8.0.1"
   spec.add_dependency "view_component", "~> 3.21"
-  spec.add_dependency "tailwindcss-rails", "~> 4.1.0"
+  spec.add_dependency "tailwindcss-rails", "~> 4.3"
   spec.add_dependency "tailwind_merge", "~> 0.12"
   spec.add_dependency "heroicons", "~> 2.0"
 end
