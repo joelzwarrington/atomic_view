@@ -20,7 +20,7 @@ GIT
 PATH
   remote: .
   specs:
-    atomic_view (0.0.5)
+    atomic_view (0.0.7)
       heroicons (~> 2.0)
       rails (~> 8.0.1)
       tailwind_merge (~> 0.12)
