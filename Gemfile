@@ -17,7 +17,7 @@ gem "puma", ">= 5.0"
 
 gem "tailwindcss-rails", "4.3"
 gem "lookbook"
-gem "view_component-form", github: "joelzwarrington/view_component-form", branch: "without-autoload"
+gem "view_component-form"
 
 group :development do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"

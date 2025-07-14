@@ -6,17 +6,6 @@ GIT
     codelog (0.8.0)
       thor (~> 1.0)
 
-GIT
-  remote: https://github.com/joelzwarrington/view_component-form.git
-  revision: 06d199194c784a64e7f36adf6b49858bb380503f
-  branch: without-autoload
-  specs:
-    view_component-form (0.2.9)
-      actionview (>= 6.1.0, < 8.1)
-      activesupport (>= 6.1.0, < 8.1)
-      view_component (>= 2.34.0, < 4.0)
-      zeitwerk (~> 2.5)
-
 PATH
   remote: .
   specs:
@@ -318,6 +307,11 @@ GEM
       activesupport (>= 5.2.0, < 8.1)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
+    view_component-form (0.2.9)
+      actionview (>= 6.1.0, < 8.1)
+      activesupport (>= 6.1.0, < 8.1)
+      view_component (>= 2.34.0, < 4.0)
+      zeitwerk (~> 2.5)
     webrick (1.8.1)
     websocket-driver (0.7.7)
       base64
@@ -346,7 +340,7 @@ DEPENDENCIES
   standard (~> 1.21)
   standardrb
   tailwindcss-rails (= 4.3)
-  view_component-form!
+  view_component-form
 
 BUNDLED WITH
    2.4.12
