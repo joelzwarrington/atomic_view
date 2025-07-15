@@ -25,6 +25,13 @@ module AtomicView
   def self.configure
     yield(configuration)
   end
+
+  def self.post_install
+    puts 'AtomicView: Running post install tasks...'
+  rescue StandardError => e
+    puts "AtomicView: Failed to update Tailwind configuration. Error: #{e.message}"
+    puts "You may need to run 'bin/rails atomic_view:install' manually to complete the setup."
+  end
 end
 
 ViewComponent::Form.configure do |config|
