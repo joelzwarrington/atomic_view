@@ -9,7 +9,7 @@ GIT
 PATH
   remote: .
   specs:
-    atomic_view (0.1.0)
+    atomic_view (0.1.2)
       heroicons (~> 2.0)
       importmap-rails (~> 2.0.1)
       rails (~> 8.0.1)
