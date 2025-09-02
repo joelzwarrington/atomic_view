@@ -20,52 +20,57 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
   end
 
   test "renders button with string label" do
-    result = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {}))
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {})).to_html.strip
+    expected = <<~HTML.strip
       <button>Submit</button>
     HTML
+
+    assert_equal(expected, actual)
   end
 
   test "renders button with custom options" do
-    result = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {
+    actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {
       class: "custom-button",
       id: "submit-btn",
       disabled: true
-    }))
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    })).to_html.strip
+    expected = <<~HTML.strip
       <button class="custom-button" id="submit-btn" disabled>Submit</button>
     HTML
+
+    assert_equal(expected, actual)
   end
 
   test "renders button with block content" do
-    result = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {})) do
+    actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {})) do
       "Custom Button Content"
-    end
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    end.to_html.strip
+    expected = <<~HTML.strip
       <button>Custom Button Content</button>
     HTML
+
+    assert_equal(expected, actual)
   end
 
   test "renders button with only options and block content" do
-    result = render_inline(AtomicView::Components::ButtonComponent.new(@form, nil, {class: "btn-block"})) do
+    actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, nil, {class: "btn-block"})) do
       "Block Content Only"
-    end
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    end.to_html.strip
+    expected = <<~HTML.strip
       <button class="btn-block">Block Content Only</button>
     HTML
+
+    assert_equal(expected, actual)
   end
 
   test "renders button with data attributes" do
-    result = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {
+    actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {
       data: {confirm: "Are you sure?", method: :delete}
-    }))
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    })).to_html.strip
+    expected = <<~HTML.strip
       <button data-confirm="Are you sure?" data-method="delete">Submit</button>
     HTML
+
+    assert_equal(expected, actual)
   end
 end
