@@ -21,29 +21,32 @@ class AtomicView::Components::CheckBoxComponentTest < ViewComponent::TestCase
   end
 
   test "renders checkbox component" do
-    result = render_inline(AtomicView::Components::CheckBoxComponent.new(@form, :test_model, :active, "1", "0"))
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    actual = render_inline(AtomicView::Components::CheckBoxComponent.new(@form, :test_model, :active, "1", "0")).to_html.strip
+    expected = <<~HTML.strip
       <input name="test_model[active]" type="hidden" value="0" autocomplete="off"><input class="h-4 w-4 rounded-sm border-neutral-300 text-blue-500 focus:ring-blue-700 hover:border-neutral-700" type="checkbox" value="1" name="test_model[active]" id="test_model_active">
     HTML
+
+    assert_equal(expected, actual)
   end
 
   test "renders checkbox with custom options" do
-    result = render_inline(AtomicView::Components::CheckBoxComponent.new(@form, :test_model, :terms_accepted, "1", "0", {
+    actual = render_inline(AtomicView::Components::CheckBoxComponent.new(@form, :test_model, :terms_accepted, "1", "0", {
       class: "custom-checkbox",
       required: true
-    }))
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    })).to_html.strip
+    expected = <<~HTML.strip
       <input name="test_model[terms_accepted]" type="hidden" value="0" autocomplete="off"><input class="custom-checkbox h-4 w-4 rounded-sm border-neutral-300 text-blue-500 focus:ring-blue-700 hover:border-neutral-700" required="required" type="checkbox" value="1" name="test_model[terms_accepted]" id="test_model_terms_accepted">
     HTML
+
+    assert_equal(expected, actual)
   end
 
   test "renders checkbox with custom checked and unchecked values" do
-    result = render_inline(AtomicView::Components::CheckBoxComponent.new(@form, :test_model, :active, "yes", "no"))
-
-    assert_equal result.to_html.strip, <<~HTML.strip
+    actual = render_inline(AtomicView::Components::CheckBoxComponent.new(@form, :test_model, :active, "yes", "no")).to_html.strip
+    expected = <<~HTML.strip
       <input name="test_model[active]" type="hidden" value="no" autocomplete="off"><input class="h-4 w-4 rounded-sm border-neutral-300 text-blue-500 focus:ring-blue-700 hover:border-neutral-700" type="checkbox" value="yes" name="test_model[active]" id="test_model_active">
     HTML
+
+    assert_equal(expected, actual)
   end
 end
