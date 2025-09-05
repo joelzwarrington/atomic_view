@@ -1,3 +1,26 @@
 <%= form_with model: model do |form| %>
-  <%= form.button "Do Things" %>
+  <div class="flex gap-2">
+    <%= form.button "Primary", variant: :primary %>
+    <%= form.button "Primary (disabled)", variant: :primary, disabled: true %>
+  </div>
+  
+  <div class="flex gap-2 mt-2">
+    <%= form.button "Secondary", variant: :secondary %>
+    <%= form.button "Secondary (disabled)", variant: :secondary, disabled: true %>
+  </div>
+
+  <div class="flex gap-2 mt-2">
+    <%= form.button "Destructive", variant: :destructive %>
+    <%= form.button "Destructive (disabled)", variant: :destructive, disabled: true %>
+  </div>
+
+  <div class="flex gap-2 mt-2">
+    <%= form.button "Muted", variant: :muted %>
+    <%= form.button "Muted (disabled)", variant: :muted, disabled: true %>
+  </div>
+
+  <div class="flex gap-2 mt-2">
+    <%= form.button "Link", variant: :link %>
+    <%= form.button "Link (disabled)", variant: :link, disabled: true %>
+  </div>
 <% end %>
