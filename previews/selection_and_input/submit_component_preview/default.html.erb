@@ -1,3 +1,26 @@
 <%= form_with model: model do |form| %>
-  <%= form.submit %>
+  <div class="flex gap-2">
+    <%= form.submit "Primary", variant: :primary %>
+    <%= form.submit "Primary (disabled)", variant: :primary, disabled: true %>
+  </div>
+  
+  <div class="flex gap-2 mt-2">
+    <%= form.submit "Secondary", variant: :secondary %>
+    <%= form.submit "Secondary (disabled)", variant: :secondary, disabled: true %>
+  </div>
+
+  <div class="flex gap-2 mt-2">
+    <%= form.submit "Destructive", variant: :destructive %>
+    <%= form.submit "Destructive (disabled)", variant: :destructive, disabled: true %>
+  </div>
+
+  <div class="flex gap-2 mt-2">
+    <%= form.submit "Muted", variant: :muted %>
+    <%= form.submit "Muted (disabled)", variant: :muted, disabled: true %>
+  </div>
+
+  <div class="flex gap-2 mt-2">
+    <%= form.submit "Link", variant: :link %>
+    <%= form.submit "Link (disabled)", variant: :link, disabled: true %>
+  </div>
 <% end %>
