@@ -9,8 +9,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-surface text-primary-foreground <%= class_names("dark": params.dig(:lookbook, :display, :theme) == "dark")%>">
+    <main class="p-2">
       <%= yield %>
     </main>
   </body>
