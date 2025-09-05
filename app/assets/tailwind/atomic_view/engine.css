@@ -1,25 +1,65 @@
 @import "tailwindcss" source(none);
 @source "../../javascripts/**/*.js";
 @source "../../../views/**/*.{erb}";
-@source "../../../../lib/atomic_view//components/**/*.{erb,rb}";
+@source "../../../../lib/atomic_view/components/**/*.{erb,rb}";
+@source "../../../../previews/**/*.{erb,rb}";
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+@theme {
+  --color-surface: var(--color-white);
+  --color-offset: var(--color-gray-50);
+  --color-backdrop: oklch(0 0 0 / 0.5);
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
+  --color-border: var(--color-gray-200);
+  --color-input: var(--color-gray-200);
+  --color-ring: var(--color-gray-950);
+
+  --color-primary: var(--color-neutral-800);
+  --color-primary-foreground: var(--color-white);
+
+  --color-secondary: var(--color-neutral-200);
+  --color-secondary-foreground: var(--color-neutral-950);
+
+  --color-muted: var(--color-neutral-200);
+  --color-muted-foreground: var(--color-neutral-800);
+
+  --color-accent: var(--color-green-800);
+  --color-accent-foreground: var(--color-green-50);
+
+  --color-destructive: var(--color-red-800);
+  --color-destructive-foreground: var(--color-red-50);
+}
+
+.dark {
+  --color-surface: var(--color-neutral-950);
+  --color-offset: var(--color-neutral-900);
+  --color-backdrop: oklch(0 0 0 / 0.5);
+
+  --color-border: var(--color-white);
+  --color-input: var(--color-white);
+  --color-ring: var(--color-white);
+
+  --color-primary: var(--color-white);
+  --color-primary-foreground: var(--color-neutral-800);
+
+  --color-secondary: var(--color-neutral-800);
+  --color-secondary-foreground: var(--color-neutral-100);
+
+  --color-muted: var(--color-neutral-800);
+  --color-muted-foreground: var(--color-neutral-200);
+
+  --color-accent: var(--color-green-50);
+  --color-accent-foreground: var(--color-green-800);
+
+  --color-destructive: var(--color-red-800);
+  --color-destructive-foreground: var(--color-red-50);
+}
+
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 }
