@@ -23,7 +23,7 @@ class AtomicView::Components::LabelComponentTest < ViewComponent::TestCase
   test "renders label component" do
     actual = render_inline(AtomicView::Components::LabelComponent.new(@form, :test_model, :name)).to_html.strip
     expected = <<~HTML.strip
-      <label class="block text-sm font-medium leading-6 text-zinc-950 dark:text-white" for="test_model_name">Name</label>
+      <label class="block text-primary text-sm font-medium leading-6 mb-2" for="test_model_name">Name</label>
     HTML
 
     assert_equal(expected, actual)
@@ -32,7 +32,7 @@ class AtomicView::Components::LabelComponentTest < ViewComponent::TestCase
   test "renders label with custom text" do
     actual = render_inline(AtomicView::Components::LabelComponent.new(@form, :test_model, :name, "Full Name:")).to_html.strip
     expected = <<~HTML.strip
-      <label class="block text-sm font-medium leading-6 text-zinc-950 dark:text-white" for="test_model_name">Full Name:</label>
+      <label class="block text-primary text-sm font-medium leading-6 mb-2" for="test_model_name">Full Name:</label>
     HTML
 
     assert_equal(expected, actual)
@@ -41,7 +41,7 @@ class AtomicView::Components::LabelComponentTest < ViewComponent::TestCase
   test "renders label with default styling" do
     actual = render_inline(AtomicView::Components::LabelComponent.new(@form, :test_model, :name)).to_html.strip
     expected = <<~HTML.strip
-      <label class="block text-sm font-medium leading-6 text-zinc-950 dark:text-white" for="test_model_name">Name</label>
+      <label class="block text-primary text-sm font-medium leading-6 mb-2" for="test_model_name">Name</label>
     HTML
 
     assert_equal(expected, actual)
@@ -53,7 +53,7 @@ class AtomicView::Components::LabelComponentTest < ViewComponent::TestCase
       id: "email-label"
     })).to_html.strip
     expected = <<~HTML.strip
-      <label class="custom-label block text-sm font-medium leading-6 text-zinc-950 dark:text-white" id="email-label" for="test_model_email">Email Address</label>
+      <label class="custom-label block text-primary text-sm font-medium leading-6 mb-2" id="email-label" for="test_model_email">Email Address</label>
     HTML
 
     assert_equal(expected, actual)
@@ -64,7 +64,7 @@ class AtomicView::Components::LabelComponentTest < ViewComponent::TestCase
       "Name <span class=\"required\">*</span>".html_safe
     end.to_html.strip
     expected = <<~HTML.strip
-      <label class="block text-sm font-medium leading-6 text-zinc-950 dark:text-white" for="test_model_name">Name <span class="required">*</span></label>
+      <label class="block text-primary text-sm font-medium leading-6 mb-2" for="test_model_name">Name <span class="required">*</span></label>
     HTML
 
     assert_equal(expected, actual)
@@ -73,7 +73,7 @@ class AtomicView::Components::LabelComponentTest < ViewComponent::TestCase
   test "renders label for correct field" do
     actual = render_inline(AtomicView::Components::LabelComponent.new(@form, :test_model, :email)).to_html.strip
     expected = <<~HTML.strip
-      <label class="block text-sm font-medium leading-6 text-zinc-950 dark:text-white" for="test_model_email">Email</label>
+      <label class="block text-primary text-sm font-medium leading-6 mb-2" for="test_model_email">Email</label>
     HTML
 
     assert_equal(expected, actual)
