@@ -1,4 +1,56 @@
 <%= form_with model: model do |form| %>
-  <%= form.label :attribute %>
-  <%= form.text_field :attribute %>
+  <div class="mb-4">
+    <%= form.label :lorem %>
+    <%= form.text_field :lorem %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :attribute %>
+    <%= form.text_field :attribute %>
+  </div>
+
+  <div class="flex gap-2 flex-wrap">
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.text_field :left_section, left_section_as_addon: true, left_section: "https://" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.text_field :left_section, left_section_as_interaction: true, left_section: form.button("Do Things", class: "relative -mr-px inline-flex items-center gap-x-1.5 rounded-l-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50") %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.text_field :left_section, left_section_as_interaction: true, left_section: form.select(:example, [["Lorem", 1], ["Ipsum", 2]], class: "max-w-24 rounded-r-none") %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.text_field :left_section, left_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+    </div>
+  </div>
+
+  <div class="flex gap-2 flex-wrap">
+    <div class="mb-4">
+      <%= form.label :right_section %>
+      <%= form.text_field :right_section, right_section_as_addon: true, right_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :right_section %>
+      <%= form.text_field :right_section, right_section_as_interaction: true, right_section: form.button("Do Things", class: "relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50") %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :right_section %>
+      <%= form.text_field :right_section, right_section_as_interaction: true, right_section: form.select(:example, [["Lorem", 1], ["Ipsum", 2]], class: "max-w-24 rounded-l-none") %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :right_section %>
+      <%= form.text_field :right_section, right_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+    </div>
+  </div>
+
 <% end %>
