@@ -41,7 +41,6 @@ module AtomicView
           "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
         end
       end
-
     end
   end
 end

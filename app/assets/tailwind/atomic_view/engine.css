@@ -30,6 +30,18 @@
 
   --color-destructive: var(--color-red-800);
   --color-destructive-foreground: var(--color-red-50);
+
+  --color-disabled: var(--color-gray-50);
+  --color-disabled-foreground: var(--color-zinc-500);
+  --color-disabled-ring: var(--color-zinc-200);
+
+  --color-error: var(--color-red-900);
+  --color-error-ring: var(--color-red-300);
+  --color-error-placeholder: var(--color-red-300);
+  --color-error-focus-ring: var(--color-red-500);
+
+  --color-placeholder: var(--color-zinc-500);
+  --color-focus-ring: var(--color-neutral-700);
 }
 
 .dark {
@@ -55,6 +67,18 @@
 
   --color-destructive: var(--color-red-800);
   --color-destructive-foreground: var(--color-red-50);
+
+  --color-disabled: var(--color-neutral-800);
+  --color-disabled-foreground: var(--color-neutral-400);
+  --color-disabled-ring: var(--color-neutral-600);
+
+  --color-error: var(--color-red-100);
+  --color-error-ring: var(--color-red-400);
+  --color-error-placeholder: var(--color-red-400);
+  --color-error-focus-ring: var(--color-red-500);
+
+  --color-placeholder: var(--color-neutral-400);
+  --color-focus-ring: var(--color-white/20);
 }
 
 @layer base {
