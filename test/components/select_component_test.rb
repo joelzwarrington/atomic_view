@@ -24,7 +24,7 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
     choices = [["Admin", "admin"], ["User", "user"]]
     actual = render_inline(AtomicView::Components::SelectComponent.new(@form, :test_model, :role, choices)).to_html.strip
     expected = <<~HTML.strip
-      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-zinc-500 disabled:ring-zinc-200 bg-transparent dark:bg-white/5 text-zinc-950 ring-zinc-950/10 dark:ring-white/10 placeholder:text-zinc-500 dark:text-white focus:ring-neutral-700 focus:border-zinc-950/20 dark:focus:ring-white/20" name="test_model[role]" id="test_model_role"><option value="admin">Admin</option>
+      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" name="test_model[role]" id="test_model_role"><option value="admin">Admin</option>
       <option value="user">User</option></select>
     HTML
 
@@ -35,7 +35,7 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
     choices = [["Option 1", "1"]]
     actual = render_inline(AtomicView::Components::SelectComponent.new(@form, :test_model, :category, choices)).to_html.strip
     expected = <<~HTML.strip
-      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-zinc-500 disabled:ring-zinc-200 bg-transparent dark:bg-white/5 text-zinc-950 ring-zinc-950/10 dark:ring-white/10 placeholder:text-zinc-500 dark:text-white focus:ring-neutral-700 focus:border-zinc-950/20 dark:focus:ring-white/20" name="test_model[category]" id="test_model_category"><option value="1">Option 1</option></select>
+      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" name="test_model[category]" id="test_model_category"><option value="1">Option 1</option></select>
     HTML
 
     assert_equal(expected, actual)
@@ -47,7 +47,7 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
       prompt: "Choose an option"
     })).to_html.strip
     expected = <<~HTML.strip
-      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-zinc-500 disabled:ring-zinc-200 bg-transparent dark:bg-white/5 text-zinc-950 ring-zinc-950/10 dark:ring-white/10 placeholder:text-zinc-500 dark:text-white focus:ring-neutral-700 focus:border-zinc-950/20 dark:focus:ring-white/20" name="test_model[category]" id="test_model_category"><option value="">Choose an option</option>
+      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" name="test_model[category]" id="test_model_category"><option value="">Choose an option</option>
       <option selected value="">Select option</option>
       <option value="1">Option 1</option>
       <option value="2">Option 2</option></select>
@@ -63,7 +63,7 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
       multiple: true
     })).to_html.strip
     expected = <<~HTML.strip
-      <input name="test_model[category][]" type="hidden" value="" autocomplete="off"><select class="custom-select block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-zinc-500 disabled:ring-zinc-200 bg-transparent dark:bg-white/5 text-zinc-950 ring-zinc-950/10 dark:ring-white/10 placeholder:text-zinc-500 dark:text-white focus:ring-neutral-700 focus:border-zinc-950/20 dark:focus:ring-white/20" multiple name="test_model[category][]" id="test_model_category"><option value="1">Option 1</option></select>
+      <input name="test_model[category][]" type="hidden" value="" autocomplete="off"><select class="custom-select block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" multiple name="test_model[category][]" id="test_model_category"><option value="1">Option 1</option></select>
     HTML
 
     assert_equal(expected, actual)
@@ -75,7 +75,7 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
 
     actual = render_inline(AtomicView::Components::SelectComponent.new(@form, :test_model, :role, choices)).to_html.strip
     expected = <<~HTML.strip
-      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-zinc-500 disabled:ring-zinc-200 bg-transparent dark:bg-white/5 dark:ring-white/10 dark:text-white focus:border-zinc-950/20 dark:focus:ring-white/20 text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500" name="test_model[role]" id="test_model_role"><option value="admin">Admin</option></select>
+      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 dark:ring-white/10 dark:text-white focus:border-ring/20 dark:focus:ring-focus-ring text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring" name="test_model[role]" id="test_model_role"><option value="admin">Admin</option></select>
     HTML
 
     assert_equal(expected, actual)
@@ -85,7 +85,7 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
     choices = [["Category 1", "cat1"], ["Category 2", "cat2"]]
     actual = render_inline(AtomicView::Components::SelectComponent.new(@form, :test_model, :category, choices)).to_html.strip
     expected = <<~HTML.strip
-      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-zinc-500 disabled:ring-zinc-200 bg-transparent dark:bg-white/5 text-zinc-950 ring-zinc-950/10 dark:ring-white/10 placeholder:text-zinc-500 dark:text-white focus:ring-neutral-700 focus:border-zinc-950/20 dark:focus:ring-white/20" name="test_model[category]" id="test_model_category"><option value="cat1">Category 1</option>
+      <select class="block w-full h-9 min-w-0 flex-1 rounded-md border-0 py-1 text-sm shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" name="test_model[category]" id="test_model_category"><option value="cat1">Category 1</option>
       <option value="cat2">Category 2</option></select>
     HTML
 

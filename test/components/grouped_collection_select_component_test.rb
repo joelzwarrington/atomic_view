@@ -18,7 +18,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
   def setup
     @object = TestModel.new
     @form = ActionView::Helpers::FormBuilder.new(:test_model, @object, vc_test_controller.view_context, {})
-    
+
     # Set up grouped data structure
     @continents = [
       OpenStruct.new(name: "North America", countries: [
@@ -95,7 +95,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
         OpenStruct.new(name: "Albany", id: "alb")
       ])
     ]
-    
+
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :city, states, :cities, :name, :id, :name)).to_html.strip
     expected = <<~HTML.strip
       <select name="test_model[city]" id="test_model_city"><optgroup label="California">

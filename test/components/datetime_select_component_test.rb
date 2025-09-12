@@ -29,21 +29,21 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
     assert_includes actual, '<select id="test_model_appointment_time_3i" name="test_model[appointment_time(3i)]">'
     assert_includes actual, '<select id="test_model_appointment_time_4i" name="test_model[appointment_time(4i)]">'
     assert_includes actual, '<select id="test_model_appointment_time_5i" name="test_model[appointment_time(5i)]">'
-    
+
     # Check for month options
     assert_includes actual, '<option value="1">January</option>'
     assert_includes actual, '<option value="12">December</option>'
-    
+
     # Check for hour options
     assert_includes actual, '<option value="00">00</option>'
     assert_includes actual, '<option value="23">23</option>'
-    
+
     # Check for minute options
     assert_includes actual, '<option value="00">00</option>'
     assert_includes actual, '<option value="59">59</option>'
-    
+
     # Check for the time separator
-    assert_includes actual, ' : '
+    assert_includes actual, " : "
   end
 
   test "renders datetime select with minute step" do
@@ -54,7 +54,7 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
     assert_includes actual, '<option value="15">15</option>'
     assert_includes actual, '<option value="30">30</option>'
     assert_includes actual, '<option value="45">45</option>'
-    
+
     # Should not include other minute values in the minutes dropdown
     minute_select = actual[/test_model_appointment_time_5i.*?<\/select>/m]
     assert_not_includes minute_select, '<option value="05">05</option>'
@@ -65,11 +65,11 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
     actual = render_inline(AtomicView::Components::DatetimeSelectComponent.new(@form, :test_model, :appointment_time, {order: [:month, :day, :year, :hour, :minute]})).to_html
 
     # Check that month comes before day in the HTML
-    month_pos = actual.index('test_model[appointment_time(2i)]')
-    day_pos = actual.index('test_model[appointment_time(3i)]')
-    year_pos = actual.index('test_model[appointment_time(1i)]')
-    hour_pos = actual.index('test_model[appointment_time(4i)]')
-    
+    month_pos = actual.index("test_model[appointment_time(2i)]")
+    day_pos = actual.index("test_model[appointment_time(3i)]")
+    year_pos = actual.index("test_model[appointment_time(1i)]")
+    hour_pos = actual.index("test_model[appointment_time(4i)]")
+
     assert month_pos < day_pos, "Month should come before day in custom order"
     assert day_pos < year_pos, "Day should come before year in custom order"
     assert year_pos < hour_pos, "Year should come before hour in custom order"
@@ -127,7 +127,7 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
 
     # Should not include year select when discarded
     assert_not_includes actual, '<select id="test_model_appointment_time_1i"'
-    
+
     # Should still include month, day, hour, minute
     assert_includes actual, '<select id="test_model_appointment_time_2i"'
     assert_includes actual, '<select id="test_model_appointment_time_3i"'

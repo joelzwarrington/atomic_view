@@ -24,37 +24,37 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :meeting_time))
 
     html = result.to_html
-    
+
     # Check for hidden date fields (year, month, day) that time_select creates
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_1i"'
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_2i"'
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_3i"'
-    
+
     # Check for the hour and minute select elements
     assert_includes html, '<select id="test_model_meeting_time_4i" name="test_model[meeting_time(4i)]">'
     assert_includes html, '<select id="test_model_meeting_time_5i" name="test_model[meeting_time(5i)]">'
-    
+
     # Check for hour options
     assert_includes html, '<option value="00">00</option>'
     assert_includes html, '<option value="23">23</option>'
-    
+
     # Check for minute options (all 60 minutes by default)
     assert_includes html, '<option value="00">00</option>'
     assert_includes html, '<option value="59">59</option>'
-    
+
     # Check for the time separator
-    assert_includes html, ' : '
+    assert_includes html, " : "
   end
 
   test "renders time select with minute step" do
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :meeting_time, {minute_step: 30}))
 
     html = result.to_html
-    
+
     # Check that minutes are limited to 30-minute intervals
     assert_includes html, '<option value="00">00</option>'
     assert_includes html, '<option value="30">30</option>'
-    
+
     # Should not include other minute values in the minutes dropdown
     minute_select = html[/test_model_meeting_time_5i.*?<\/select>/m]
     assert_not_includes minute_select, '<option value="15">15</option>'
@@ -80,7 +80,7 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :appointment_time))
 
     html = result.to_html
-    
+
     # Check that the field names use the correct attribute
     assert_includes html, 'name="test_model[appointment_time(1i)]"'
     assert_includes html, 'name="test_model[appointment_time(4i)]"'
@@ -100,14 +100,14 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :meeting_time, {ignore_date: true}))
 
     html = result.to_html
-    
+
     # When ignore_date is true, it should only show time selects without hidden date fields
     assert_not_includes html, '<input type="hidden" id="test_model_meeting_time_1i"'
-    
+
     # Should have hour and minute selects
     assert_includes html, '<select id="test_model_meeting_time_4i"'
     assert_includes html, '<select id="test_model_meeting_time_5i"'
-    assert_includes html, ' : ' # Time separator
+    assert_includes html, " : " # Time separator
   end
 
   test "renders time select with data attributes" do
@@ -121,6 +121,6 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :meeting_time, {}, {disabled: true}))
 
     # Check that disabled attribute is applied
-    assert_includes result.to_html, 'disabled'
+    assert_includes result.to_html, "disabled"
   end
 end

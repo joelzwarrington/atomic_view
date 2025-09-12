@@ -27,11 +27,11 @@ class AtomicView::Components::DateSelectComponentTest < ViewComponent::TestCase
     assert_includes result.to_html, '<select id="test_model_birthdate_1i" name="test_model[birthdate(1i)]">'
     assert_includes result.to_html, '<select id="test_model_birthdate_2i" name="test_model[birthdate(2i)]">'
     assert_includes result.to_html, '<select id="test_model_birthdate_3i" name="test_model[birthdate(3i)]">'
-    
+
     # Check for month options
     assert_includes result.to_html, '<option value="1">January</option>'
     assert_includes result.to_html, '<option value="12">December</option>'
-    
+
     # Check for day options
     assert_includes result.to_html, '<option value="1">1</option>'
     assert_includes result.to_html, '<option value="31">31</option>'
@@ -41,12 +41,12 @@ class AtomicView::Components::DateSelectComponentTest < ViewComponent::TestCase
     result = render_inline(AtomicView::Components::DateSelectComponent.new(@form, :test_model, :birthdate, {order: [:month, :day, :year]}))
 
     html = result.to_html
-    
+
     # Check that month comes before day in the HTML
-    month_pos = html.index('test_model[birthdate(2i)]')
-    day_pos = html.index('test_model[birthdate(3i)]')
-    year_pos = html.index('test_model[birthdate(1i)]')
-    
+    month_pos = html.index("test_model[birthdate(2i)]")
+    day_pos = html.index("test_model[birthdate(3i)]")
+    year_pos = html.index("test_model[birthdate(1i)]")
+
     assert month_pos < day_pos, "Month should come before day in custom order"
     assert day_pos < year_pos, "Day should come before year in custom order"
   end
