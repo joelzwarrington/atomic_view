@@ -44,41 +44,46 @@
   --color-focus-ring: var(--color-neutral-700);
 }
 
-.dark {
-  --color-surface: var(--color-neutral-950);
-  --color-offset: var(--color-neutral-900);
-  --color-backdrop: oklch(0 0 0 / 0.5);
+@layer theme {
+  :root,
+  :host {
+    @variant dark {
+      --color-surface: var(--color-neutral-950);
+      --color-offset: var(--color-neutral-900);
+      --color-backdrop: oklch(0 0 0 / 0.5);
 
-  --color-border: var(--color-white);
-  --color-input: var(--color-white);
-  --color-ring: var(--color-white);
+      --color-border: var(--color-white);
+      --color-input: var(--color-white);
+      --color-ring: var(--color-white);
 
-  --color-primary: var(--color-white);
-  --color-primary-foreground: var(--color-neutral-800);
+      --color-primary: var(--color-white);
+      --color-primary-foreground: var(--color-neutral-800);
 
-  --color-secondary: var(--color-neutral-800);
-  --color-secondary-foreground: var(--color-neutral-100);
+      --color-secondary: var(--color-neutral-800);
+      --color-secondary-foreground: var(--color-neutral-100);
 
-  --color-muted: var(--color-neutral-800);
-  --color-muted-foreground: var(--color-neutral-200);
+      --color-muted: var(--color-neutral-800);
+      --color-muted-foreground: var(--color-neutral-200);
 
-  --color-accent: var(--color-green-50);
-  --color-accent-foreground: var(--color-green-800);
+      --color-accent: var(--color-green-50);
+      --color-accent-foreground: var(--color-green-800);
 
-  --color-destructive: var(--color-red-800);
-  --color-destructive-foreground: var(--color-red-50);
+      --color-destructive: var(--color-red-800);
+      --color-destructive-foreground: var(--color-red-50);
 
-  --color-disabled: var(--color-neutral-800);
-  --color-disabled-foreground: var(--color-neutral-400);
-  --color-disabled-ring: var(--color-neutral-600);
+      --color-disabled: var(--color-neutral-800);
+      --color-disabled-foreground: var(--color-neutral-400);
+      --color-disabled-ring: var(--color-neutral-600);
 
-  --color-error: var(--color-red-100);
-  --color-error-ring: var(--color-red-400);
-  --color-error-placeholder: var(--color-red-400);
-  --color-error-focus-ring: var(--color-red-500);
+      --color-error: var(--color-red-100);
+      --color-error-ring: var(--color-red-400);
+      --color-error-placeholder: var(--color-red-400);
+      --color-error-focus-ring: var(--color-red-500);
 
-  --color-placeholder: var(--color-neutral-400);
-  --color-focus-ring: var(--color-white/20);
+      --color-placeholder: var(--color-neutral-400);
+      --color-focus-ring: var(--color-white/20);
+    }
+  }
 }
 
 @layer base {
