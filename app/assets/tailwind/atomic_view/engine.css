@@ -8,79 +8,40 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-surface: var(--color-white);
-  --color-offset: var(--color-gray-50);
+  --color-surface: light-dark(var(--color-white), var(--color-neutral-950));
+  --color-offset: light-dark(var(--color-gray-50), var(--color-neutral-900));
   --color-backdrop: oklch(0 0 0 / 0.5);
 
-  --color-border: var(--color-gray-200);
-  --color-input: var(--color-gray-200);
-  --color-ring: var(--color-gray-950);
+  --color-border: light-dark(var(--color-gray-200), var(--color-white));
+  --color-input: light-dark(var(--color-gray-200), var(--color-white));
+  --color-ring: light-dark(var(--color-gray-950), var(--color-white));
 
-  --color-primary: var(--color-neutral-800);
-  --color-primary-foreground: var(--color-white);
+  --color-primary: light-dark(var(--color-neutral-800), var(--color-white));
+  --color-primary-foreground: light-dark(var(--color-white), var(--color-neutral-800));
 
-  --color-secondary: var(--color-neutral-200);
-  --color-secondary-foreground: var(--color-neutral-950);
+  --color-secondary: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --color-secondary-foreground: light-dark(var(--color-neutral-950), var(--color-neutral-100));
 
-  --color-muted: var(--color-neutral-200);
-  --color-muted-foreground: var(--color-neutral-800);
+  --color-muted: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --color-muted-foreground: light-dark(var(--color-neutral-800), var(--color-neutral-200));
 
-  --color-accent: var(--color-green-800);
-  --color-accent-foreground: var(--color-green-50);
+  --color-accent: light-dark(var(--color-green-800), var(--color-green-50));
+  --color-accent-foreground: light-dark(var(--color-green-50), var(--color-green-800));
 
   --color-destructive: var(--color-red-800);
   --color-destructive-foreground: var(--color-red-50);
 
-  --color-disabled: var(--color-gray-50);
-  --color-disabled-foreground: var(--color-zinc-500);
-  --color-disabled-ring: var(--color-zinc-200);
+  --color-disabled: light-dark(var(--color-gray-50), var(--color-neutral-800));
+  --color-disabled-foreground: light-dark(var(--color-zinc-500), var(--color-neutral-400));
+  --color-disabled-ring: light-dark(var(--color-zinc-200), var(--color-neutral-600));
 
-  --color-error: var(--color-red-900);
-  --color-error-ring: var(--color-red-300);
-  --color-error-placeholder: var(--color-red-300);
+  --color-error: light-dark(var(--color-red-900), var(--color-red-100));
+  --color-error-ring: light-dark(var(--color-red-300), var(--color-red-400));
+  --color-error-placeholder: light-dark(var(--color-red-300), var(--color-red-400));
   --color-error-focus-ring: var(--color-red-500);
 
-  --color-placeholder: var(--color-zinc-500);
-  --color-focus-ring: var(--color-neutral-700);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-surface: var(--color-neutral-950);
-    --color-offset: var(--color-neutral-900);
-    --color-backdrop: oklch(0 0 0 / 0.5);
-
-    --color-border: var(--color-white);
-    --color-input: var(--color-white);
-    --color-ring: var(--color-white);
-
-    --color-primary: var(--color-white);
-    --color-primary-foreground: var(--color-neutral-800);
-
-    --color-secondary: var(--color-neutral-800);
-    --color-secondary-foreground: var(--color-neutral-100);
-
-    --color-muted: var(--color-neutral-800);
-    --color-muted-foreground: var(--color-neutral-200);
-
-    --color-accent: var(--color-green-50);
-    --color-accent-foreground: var(--color-green-800);
-
-    --color-destructive: var(--color-red-800);
-    --color-destructive-foreground: var(--color-red-50);
-
-    --color-disabled: var(--color-neutral-800);
-    --color-disabled-foreground: var(--color-neutral-400);
-    --color-disabled-ring: var(--color-neutral-600);
-
-    --color-error: var(--color-red-100);
-    --color-error-ring: var(--color-red-400);
-    --color-error-placeholder: var(--color-red-400);
-    --color-error-focus-ring: var(--color-red-500);
-
-    --color-placeholder: var(--color-neutral-400);
-    --color-focus-ring: var(--color-white/20);
-  }
+  --color-placeholder: light-dark(var(--color-zinc-500), var(--color-neutral-400));
+  --color-focus-ring: light-dark(var(--color-neutral-700), var(--color-white/20));
 }
 
 @layer base {
