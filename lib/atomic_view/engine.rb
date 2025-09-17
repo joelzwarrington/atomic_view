@@ -8,7 +8,7 @@ module AtomicView
 
     initializer 'local_helper.action_controller' do
       ActiveSupport.on_load :action_controller do
-        helper AtomicView::HeroiconsHelper
+        helper AtomicView::HeroiconsHelper if respond_to?(:helper)
       end
     end
 
