@@ -1,8 +1,6 @@
 @import "tailwindcss" source(none);
-@source "../../javascripts/**/*.js";
 @source "../../../views/**/*.{erb}";
 @source "../../../../lib/atomic_view/components/**/*.{erb,rb}";
-@source "../../../../previews/**/*.{erb,rb}";
 
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";

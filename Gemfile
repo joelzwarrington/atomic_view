@@ -7,6 +7,7 @@ gemspec
 
 gem "codelog", github: "codus/codelog", branch: "master"
 gem "rake", "~> 13.0"
+gem "minitest", "~> 5.0"
 gem "rspec", "~> 3.0"
 gem "standard", "~> 1.21"
 
@@ -15,7 +16,7 @@ gem "sqlite3"
 gem "sprockets-rails"
 gem "puma", ">= 5.0"
 
-gem "tailwindcss-rails", "4.3"
+gem "tailwindcss-rails", "~> 4.6"
 gem "lookbook"
 gem "view_component-form"
 
