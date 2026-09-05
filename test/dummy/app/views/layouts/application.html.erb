@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="<%= class_names("dark": params.dig(:lookbook, :display, :theme) == "dark") %>">
   <head>
     <title>Dummy</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,7 +9,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-surface text-primary-foreground <%= class_names("dark": params.dig(:lookbook, :display, :theme) == "dark")%>">
+  <body class="bg-surface text-primary-foreground">
     <main class="p-2">
       <%= yield %>
     </main>
