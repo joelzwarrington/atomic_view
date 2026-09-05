@@ -1,5 +1,25 @@
 <% objects = [["Lorem", 1], ["Ipsum", 2]] %>
 
 <%= form_with model: model do |form| %>
-  <%= form.select :attribute, objects %>
+  <div class="mb-4">
+    <%= form.label :attribute %>
+    <%= form.select :attribute, objects %>
+  </div>
+
+  <div class="flex gap-2 flex-wrap">
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.select :left_section, objects, left_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.select :left_section, objects, left_section_as_addon: true, left_section: "Type" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :right_section %>
+      <%= form.select :right_section, objects, right_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+    </div>
+  </div>
 <% end %>

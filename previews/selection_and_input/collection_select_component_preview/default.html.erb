@@ -1,5 +1,25 @@
 <% objects = [OpenStruct.new(name: "Lorem", id: 1), OpenStruct.new(name: "Ipsum", id: 2)] %>
 
 <%= form_with model: model do |form| %>
-  <%= form.collection_select :attribute, objects, :id, :name %>
+  <div class="mb-4">
+    <%= form.label :attribute %>
+    <%= form.collection_select :attribute, objects, :id, :name %>
+  </div>
+
+  <div class="flex gap-2 flex-wrap">
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.collection_select :left_section, objects, :id, :name, left_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :left_section %>
+      <%= form.collection_select :left_section, objects, :id, :name, left_section_as_addon: true, left_section: "Type" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :right_section %>
+      <%= form.collection_select :right_section, objects, :id, :name, right_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+    </div>
+  </div>
 <% end %>
