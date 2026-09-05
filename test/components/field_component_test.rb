@@ -87,7 +87,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     })).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs flex">
-            <span class="inline-flex items-center rounded-l-lg bg-transparent dark:bg-white/5 ring-1 ring-ring/10 dark:ring-white/10 px-3 text-primary dark:text-white sm:text-sm">Addon</span>
+            <span class="inline-flex items-center rounded-l-lg border border-r-0 border-ring/10 dark:border-white/10 bg-transparent dark:bg-white/5 px-3 text-primary dark:text-white sm:text-sm">Addon</span>
         <input left_section="Addon" left_section_as_addon="true" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-r-lg" type="text" name="test_model[name]" id="test_model_name">
       </div>
     HTML
@@ -132,7 +132,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs flex">
         <input right_section="Addon" right_section_as_addon="true" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-l-lg" type="text" name="test_model[name]" id="test_model_name">
-            <span class="inline-flex items-center rounded-r-lg bg-transparent dark:bg-white/5 ring-1 ring-ring/10 dark:ring-white/10 px-3 text-primary dark:text-white sm:text-sm">Addon</span>
+            <span class="inline-flex items-center rounded-r-lg border border-l-0 border-ring/10 dark:border-white/10 bg-transparent dark:bg-white/5 px-3 text-primary dark:text-white sm:text-sm">Addon</span>
       </div>
     HTML
 

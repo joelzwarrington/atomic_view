@@ -17,12 +17,12 @@
 
     <div class="mb-4">
       <%= form.label :left_section %>
-      <%= form.text_field :left_section, left_section_as_interaction: true, left_section: form.button("Do Things", class: "relative -mr-px inline-flex items-center gap-x-1.5 rounded-l-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50") %>
+      <%= form.text_field :left_section, left_section_as_interaction: true, left_section: form.button("Do Things", class: "relative inline-flex items-center gap-x-1.5 rounded-l-md px-3 py-2 text-sm font-semibold text-gray-900 border border-r-0 border-gray-300 hover:bg-gray-50") %>
     </div>
 
     <div class="mb-4">
       <%= form.label :left_section %>
-      <%= form.text_field :left_section, left_section_as_interaction: true, left_section: form.select(:example, [["Lorem", 1], ["Ipsum", 2]], class: "max-w-24 rounded-r-none") %>
+      <%= form.text_field :left_section, left_section_as_interaction: true, left_section: form.select(:example, [["Lorem", 1], ["Ipsum", 2]], class: "max-w-24 rounded-r-none ring-0 border border-r-0 border-gray-300") %>
     </div>
 
     <div class="mb-4">
@@ -39,12 +39,12 @@
 
     <div class="mb-4">
       <%= form.label :right_section %>
-      <%= form.text_field :right_section, right_section_as_interaction: true, right_section: form.button("Do Things", class: "relative -ml-px inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50") %>
+      <%= form.text_field :right_section, right_section_as_interaction: true, right_section: form.button("Do Things", class: "relative inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 border border-l-0 border-gray-300 hover:bg-gray-50") %>
     </div>
 
     <div class="mb-4">
       <%= form.label :right_section %>
-      <%= form.text_field :right_section, right_section_as_interaction: true, right_section: form.select(:example, [["Lorem", 1], ["Ipsum", 2]], class: "max-w-24 rounded-l-none") %>
+      <%= form.text_field :right_section, right_section_as_interaction: true, right_section: form.select(:example, [["Lorem", 1], ["Ipsum", 2]], class: "max-w-24 rounded-l-none ring-0 border border-l-0 border-gray-300") %>
     </div>
 
     <div class="mb-4">
