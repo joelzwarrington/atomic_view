@@ -54,6 +54,16 @@
 
   --shadow-soft: 0 1px 2px rgb(0 0 0 / .06), 0 8px 24px -8px rgb(0 0 0 / .18);
   --shadow-panel: 0 20px 40px -20px rgb(0 0 0 / .22);
+
+  /* Generic fallback stacks only — no brand fonts shipped by the gem.
+     A host app supplies its own @font-face/Google Fonts <link> and overrides
+     these three variables, e.g.:
+       --font-display: "Bitter", serif;
+       --font-body: "Manrope", sans-serif;
+       --font-mono: "JetBrains Mono", monospace; */
+  --font-display: ui-serif, Georgia, serif;
+  --font-body: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
 }
 
 /* Explicit .dark class toggle only — no OS-preference auto-switching.
