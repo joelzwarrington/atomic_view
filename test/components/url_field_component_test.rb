@@ -23,7 +23,7 @@ class AtomicView::Components::UrlFieldComponentTest < ViewComponent::TestCase
     actual = render_inline(AtomicView::Components::UrlFieldComponent.new(@form, :test_model, :website)).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs">
-        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-lg border-0 py-1 text-base shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="url" name="test_model[website]" id="test_model_website">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="url" name="test_model[website]" id="test_model_website">
       </div>
     HTML
 
@@ -37,7 +37,7 @@ class AtomicView::Components::UrlFieldComponentTest < ViewComponent::TestCase
     })).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs">
-        <input placeholder="https://example.com" required="required" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-lg border-0 py-1 text-base shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="url" name="test_model[website]" id="test_model_website">
+        <input placeholder="https://example.com" required="required" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="url" name="test_model[website]" id="test_model_website">
       </div>
     HTML
 
@@ -48,7 +48,7 @@ class AtomicView::Components::UrlFieldComponentTest < ViewComponent::TestCase
     actual = render_inline(AtomicView::Components::UrlFieldComponent.new(@form, :test_model, :website)).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs">
-        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-lg border-0 py-1 text-base shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="url" name="test_model[website]" id="test_model_website">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="url" name="test_model[website]" id="test_model_website">
       </div>
     HTML
 
@@ -61,7 +61,7 @@ class AtomicView::Components::UrlFieldComponentTest < ViewComponent::TestCase
     actual = render_inline(AtomicView::Components::UrlFieldComponent.new(@form, :test_model, :website)).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs">
-        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-lg border-0 py-1 text-base shadow-xs ring-1 disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 dark:ring-white/10 dark:text-white focus:border-ring/20 dark:focus:ring-focus-ring pr-10 text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring" type="url" name="test_model[website]" id="test_model_website">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 dark:ring-white/10 focus:border-ring/20 dark:focus:ring-focus-ring text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring pr-10" type="url" name="test_model[website]" id="test_model_website">
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon" class="size-5 text-destructive">
         <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"></path>

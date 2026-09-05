@@ -1,6 +1,8 @@
 module AtomicView
   module Components
     class FieldComponent < ViewComponent::Form::FieldComponent
+      include AtomicView::Components::Concerns::FieldChrome
+
       attr_reader :tag_klass
 
       def initialize(form, object_name, method_name, options = {}, tag_klass = ActionView::Helpers::Tags::TextField)
@@ -10,14 +12,11 @@ module AtomicView
 
       def html_class
         class_names(
-          "block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-lg border-0 py-1 text-base shadow-xs ring-1",
-          "disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring",
-          "bg-transparent dark:bg-white/5 text-primary ring-ring/10 dark:ring-white/10 placeholder:text-placeholder dark:text-white focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring",
+          field_chrome_classes,
           "pl-10" => left_section? && !(left_section_addon? || left_section_interaction?),
           "pr-10" => right_section? && !(right_section_addon? || right_section_interaction?),
           "shadow-none rounded-none rounded-r-lg" => left_section_addon? || left_section_interaction?,
-          "shadow-none rounded-none rounded-l-lg" => right_section_addon? || right_section_interaction?,
-          "text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring" => method_errors?
+          "shadow-none rounded-none rounded-l-lg" => right_section_addon? || right_section_interaction?
         )
       end
 
