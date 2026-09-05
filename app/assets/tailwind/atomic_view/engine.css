@@ -15,6 +15,11 @@
   --color-input: var(--color-gray-200);
   --color-ring: var(--color-gray-950);
 
+  --color-foreground: var(--color-neutral-900);
+
+  /* --color-primary is the brand action color (buttons, links, active states).
+     Use --color-foreground for body/label/input text — do not reuse
+     --color-primary for text color. */
   --color-primary: var(--color-neutral-800);
   --color-primary-foreground: var(--color-white);
 
@@ -56,6 +61,8 @@
   --color-border: var(--color-white);
   --color-input: var(--color-white);
   --color-ring: var(--color-white);
+
+  --color-foreground: var(--color-neutral-50);
 
   --color-primary: var(--color-white);
   --color-primary-foreground: var(--color-neutral-800);
