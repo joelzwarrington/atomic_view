@@ -24,7 +24,9 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
     options = [["Admin", "admin"], ["User", "user"], ["Editor", "editor"]]
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :role, options, :second, :first)).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label><input type="radio" value="editor" name="test_model[role]" id="test_model_role_editor"><label for="test_model_role_editor">Editor</label>
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="editor" name="test_model[role]" id="test_model_role_editor"><label for="test_model_role_editor">Editor</label>
+      </div>
     HTML
 
     assert_equal(expected, actual)
@@ -35,7 +37,9 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
     options = [["Admin", "admin"], ["User", "user"], ["Editor", "editor"]]
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :role, options, :second, :first)).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label><input type="radio" value="editor" name="test_model[role]" id="test_model_role_editor"><label for="test_model_role_editor">Editor</label>
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="editor" name="test_model[role]" id="test_model_role_editor"><label for="test_model_role_editor">Editor</label>
+      </div>
     HTML
 
     assert_equal(expected, actual)
@@ -45,10 +49,12 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
     options = [["Admin", "admin"], ["User", "user"], ["Editor", "editor"]]
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :role, options, :second, :first, {}, {class: "custom-radio"})).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input class="custom-radio" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input class="custom-radio" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label><input class="custom-radio" type="radio" value="editor" name="test_model[role]" id="test_model_role_editor"><label for="test_model_role_editor">Editor</label>
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input class="custom-radio peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input class="custom-radio peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label><input class="custom-radio peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="editor" name="test_model[role]" id="test_model_role_editor"><label for="test_model_role_editor">Editor</label>
+      </div>
     HTML
 
-    assert_equal(actual, expected)
+    assert_equal(expected, actual)
   end
 
   test "renders collection radio buttons with object collection" do
@@ -58,7 +64,9 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
     ]
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :role, roles, :value, :name)).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Administrator</label><input type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">Regular User</label>
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Administrator</label><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">Regular User</label>
+      </div>
     HTML
 
     assert_equal(expected, actual)
@@ -68,7 +76,9 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
     options = [["Active", "active"], ["Inactive", "inactive"], ["Pending", "pending"]]
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :status, options, :second, :first)).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[status]" value="" autocomplete="off"><input type="radio" value="active" name="test_model[status]" id="test_model_status_active"><label for="test_model_status_active">Active</label><input type="radio" value="inactive" name="test_model[status]" id="test_model_status_inactive"><label for="test_model_status_inactive">Inactive</label><input type="radio" value="pending" name="test_model[status]" id="test_model_status_pending"><label for="test_model_status_pending">Pending</label>
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[status]" value="" autocomplete="off"><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="active" name="test_model[status]" id="test_model_status_active"><label for="test_model_status_active">Active</label><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="inactive" name="test_model[status]" id="test_model_status_inactive"><label for="test_model_status_inactive">Inactive</label><input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="pending" name="test_model[status]" id="test_model_status_pending"><label for="test_model_status_pending">Pending</label>
+      </div>
     HTML
 
     assert_equal(expected, actual)
@@ -78,7 +88,9 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
     options = [["Admin", "admin"], ["User", "user"]]
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :role, options, :second, :first, {}, {data: {action: "change->controller#update"}})).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input data-action="change-&gt;controller#update" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input data-action="change-&gt;controller#update" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label>
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input data-action="change-&gt;controller#update" class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input data-action="change-&gt;controller#update" class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label>
+      </div>
     HTML
 
     assert_equal(expected, actual)
@@ -88,7 +100,9 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
     options = [["Admin", "admin"], ["User", "user"]]
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :role, options, :second, :first, {}, {required: true})).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input required="required" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input required="required" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label>
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[role]" value="" autocomplete="off"><input required="required" class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin"><label for="test_model_role_admin">Admin</label><input required="required" class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="user" name="test_model[role]" id="test_model_role_user"><label for="test_model_role_user">User</label>
+      </div>
     HTML
 
     assert_equal(expected, actual)
@@ -97,7 +111,9 @@ class AtomicView::Components::CollectionRadioButtonsComponentTest < ViewComponen
   test "renders empty collection gracefully" do
     actual = render_inline(AtomicView::Components::CollectionRadioButtonsComponent.new(@form, :test_model, :role, [], :second, :first)).to_html.strip
     expected = <<~HTML.strip
-      <input type="hidden" name="test_model[role]" value="" autocomplete="off">
+      <div class="flex flex-col gap-2">
+        <input type="hidden" name="test_model[role]" value="" autocomplete="off">
+      </div>
     HTML
 
     assert_equal(expected, actual)

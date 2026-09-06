@@ -23,7 +23,7 @@ class AtomicView::Components::RadioButtonComponentTest < ViewComponent::TestCase
   test "renders radio button component" do
     actual = render_inline(AtomicView::Components::RadioButtonComponent.new(@form, :test_model, :role, "admin")).to_html.strip
     expected = <<~HTML.strip
-      <input type="radio" value="admin" name="test_model[role]" id="test_model_role_admin">
+      <input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin">
     HTML
 
     assert_equal(expected, actual)
@@ -34,11 +34,11 @@ class AtomicView::Components::RadioButtonComponentTest < ViewComponent::TestCase
     user_actual = render_inline(AtomicView::Components::RadioButtonComponent.new(@form, :test_model, :role, "user")).to_html.strip
 
     admin_expected = <<~HTML.strip
-      <input type="radio" value="admin" name="test_model[role]" id="test_model_role_admin">
+      <input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin">
     HTML
 
     user_expected = <<~HTML.strip
-      <input type="radio" value="user" name="test_model[role]" id="test_model_role_user">
+      <input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="user" name="test_model[role]" id="test_model_role_user">
     HTML
 
     assert_equal(admin_expected, admin_actual)
@@ -51,7 +51,7 @@ class AtomicView::Components::RadioButtonComponentTest < ViewComponent::TestCase
       required: true
     })).to_html.strip
     expected = <<~HTML.strip
-      <input class="custom-radio" required="required" type="radio" value="active" name="test_model[status]" id="test_model_status_active">
+      <input class="custom-radio peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" required="required" type="radio" value="active" name="test_model[status]" id="test_model_status_active">
     HTML
 
     assert_equal(expected, actual)
@@ -62,7 +62,7 @@ class AtomicView::Components::RadioButtonComponentTest < ViewComponent::TestCase
       data: {action: "change->controller#update"}
     })).to_html.strip
     expected = <<~HTML.strip
-      <input data-action="change-&gt;controller#update" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin">
+      <input data-action="change-&gt;controller#update" class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="admin" name="test_model[role]" id="test_model_role_admin">
     HTML
 
     assert_equal(expected, actual)
@@ -71,7 +71,7 @@ class AtomicView::Components::RadioButtonComponentTest < ViewComponent::TestCase
   test "renders radio button for different attribute" do
     actual = render_inline(AtomicView::Components::RadioButtonComponent.new(@form, :test_model, :status, "inactive")).to_html.strip
     expected = <<~HTML.strip
-      <input type="radio" value="inactive" name="test_model[status]" id="test_model_status_inactive">
+      <input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="inactive" name="test_model[status]" id="test_model_status_inactive">
     HTML
 
     assert_equal(expected, actual)
@@ -84,15 +84,15 @@ class AtomicView::Components::RadioButtonComponentTest < ViewComponent::TestCase
     end
 
     draft_expected = <<~HTML.strip
-      <input type="radio" value="draft" name="test_model[status]" id="test_model_status_draft">
+      <input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="draft" name="test_model[status]" id="test_model_status_draft">
     HTML
 
     published_expected = <<~HTML.strip
-      <input type="radio" value="published" name="test_model[status]" id="test_model_status_published">
+      <input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="published" name="test_model[status]" id="test_model_status_published">
     HTML
 
     archived_expected = <<~HTML.strip
-      <input type="radio" value="archived" name="test_model[status]" id="test_model_status_archived">
+      <input class="peer border-input dark:bg-input/30 checked:bg-primary checked:text-primary-foreground dark:checked:bg-primary checked:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-full border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50" type="radio" value="archived" name="test_model[status]" id="test_model_status_archived">
     HTML
 
     assert_equal(draft_expected, actuals[0])
