@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-4">
+  <div class="flex items-center gap-2">
+    <%= render AtomicView::Components::AvatarComponent.new(src: "https://placehold.co/48x48", size: :sm) %>
+    <%= render AtomicView::Components::AvatarComponent.new(src: "https://placehold.co/48x48", size: :md) %>
+    <%= render AtomicView::Components::AvatarComponent.new(src: "https://placehold.co/48x48", size: :lg) %>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <%= render AtomicView::Components::AvatarComponent.new(initials: "KW", size: :sm) %>
+    <%= render AtomicView::Components::AvatarComponent.new(initials: "KW", size: :md) %>
+    <%= render AtomicView::Components::AvatarComponent.new(initials: "KW", size: :lg) %>
+  </div>
+</div>
