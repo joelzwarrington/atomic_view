@@ -3,11 +3,12 @@
 module AtomicView
   module Components
     class EmptyStateComponent < AtomicView::Component
-      attr_reader :icon_name, :title, :description
+      renders_one :icon
 
-      def initialize(icon_name:, title:, description: nil, **options)
+      attr_reader :title, :description
+
+      def initialize(title:, description: nil, **options)
         super()
-        @icon_name = icon_name
         @title = title
         @description = description
         @options = options
