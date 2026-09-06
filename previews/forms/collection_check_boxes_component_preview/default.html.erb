@@ -1,5 +1,6 @@
 <% objects = [OpenStruct.new(name: "Lorem", id: 1), OpenStruct.new(name: "Ipsum", id: 2)] %>
 
 <%= form_with model: model do |form| %>
-  <%= form.collection_check_boxes :attribute, objects, :id, :name  %>
+  <%= form.label :attribute, label %>
+  <%= form.collection_check_boxes :attribute, objects, :id, :name %>
 <% end %>
