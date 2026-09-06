@@ -1,0 +1,17 @@
+<%= form_with model: model do |form| %>
+  <fieldset class="rounded-card border border-border p-4">
+    <%= form.label :attribute, content, variant: :caption %>
+
+    <div class="flex flex-col gap-3">
+      <div>
+        <%= form.label :name %>
+        <%= form.text_field :name %>
+      </div>
+
+      <div>
+        <%= form.label :email %>
+        <%= form.email_field :email %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

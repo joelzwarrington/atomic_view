@@ -1,9 +1,4 @@
 <%= form_with model: model do |form| %>
-  <div>
-    <%= form.label :attribute %>
-  </div>
-
-  <div class="mt-4">
-    <%= form.label :attribute, nil, variant: :caption %>
-  </div>
+  <%= form.label :attribute, content %>
+  <%= form.text_field :attribute, placeholder: "jane@example.com" %>
 <% end %>
