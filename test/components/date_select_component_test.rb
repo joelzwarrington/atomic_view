@@ -15,6 +15,8 @@ class AtomicView::Components::DateSelectComponentTest < ViewComponent::TestCase
     end
   end
 
+  CHROME_CLASS = "block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring"
+
   def setup
     @object = TestModel.new(birthdate: Date.new(1990, 5, 15))
     @form = ActionView::Helpers::FormBuilder.new(:test_model, @object, vc_test_controller.view_context, {})
@@ -23,10 +25,13 @@ class AtomicView::Components::DateSelectComponentTest < ViewComponent::TestCase
   test "renders basic date select with three dropdowns" do
     result = render_inline(AtomicView::Components::DateSelectComponent.new(@form, :test_model, :birthdate))
 
-    # Check for the presence of three select elements (year, month, day)
-    assert_includes result.to_html, '<select id="test_model_birthdate_1i" name="test_model[birthdate(1i)]">'
-    assert_includes result.to_html, '<select id="test_model_birthdate_2i" name="test_model[birthdate(2i)]">'
-    assert_includes result.to_html, '<select id="test_model_birthdate_3i" name="test_model[birthdate(3i)]">'
+    # Check that the sub-selects are wrapped in a flex row
+    assert_includes result.to_html, '<div class="flex gap-2">'
+
+    # Check for the presence of three select elements (year, month, day) with chrome applied
+    assert_includes result.to_html, %(<select id="test_model_birthdate_1i" name="test_model[birthdate(1i)]" class="#{CHROME_CLASS}">)
+    assert_includes result.to_html, %(<select id="test_model_birthdate_2i" name="test_model[birthdate(2i)]" class="#{CHROME_CLASS}">)
+    assert_includes result.to_html, %(<select id="test_model_birthdate_3i" name="test_model[birthdate(3i)]" class="#{CHROME_CLASS}">)
 
     # Check for month options
     assert_includes result.to_html, '<option value="1">January</option>'
@@ -83,8 +88,8 @@ class AtomicView::Components::DateSelectComponentTest < ViewComponent::TestCase
   test "renders date select with html options" do
     result = render_inline(AtomicView::Components::DateSelectComponent.new(@form, :test_model, :birthdate, {}, {class: "custom-select"}))
 
-    # Check that HTML options are applied to the select elements
-    assert_includes result.to_html, 'class="custom-select"'
+    # Check that HTML options are applied to the select elements alongside the chrome classes
+    assert_includes result.to_html, %(class="custom-select #{CHROME_CLASS}")
   end
 
   test "renders date select with use_month_numbers option" do

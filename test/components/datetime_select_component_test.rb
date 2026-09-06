@@ -15,6 +15,8 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
     end
   end
 
+  CHROME_CLASS = "block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring"
+
   def setup
     @object = TestModel.new(appointment_time: DateTime.new(2023, 12, 25, 14, 30))
     @form = ActionView::Helpers::FormBuilder.new(:test_model, @object, vc_test_controller.view_context, {})
@@ -23,12 +25,15 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
   test "renders basic datetime select with five dropdowns" do
     actual = render_inline(AtomicView::Components::DatetimeSelectComponent.new(@form, :test_model, :appointment_time)).to_html
 
-    # Check for the presence of five select elements (year, month, day, hour, minute)
-    assert_includes actual, '<select id="test_model_appointment_time_1i" name="test_model[appointment_time(1i)]">'
-    assert_includes actual, '<select id="test_model_appointment_time_2i" name="test_model[appointment_time(2i)]">'
-    assert_includes actual, '<select id="test_model_appointment_time_3i" name="test_model[appointment_time(3i)]">'
-    assert_includes actual, '<select id="test_model_appointment_time_4i" name="test_model[appointment_time(4i)]">'
-    assert_includes actual, '<select id="test_model_appointment_time_5i" name="test_model[appointment_time(5i)]">'
+    # Check that the sub-selects are wrapped in a flex row
+    assert_includes actual, '<div class="flex gap-2">'
+
+    # Check for the presence of five select elements (year, month, day, hour, minute) with chrome applied
+    assert_includes actual, %(<select id="test_model_appointment_time_1i" name="test_model[appointment_time(1i)]" class="#{CHROME_CLASS}">)
+    assert_includes actual, %(<select id="test_model_appointment_time_2i" name="test_model[appointment_time(2i)]" class="#{CHROME_CLASS}">)
+    assert_includes actual, %(<select id="test_model_appointment_time_3i" name="test_model[appointment_time(3i)]" class="#{CHROME_CLASS}">)
+    assert_includes actual, %(<select id="test_model_appointment_time_4i" name="test_model[appointment_time(4i)]" class="#{CHROME_CLASS}">)
+    assert_includes actual, %(<select id="test_model_appointment_time_5i" name="test_model[appointment_time(5i)]" class="#{CHROME_CLASS}">)
 
     # Check for month options
     assert_includes actual, '<option value="1">January</option>'
@@ -111,8 +116,8 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
   test "renders datetime select with html options" do
     actual = render_inline(AtomicView::Components::DatetimeSelectComponent.new(@form, :test_model, :appointment_time, {}, {class: "custom-select"})).to_html
 
-    # Check that HTML options are applied to the select elements
-    assert_includes actual, 'class="custom-select"'
+    # Check that HTML options are applied to the select elements alongside the chrome classes
+    assert_includes actual, %(class="custom-select #{CHROME_CLASS}")
   end
 
   test "renders datetime select with include_blank option" do

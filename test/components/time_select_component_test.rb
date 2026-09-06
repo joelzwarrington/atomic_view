@@ -15,6 +15,8 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
     end
   end
 
+  CHROME_CLASS = "block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring"
+
   def setup
     @object = TestModel.new(meeting_time: Time.new(2023, 12, 25, 14, 30))
     @form = ActionView::Helpers::FormBuilder.new(:test_model, @object, vc_test_controller.view_context, {})
@@ -25,14 +27,17 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
 
     html = result.to_html
 
+    # Check that the sub-selects are wrapped in a flex row
+    assert_includes html, '<div class="flex gap-2">'
+
     # Check for hidden date fields (year, month, day) that time_select creates
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_1i"'
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_2i"'
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_3i"'
 
-    # Check for the hour and minute select elements
-    assert_includes html, '<select id="test_model_meeting_time_4i" name="test_model[meeting_time(4i)]">'
-    assert_includes html, '<select id="test_model_meeting_time_5i" name="test_model[meeting_time(5i)]">'
+    # Check for the hour and minute select elements with chrome applied
+    assert_includes html, %(<select id="test_model_meeting_time_4i" name="test_model[meeting_time(4i)]" class="#{CHROME_CLASS}">)
+    assert_includes html, %(<select id="test_model_meeting_time_5i" name="test_model[meeting_time(5i)]" class="#{CHROME_CLASS}">)
 
     # Check for hour options
     assert_includes html, '<option value="00">00</option>'
@@ -92,8 +97,8 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
   test "renders time select with html options" do
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :meeting_time, {}, {class: "custom-select"}))
 
-    # Check that HTML options are applied to the visible select elements
-    assert_includes result.to_html, 'class="custom-select"'
+    # Check that HTML options are applied to the visible select elements alongside the chrome classes
+    assert_includes result.to_html, %(class="custom-select #{CHROME_CLASS}")
   end
 
   test "renders time select with ignore date option" do

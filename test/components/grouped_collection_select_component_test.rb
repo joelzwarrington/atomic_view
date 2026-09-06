@@ -32,10 +32,12 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
     ]
   end
 
+  CHROME_CLASS = "block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring"
+
   test "renders basic grouped collection select" do
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, @continents, :countries, :name, :code, :name)).to_html.strip
     expected = <<~HTML.strip
-      <select name="test_model[country]" id="test_model_country"><optgroup label="North America">
+      <select class="#{CHROME_CLASS}" name="test_model[country]" id="test_model_country"><optgroup label="North America">
       <option value="us">United States</option>
       <option value="ca">Canada</option>
       </optgroup>
@@ -51,7 +53,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
   test "renders grouped collection select with prompt" do
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, @continents, :countries, :name, :code, :name, {prompt: "Select a country"})).to_html.strip
     expected = <<~HTML.strip
-      <select name="test_model[country]" id="test_model_country"><option value="">Select a country</option>
+      <select class="#{CHROME_CLASS}" name="test_model[country]" id="test_model_country"><option value="">Select a country</option>
       <optgroup label="North America">
       <option value="us">United States</option>
       <option value="ca">Canada</option>
@@ -70,7 +72,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, @continents, :countries, :name, :code, :name)).to_html.strip
     # The HTML should be the same, as selection state is handled internally by Rails form helpers
     expected = <<~HTML.strip
-      <select name="test_model[country]" id="test_model_country"><optgroup label="North America">
+      <select class="#{CHROME_CLASS}" name="test_model[country]" id="test_model_country"><optgroup label="North America">
       <option value="us">United States</option>
       <option value="ca">Canada</option>
       </optgroup>
@@ -98,7 +100,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
 
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :city, states, :cities, :name, :id, :name)).to_html.strip
     expected = <<~HTML.strip
-      <select name="test_model[city]" id="test_model_city"><optgroup label="California">
+      <select class="#{CHROME_CLASS}" name="test_model[city]" id="test_model_city"><optgroup label="California">
       <option value="sf">San Francisco</option>
       <option value="la">Los Angeles</option>
       </optgroup>
@@ -114,7 +116,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
   test "renders grouped collection select with html options" do
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, @continents, :countries, :name, :code, :name, {}, {class: "custom-select", multiple: true})).to_html.strip
     expected = <<~HTML.strip
-      <input name="test_model[country][]" type="hidden" value="" autocomplete="off"><select class="custom-select" multiple name="test_model[country][]" id="test_model_country"><optgroup label="North America">
+      <input name="test_model[country][]" type="hidden" value="" autocomplete="off"><select class="custom-select #{CHROME_CLASS}" multiple name="test_model[country][]" id="test_model_country"><optgroup label="North America">
       <option value="us">United States</option>
       <option value="ca">Canada</option>
       </optgroup>
@@ -130,7 +132,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
   test "renders grouped collection select with data attributes" do
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, @continents, :countries, :name, :code, :name, {}, {data: {action: "change->controller#update"}})).to_html.strip
     expected = <<~HTML.strip
-      <select data-action="change-&gt;controller#update" name="test_model[country]" id="test_model_country"><optgroup label="North America">
+      <select data-action="change-&gt;controller#update" class="#{CHROME_CLASS}" name="test_model[country]" id="test_model_country"><optgroup label="North America">
       <option value="us">United States</option>
       <option value="ca">Canada</option>
       </optgroup>
@@ -146,7 +148,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
   test "renders grouped collection select with include_blank" do
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, @continents, :countries, :name, :code, :name, {include_blank: true})).to_html.strip
     expected = <<~HTML.strip
-      <select name="test_model[country]" id="test_model_country"><option value="" label=" "></option>
+      <select class="#{CHROME_CLASS}" name="test_model[country]" id="test_model_country"><option value="" label=" "></option>
       <optgroup label="North America">
       <option value="us">United States</option>
       <option value="ca">Canada</option>
@@ -163,7 +165,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
   test "renders empty grouped collection gracefully" do
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, [], :countries, :name, :code, :name)).to_html.strip
     expected = <<~HTML.strip
-      <select name="test_model[country]" id="test_model_country"></select>
+      <select class="#{CHROME_CLASS}" name="test_model[country]" id="test_model_country"></select>
     HTML
 
     assert_equal(expected, actual)

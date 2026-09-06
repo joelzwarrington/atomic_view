@@ -15,6 +15,8 @@ class AtomicView::Components::TimeZoneSelectComponentTest < ViewComponent::TestC
     end
   end
 
+  CHROME_CLASS = "block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring"
+
   def setup
     @object = TestModel.new(time_zone: "UTC")
     @form = ActionView::Helpers::FormBuilder.new(:test_model, @object, vc_test_controller.view_context, {})
@@ -23,8 +25,8 @@ class AtomicView::Components::TimeZoneSelectComponentTest < ViewComponent::TestC
   test "renders basic time zone select" do
     actual = render_inline(AtomicView::Components::TimeZoneSelectComponent.new(@form, :test_model, :time_zone, nil)).to_html
 
-    # Check for the select element structure
-    assert_includes actual, '<select name="test_model[time_zone]" id="test_model_time_zone">'
+    # Check for the select element structure with chrome applied
+    assert_includes actual, %(<select class="#{CHROME_CLASS}" name="test_model[time_zone]" id="test_model_time_zone">)
 
     # Check for UTC which should always be available
     assert_includes actual, '<option value="UTC">'
@@ -42,7 +44,7 @@ class AtomicView::Components::TimeZoneSelectComponentTest < ViewComponent::TestC
     actual = render_inline(AtomicView::Components::TimeZoneSelectComponent.new(@form, :test_model, :time_zone, priority_zones)).to_html
 
     # Check basic structure
-    assert_includes actual, '<select name="test_model[time_zone]" id="test_model_time_zone">'
+    assert_includes actual, %(<select class="#{CHROME_CLASS}" name="test_model[time_zone]" id="test_model_time_zone">)
 
     # Should have a separator between priority and regular zones
     assert_includes actual, "-------------"
@@ -60,7 +62,7 @@ class AtomicView::Components::TimeZoneSelectComponentTest < ViewComponent::TestC
     actual = render_inline(AtomicView::Components::TimeZoneSelectComponent.new(@form, :test_model, :time_zone, nil)).to_html
 
     # The HTML structure should be correct, selection state is handled internally by Rails
-    assert_includes actual, '<select name="test_model[time_zone]" id="test_model_time_zone">'
+    assert_includes actual, %(<select class="#{CHROME_CLASS}" name="test_model[time_zone]" id="test_model_time_zone">)
     assert_includes actual, '<option value="UTC">'
     assert_includes actual, "</select>"
   end
@@ -77,8 +79,8 @@ class AtomicView::Components::TimeZoneSelectComponentTest < ViewComponent::TestC
   test "renders time zone select with html options" do
     actual = render_inline(AtomicView::Components::TimeZoneSelectComponent.new(@form, :test_model, :time_zone, nil, {}, {class: "custom-select", multiple: true})).to_html
 
-    # Check that HTML options are applied
-    assert_includes actual, 'class="custom-select"'
+    # Check that HTML options are applied alongside the chrome classes
+    assert_includes actual, %(class="custom-select #{CHROME_CLASS}")
     assert_includes actual, "multiple"
 
     # Multiple select should have array name
