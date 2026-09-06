@@ -1,0 +1,40 @@
+<%= render AtomicView::Components::DropdownComponent.new do |dropdown| %>
+  <% dropdown.with_trigger do %>
+    <button type="button" class="flex items-center gap-2 rounded-btn border border-border bg-surface px-3 py-2 text-sm font-medium text-foreground hover:bg-offset">
+      <%= render AtomicView::Components::AvatarComponent.new(initials: "AP", size: :sm) %>
+      Acme Park
+      <%= icon("chevron-down", variant: :mini, options: {class: "size-4 text-muted-foreground"}).to_s.html_safe %>
+    </button>
+  <% end %>
+
+  <% dropdown.with_menu do %>
+    <div class="w-64 p-1">
+      <p class="px-2 pb-1 pt-2 text-xs uppercase text-muted-foreground">Your organizations</p>
+
+      <a href="#" class="flex items-center justify-between rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">
+        <span class="flex items-center gap-2">
+          <%= render AtomicView::Components::AvatarComponent.new(initials: "AP", size: :sm) %>
+          Acme Park
+        </span>
+        <%= icon("check", variant: :mini, options: {class: "size-4 text-primary"}).to_s.html_safe %>
+      </a>
+
+      <a href="#" class="flex items-center gap-2 rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">
+        <%= render AtomicView::Components::AvatarComponent.new(initials: "SM", size: :sm) %>
+        Summit Meadows
+      </a>
+
+      <a href="#" class="flex items-center gap-2 rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">
+        <%= render AtomicView::Components::AvatarComponent.new(initials: "RC", size: :sm) %>
+        Ridgeline Campground
+      </a>
+
+      <hr class="my-1 border-border">
+
+      <p class="px-2 pb-1 pt-2 text-xs uppercase text-muted-foreground">Account</p>
+
+      <a href="#" class="block rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">Settings</a>
+      <a href="#" class="block rounded-btn px-2 py-1.5 text-sm text-destructive hover:bg-offset">Sign out</a>
+    </div>
+  <% end %>
+<% end %>

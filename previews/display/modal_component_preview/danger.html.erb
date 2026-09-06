@@ -1,0 +1,16 @@
+<%= render AtomicView::Components::ButtonComponent.new(nil, "Delete project", {
+  variant: :destructive,
+  onclick: "document.getElementById('modal-component-preview-danger').showModal()"
+}) %>
+
+<%= render AtomicView::Components::ModalComponent.new(id: "modal-component-preview-danger", title: title, danger: true) do |modal| %>
+  <p>This will permanently delete the project and all of its data. This action cannot be undone.</p>
+
+  <% modal.with_footer do %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Cancel", {
+      variant: :outline,
+      data: {action: "click->atomic-view--modal#close"}
+    }) %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Delete", {variant: :destructive}) %>
+  <% end %>
+<% end %>

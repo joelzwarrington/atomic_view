@@ -1,0 +1,33 @@
+<%= render AtomicView::Components::DropdownComponent.new do |dropdown| %>
+  <% dropdown.with_trigger do %>
+    <button type="button" aria-label="Notifications" class="relative inline-flex items-center justify-center rounded-full border border-border bg-surface p-2 text-muted-foreground hover:bg-offset">
+      <%= icon("bell", options: {class: "size-5"}).to_s.html_safe %>
+      <%= render AtomicView::Components::BadgeComponent.new(variant: :destructive, class: "absolute -right-1 -top-1 px-1.5 py-0 text-[10px]") do %>3<% end %>
+    </button>
+  <% end %>
+
+  <% dropdown.with_menu do %>
+    <div class="w-80 p-1">
+      <p class="px-2 pb-1 pt-2 text-xs uppercase text-muted-foreground">Notifications</p>
+
+      <a href="#" class="flex flex-col gap-0.5 rounded-btn px-2 py-2 text-sm hover:bg-offset">
+        <span class="font-medium text-foreground">New booking request</span>
+        <span class="text-xs text-muted-foreground">Campsite 14 requested for Sept 20-22.</span>
+      </a>
+
+      <a href="#" class="flex flex-col gap-0.5 rounded-btn px-2 py-2 text-sm hover:bg-offset">
+        <span class="font-medium text-foreground">Payment received</span>
+        <span class="text-xs text-muted-foreground">Invoice #1042 was paid in full.</span>
+      </a>
+
+      <a href="#" class="flex flex-col gap-0.5 rounded-btn px-2 py-2 text-sm hover:bg-offset">
+        <span class="font-medium text-foreground">Maintenance reminder</span>
+        <span class="text-xs text-muted-foreground">Water hookup at site 7 needs inspection.</span>
+      </a>
+
+      <hr class="my-1 border-border">
+
+      <a href="#" class="block rounded-btn px-2 py-1.5 text-center text-sm text-primary hover:bg-offset">View all notifications</a>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,16 @@
+<%= render AtomicView::Components::ButtonComponent.new(nil, "Open modal", {
+  variant: :outline,
+  onclick: "document.getElementById('modal-component-preview-default').showModal()"
+}) %>
+
+<%= render AtomicView::Components::ModalComponent.new(id: "modal-component-preview-default", title: title) do |modal| %>
+  <p>You're currently on the Free plan. Upgrading gives you unlimited projects and priority support.</p>
+
+  <% modal.with_footer do %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Cancel", {
+      variant: :outline,
+      data: {action: "click->atomic-view--modal#close"}
+    }) %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Upgrade", {variant: :primary}) %>
+  <% end %>
+<% end %>

@@ -1,0 +1,25 @@
+<%= render AtomicView::Components::ButtonComponent.new(nil, "Open command palette", {
+  variant: :outline,
+  onclick: "document.getElementById('example-command-palette').showModal()"
+}) %>
+
+<%= render AtomicView::Components::CommandPaletteComponent.new(
+  id: "example-command-palette",
+  sections: [
+    {
+      label: "Pages",
+      results: [
+        {label: "Dashboard", href: "#dashboard", hint: "G D"},
+        {label: "Reservations", href: "#reservations", hint: "G R"},
+        {label: "Settings", href: "#settings"}
+      ]
+    },
+    {
+      label: "Actions",
+      results: [
+        {label: "Create new park", href: "#new-park", hint: "⌘N"},
+        {label: "Invite teammate", href: "#invite"}
+      ]
+    }
+  ]
+) %>
