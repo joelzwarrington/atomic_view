@@ -15,10 +15,33 @@ class AtomicView::Components::AvatarComponentTest < ViewComponent::TestCase
   test "renders initials fallback when src is absent" do
     actual = render_inline(AtomicView::Components::AvatarComponent.new(initials: "KW")).to_html.strip
     expected = <<~HTML.strip
-      <span class="flex items-center justify-center rounded-full bg-offset text-foreground font-medium size-8 text-sm">KW</span>
+      <span class="flex items-center justify-center rounded-full font-medium bg-[#e9c46a] text-black size-8 text-sm">KW</span>
     HTML
 
     assert_equal(expected, actual)
+  end
+
+  test "renders a default background when no initials are given" do
+    actual = render_inline(AtomicView::Components::AvatarComponent.new).to_html.strip
+    expected = <<~HTML.strip
+      <span class="flex items-center justify-center rounded-full font-medium bg-offset text-foreground size-8 text-sm"></span>
+    HTML
+
+    assert_equal(expected, actual)
+  end
+
+  test "consistently picks the same palette color for the same initials" do
+    first = render_inline(AtomicView::Components::AvatarComponent.new(initials: "KW")).to_html.strip
+    second = render_inline(AtomicView::Components::AvatarComponent.new(initials: "KW")).to_html.strip
+
+    assert_equal(first, second)
+  end
+
+  test "picks different palette colors for different initials" do
+    kw = render_inline(AtomicView::Components::AvatarComponent.new(initials: "KW")).to_html.strip
+    ab = render_inline(AtomicView::Components::AvatarComponent.new(initials: "AB")).to_html.strip
+
+    refute_equal(kw, ab)
   end
 
   test "renders small size for both src and initials" do
@@ -51,7 +74,7 @@ class AtomicView::Components::AvatarComponentTest < ViewComponent::TestCase
   test "merges custom class and forwards other options" do
     actual = render_inline(AtomicView::Components::AvatarComponent.new(initials: "KW", class: "custom-avatar", id: "user-avatar")).to_html.strip
     expected = <<~HTML.strip
-      <span id="user-avatar" class="flex items-center justify-center rounded-full bg-offset text-foreground font-medium size-8 text-sm custom-avatar">KW</span>
+      <span id="user-avatar" class="flex items-center justify-center rounded-full font-medium bg-[#e9c46a] text-black size-8 text-sm custom-avatar">KW</span>
     HTML
 
     assert_equal(expected, actual)

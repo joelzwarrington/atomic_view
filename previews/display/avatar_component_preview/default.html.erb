@@ -10,4 +10,10 @@
     <%= render AtomicView::Components::AvatarComponent.new(initials: "KW", size: :md) %>
     <%= render AtomicView::Components::AvatarComponent.new(initials: "KW", size: :lg) %>
   </div>
+
+  <div class="flex items-center gap-2">
+    <% ["KW", "JD", "AB", "MC", "TS", "RL", "NP", "EF"].each do |initials| %>
+      <%= render AtomicView::Components::AvatarComponent.new(initials: initials) %>
+    <% end %>
+  </div>
 </div>
