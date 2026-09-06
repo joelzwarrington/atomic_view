@@ -1,0 +1,24 @@
+<%= tag.dialog(**html_options, id: id, class: html_class, data: data_attributes) do %>
+  <div class="p-6">
+    <% if title.present? || danger %>
+      <div class="flex items-center gap-3">
+        <% if danger %>
+          <%= danger_icon %>
+        <% end %>
+        <% if title.present? %>
+          <h2 class="font-body text-lg font-semibold text-foreground"><%= title %></h2>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="mt-4 text-sm text-muted-foreground">
+      <%= content %>
+    </div>
+
+    <% if footer? %>
+      <div class="mt-6 flex justify-end gap-2">
+        <%= footer %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
