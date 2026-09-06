@@ -1,0 +1,11 @@
+<div class="flex flex-wrap gap-4">
+  <%= render AtomicView::Components::CardComponent.new do %>
+    <h3 class="text-sm font-medium text-foreground">Card title</h3>
+    <p class="mt-1 text-sm text-muted-foreground">Some placeholder content that lives inside a plain card.</p>
+  <% end %>
+
+  <%= render AtomicView::Components::CardComponent.new(hoverable: true) do %>
+    <h3 class="text-sm font-medium text-foreground">Hoverable card</h3>
+    <p class="mt-1 text-sm text-muted-foreground">Hover over this card to see the soft shadow transition in.</p>
+  <% end %>
+</div>
