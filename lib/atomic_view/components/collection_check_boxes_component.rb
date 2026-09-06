@@ -6,6 +6,8 @@ module AtomicView
       end
 
       def collection_check_boxes_tag
+        item_proc = element_proc || default_element_proc
+
         ActionView::Helpers::Tags::CollectionCheckBoxes.new(
           object_name,
           method_name,
@@ -16,7 +18,13 @@ module AtomicView
           options,
           html_options,
           &content
-        ).render(&element_proc)
+        ).render(&item_proc)
+      end
+
+      private
+
+      def default_element_proc
+        ->(builder) { @view_context.content_tag(:div, builder.checkbox + builder.label, class: "flex items-center gap-2") }
       end
     end
   end

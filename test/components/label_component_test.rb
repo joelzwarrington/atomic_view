@@ -87,4 +87,13 @@ class AtomicView::Components::LabelComponentTest < ViewComponent::TestCase
 
     assert_equal(expected, actual)
   end
+
+  test "renders label with inline variant" do
+    actual = render_inline(AtomicView::Components::LabelComponent.new(@form, :test_model, :name, nil, {variant: :inline})).to_html.strip
+    expected = <<~HTML.strip
+      <label class="text-foreground text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50" for="test_model_name">Name</label>
+    HTML
+
+    assert_equal(expected, actual)
+  end
 end

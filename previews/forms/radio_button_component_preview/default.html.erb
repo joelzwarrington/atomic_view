@@ -1,4 +1,6 @@
 <%= form_with model: model do |form| %>
-  <%= form.radio_button :attribute, :value, checked: checked, disabled: disabled %>
-  <%= form.label :attribute, label, value: :value %>
+  <div class="flex items-center gap-2">
+    <%= form.radio_button :attribute, :value, checked: checked, disabled: disabled %>
+    <%= form.label :attribute, label, value: :value, variant: :inline %>
+  </div>
 <% end %>

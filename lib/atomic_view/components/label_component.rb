@@ -13,6 +13,8 @@ module AtomicView
         case variant
         when :caption
           "block text-muted-foreground text-xs font-bold uppercase tracking-wide mb-1"
+        when :inline
+          "text-foreground text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
         else
           "block text-foreground text-sm font-medium leading-6 mb-2"
         end
