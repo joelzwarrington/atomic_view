@@ -1,0 +1,25 @@
+<div class="flex flex-wrap gap-4">
+  <div class="w-72 rounded-card border border-border bg-surface">
+    <%= render AtomicView::Components::EmptyStateComponent.new(icon_name: "inbox", title: "No messages") %>
+  </div>
+
+  <div class="w-72 rounded-card border border-border bg-surface">
+    <%= render AtomicView::Components::EmptyStateComponent.new(
+      icon_name: "map",
+      title: "No parks found",
+      description: "Try adjusting your filters or search terms."
+    ) %>
+  </div>
+
+  <div class="w-72 rounded-card border border-border bg-surface">
+    <%= render AtomicView::Components::EmptyStateComponent.new(
+      icon_name: "users",
+      title: "No campers yet",
+      description: "Get started by adding your first camper."
+    ) do %>
+      <a href="#" class="mt-2 h-8 rounded-btn bg-primary px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90">
+        Add camper
+      </a>
+    <% end %>
+  </div>
+</div>

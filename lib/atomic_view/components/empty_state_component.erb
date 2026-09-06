@@ -1,0 +1,10 @@
+<%= tag.div(**@options.except(:class), class: html_class) do %>
+  <%= icon(icon_name, variant: :outline, options: {class: "size-10 text-muted-foreground"}).to_s.html_safe %>
+  <p class="font-body font-semibold text-base"><%= title %></p>
+  <% if description.present? %>
+    <p class="text-muted-foreground text-sm"><%= description %></p>
+  <% end %>
+  <% if content? %>
+    <%= content %>
+  <% end %>
+<% end %>
