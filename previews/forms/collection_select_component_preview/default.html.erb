@@ -9,7 +9,7 @@
   <div class="flex gap-2 flex-wrap">
     <div class="mb-4">
       <%= form.label :left_section %>
-      <%= form.collection_select :left_section, objects, :id, :name, left_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+      <%= form.collection_select :left_section, objects, :id, :name, left_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-muted-foreground"}) %>
     </div>
 
     <div class="mb-4">
@@ -19,7 +19,7 @@
 
     <div class="mb-4">
       <%= form.label :right_section %>
-      <%= form.collection_select :right_section, objects, :id, :name, right_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-gray-500"}) %>
+      <%= form.collection_select :right_section, objects, :id, :name, right_section: icon("sparkles", variant: :mini, options: {class: "size-5 text-muted-foreground"}) %>
     </div>
   </div>
 <% end %>
