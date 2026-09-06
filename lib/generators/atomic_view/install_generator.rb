@@ -24,23 +24,6 @@ module AtomicView
       end
     end
 
-    def add_atomic_view_js_controllers
-      return if options[:update_tailwind_only]
-
-      controllers_path = Rails.root.join("app/javascript/controllers/index.js")
-      if controllers_path.exist? && controllers_path.read.include?('eagerLoadControllersFrom("controllers", application)')
-        if controllers_path.read.include?('eagerLoadControllersFrom("atomic_view", application)')
-          puts '`app/javascript/controllers/index.js` already contains `eagerLoadControllersFrom("atomic_view", application)`'
-        else
-          insert_into_file controllers_path, after: 'eagerLoadControllersFrom("controllers", application)' do
-            "\neagerLoadControllersFrom(\"atomic_view\", application)\n"
-          end
-        end
-      else
-        puts '`app/javascript/controllers/index.js` does not exist or does not contain `eagerLoadControllersFrom("controllers", application)`'
-      end
-    end
-
     def add_atomic_view_floating_ui
       return if options[:update_tailwind_only]
 

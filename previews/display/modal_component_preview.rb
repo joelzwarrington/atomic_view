@@ -9,12 +9,10 @@ module Display
   # Stimulus action instead, since they're descendants of the `<dialog>`
   # that carries the controller: `data-action="click->atomic-view--modal#close"`.
   #
-  # Wired to `atomic-view--modal`. The gem can't register a controller into
-  # a host app's own Stimulus `Application` instance, so add this to the
-  # host app's `app/javascript/controllers/index.js`:
-  #
-  #   import ModalController from "atomic_view/controllers/modal_controller"
-  #   application.register("atomic-view--modal", ModalController)
+  # Wired to `atomic-view--modal`. No host app setup needed -- the
+  # controller is pinned so it's picked up by the same
+  # `eagerLoadControllersFrom("controllers", application)` call every
+  # Rails + importmap + Stimulus app already has by default.
   class ModalComponentPreview < Lookbook::Preview
     # @!group Examples
 

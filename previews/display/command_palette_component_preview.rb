@@ -12,12 +12,9 @@ module Display
   # docs for the shape); the controller filters rows client-side as the
   # user types and supports arrow-key navigation.
   #
-  # The gem can't register a controller into a host app's own Stimulus
-  # `Application` instance, so add this to the host app's
-  # `app/javascript/controllers/index.js`:
-  #
-  #   import CommandPaletteController from "atomic_view/controllers/command_palette_controller"
-  #   application.register("atomic-view--command-palette", CommandPaletteController)
+  # No host app setup needed -- the controller is pinned so it's picked up
+  # by the same `eagerLoadControllersFrom("controllers", application)`
+  # call every Rails + importmap + Stimulus app already has by default.
   class CommandPaletteComponentPreview < Lookbook::Preview
     def default
       render_with_template

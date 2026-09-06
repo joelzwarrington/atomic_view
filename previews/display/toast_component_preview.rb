@@ -8,12 +8,10 @@ module Display
   #     <%= render AtomicView::Components::ToastComponent.new(title: "Saved") %>
   #   </div>
   #
-  # Wired to `atomic-view--toast`. The gem can't register a controller into
-  # a host app's own Stimulus `Application` instance, so add this to the
-  # host app's `app/javascript/controllers/index.js`:
-  #
-  #   import ToastController from "atomic_view/controllers/toast_controller"
-  #   application.register("atomic-view--toast", ToastController)
+  # Wired to `atomic-view--toast`. No host app setup needed -- the
+  # controller is pinned so it's picked up by the same
+  # `eagerLoadControllersFrom("controllers", application)` call every
+  # Rails + importmap + Stimulus app already has by default.
   class ToastComponentPreview < Lookbook::Preview
     # @!group Variants
 

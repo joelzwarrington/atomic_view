@@ -8,12 +8,10 @@ module Display
   # (`Avatar`, `Badge`, etc.) rather than teaching this component about a
   # specific use case.
   #
-  # The gem can't register a controller into a host app's own Stimulus
-  # `Application` instance, so add this to the host app's
-  # `app/javascript/controllers/index.js`:
-  #
-  #   import DropdownController from "atomic_view/controllers/dropdown_controller"
-  #   application.register("atomic-view--dropdown", DropdownController)
+  # No host app setup needed for the controller itself -- it's pinned so
+  # it's picked up by the same `eagerLoadControllersFrom("controllers",
+  # application)` call every Rails + importmap + Stimulus app already has
+  # by default.
   #
   # Positioning uses `@floating-ui/dom`, pinned via importmap --
   # `bin/rails atomic_view:install` (the install generator) adds this pin
