@@ -1,3 +1,4 @@
 <%= form_with model: model do |form| %>
-  <%= form.check_box :attribute %>
+  <%= form.check_box :attribute, {checked: checked, disabled: disabled} %>
+  <%= form.label :attribute, label %>
 <% end %>
