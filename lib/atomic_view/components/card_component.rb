@@ -18,7 +18,7 @@ module AtomicView
       private
 
       def base_classes
-        "bg-surface rounded-card border border-border p-3"
+        "bg-surface rounded-card border border-border p-2.5"
       end
 
       def hoverable_classes
