@@ -2,5 +2,5 @@
 
 <%= form_with model: model do |form| %>
   <%= form.label :attribute, label %>
-  <%= form.select :attribute, objects %>
+  <%= form.select :attribute, objects, left_section_as_addon: true, left_section: "Type" %>
 <% end %>
