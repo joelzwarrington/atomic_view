@@ -1,5 +1,5 @@
-module SelectionAndInput
-  class CollectionRadioButtonsComponentPreview < Lookbook::Preview
+module Forms
+  class WeekdaySelectComponentPreview < Lookbook::Preview
     def default
       render_with_template locals: {model: AtomicView::Model.new}
     end

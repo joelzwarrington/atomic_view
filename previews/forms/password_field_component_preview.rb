@@ -1,5 +1,5 @@
-module SelectionAndInput
-  class CheckBoxComponentPreview < Lookbook::Preview
+module Forms
+  class PasswordFieldComponentPreview < Lookbook::Preview
     def default
       render_with_template locals: {model: AtomicView::Model.new}
     end

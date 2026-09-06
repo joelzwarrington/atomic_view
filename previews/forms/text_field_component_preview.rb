@@ -1,4 +1,4 @@
-module SelectionAndInput
+module Forms
   class TextFieldComponentPreview < Lookbook::Preview
     def default
       model = AtomicView::Model.new

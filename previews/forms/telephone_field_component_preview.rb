@@ -1,4 +1,4 @@
-module SelectionAndInput
+module Forms
   class TelephoneFieldComponentPreview < Lookbook::Preview
     def default
       render_with_template locals: {model: AtomicView::Model.new}
