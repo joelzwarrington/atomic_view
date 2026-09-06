@@ -9,8 +9,8 @@ module AtomicView
           field_chrome_classes(size: :sm),
           "pl-10" => left_section? && !(left_section_addon? || left_section_interaction?),
           "pr-10" => right_section? && !(right_section_addon? || right_section_interaction?),
-          "shadow-none rounded-none rounded-r-lg ring-inset" => left_section_addon? || left_section_interaction?,
-          "shadow-none rounded-none rounded-l-lg ring-inset" => right_section_addon? || right_section_interaction?
+          "shadow-none rounded-none rounded-r-btn ring-inset" => left_section_addon? || left_section_interaction?,
+          "shadow-none rounded-none rounded-l-btn ring-inset" => right_section_addon? || right_section_interaction?
         )
       end
 

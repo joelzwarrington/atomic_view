@@ -30,7 +30,7 @@ module AtomicView
       private
 
       def base_classes
-        "inline-flex items-center gap-1 rounded-pill bg-offset px-2.5 py-1 text-xs font-medium text-foreground border border-border"
+        "inline-flex items-center gap-1 rounded-pill bg-offset px-2 py-0.5 text-xs font-medium text-foreground border border-border"
       end
 
       def data_attributes

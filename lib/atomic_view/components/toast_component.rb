@@ -61,7 +61,7 @@ module AtomicView
       end
 
       def base_classes
-        "flex items-start gap-3 rounded-card border border-border border-l-4 bg-surface p-4 shadow-soft"
+        "flex items-start gap-3 rounded-card border border-border border-l-4 bg-surface p-3 shadow-soft"
       end
     end
   end

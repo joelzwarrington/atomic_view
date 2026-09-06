@@ -21,7 +21,7 @@ module AtomicView
       end
 
       def base_classes
-        "flex flex-col items-center text-center gap-2 p-8"
+        "flex flex-col items-center text-center gap-2 p-6"
       end
     end
   end

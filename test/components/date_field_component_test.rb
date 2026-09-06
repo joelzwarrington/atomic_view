@@ -23,7 +23,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
   test "renders basic date field" do
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :birthdate)).to_html.strip
     expected = <<~HTML.strip
-      <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -32,7 +32,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
   test "renders date field with min and max attributes" do
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :birthdate, {min: "1900-01-01", max: "2030-12-31"})).to_html.strip
     expected = <<~HTML.strip
-      <input min="1900-01-01" max="2030-12-31" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input min="1900-01-01" max="2030-12-31" class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -45,7 +45,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
       step: 1
     })).to_html.strip
     expected = <<~HTML.strip
-      <input class="custom-date-field block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" required="required" step="1" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input class="custom-date-field block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" required="required" step="1" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -56,7 +56,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
       data: {action: "input->controller#update", target: "form.dateField"}
     })).to_html.strip
     expected = <<~HTML.strip
-      <input data-action="input-&gt;controller#update" data-target="form.dateField" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input data-action="input-&gt;controller#update" data-target="form.dateField" class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -66,7 +66,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
     @object.errors.add(:birthdate, "is required")
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :birthdate)).to_html.strip
     expected = <<~HTML.strip
-      <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 dark:ring-white/10 focus:border-ring/20 dark:focus:ring-focus-ring text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 dark:ring-white/10 focus:border-ring/20 dark:focus:ring-focus-ring text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -75,7 +75,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
   test "renders date field with different attribute name" do
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :start_date)).to_html.strip
     expected = <<~HTML.strip
-      <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[start_date]" id="test_model_start_date">
+      <input class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[start_date]" id="test_model_start_date">
     HTML
 
     assert_equal(expected, actual)
@@ -84,7 +84,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
   test "renders date field with disabled attribute" do
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :birthdate, {disabled: true})).to_html.strip
     expected = <<~HTML.strip
-      <input disabled class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input disabled class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -93,7 +93,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
   test "renders date field with readonly attribute" do
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :birthdate, {readonly: true})).to_html.strip
     expected = <<~HTML.strip
-      <input readonly class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input readonly class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)

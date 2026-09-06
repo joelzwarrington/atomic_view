@@ -66,7 +66,7 @@ module AtomicView
       end
 
       def page_base_classes
-        "flex size-8 items-center justify-center rounded-btn text-sm font-medium"
+        "flex size-7 items-center justify-center rounded-btn text-sm font-medium"
       end
 
       def active_page_classes

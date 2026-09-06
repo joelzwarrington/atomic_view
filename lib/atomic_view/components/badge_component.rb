@@ -18,7 +18,7 @@ module AtomicView
       private
 
       def base_classes
-        "inline-flex items-center rounded-pill px-2 py-0.5 text-xs font-medium"
+        "inline-flex items-center rounded-pill px-1.5 py-0.5 text-xs font-medium"
       end
 
       def variant_classes

@@ -6,7 +6,7 @@ class AtomicView::Components::CardComponentTest < ViewComponent::TestCase
   test "renders a plain card by default" do
     actual = render_inline(AtomicView::Components::CardComponent.new) { "Content" }.to_html.strip
     expected = <<~HTML.strip
-      <div class="bg-surface rounded-card border border-border p-4">Content</div>
+      <div class="bg-surface rounded-card border border-border p-3">Content</div>
     HTML
 
     assert_equal(expected, actual)
@@ -15,7 +15,7 @@ class AtomicView::Components::CardComponentTest < ViewComponent::TestCase
   test "adds hover shadow classes when hoverable" do
     actual = render_inline(AtomicView::Components::CardComponent.new(hoverable: true)) { "Content" }.to_html.strip
     expected = <<~HTML.strip
-      <div class="bg-surface rounded-card border border-border p-4 hover:shadow-soft transition-shadow">Content</div>
+      <div class="bg-surface rounded-card border border-border p-3 hover:shadow-soft transition-shadow">Content</div>
     HTML
 
     assert_equal(expected, actual)
@@ -31,7 +31,7 @@ class AtomicView::Components::CardComponentTest < ViewComponent::TestCase
   test "merges custom class and forwards other options" do
     actual = render_inline(AtomicView::Components::CardComponent.new(class: "custom-card", id: "profile-card")) { "Content" }.to_html.strip
     expected = <<~HTML.strip
-      <div id="profile-card" class="bg-surface rounded-card border border-border p-4 custom-card">Content</div>
+      <div id="profile-card" class="bg-surface rounded-card border border-border p-3 custom-card">Content</div>
     HTML
 
     assert_equal(expected, actual)

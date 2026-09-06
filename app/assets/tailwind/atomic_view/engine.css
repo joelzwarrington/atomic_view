@@ -55,9 +55,9 @@
   --color-placeholder: var(--color-zinc-500);
   --color-focus-ring: var(--color-neutral-700);
 
-  --radius-well: 8px;
-  --radius-btn: 10px;
-  --radius-card: 14px;
+  --radius-well: 4px;
+  --radius-btn: 6px;
+  --radius-card: 8px;
   --radius-pill: 9999px;
 
   --shadow-soft: 0 1px 2px rgb(0 0 0 / .06), 0 8px 24px -8px rgb(0 0 0 / .18);

@@ -22,7 +22,7 @@ class AtomicView::Components::ColorFieldComponentTest < ViewComponent::TestCase
   test "renders color field component" do
     actual = render_inline(AtomicView::Components::ColorFieldComponent.new(@form, :test_model, :favorite_color)).to_html.strip
     expected = <<~HTML.strip
-      <input class="rounded-well h-9 w-9 border border-border p-1 cursor-pointer" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
+      <input class="rounded-well h-8 w-8 border border-border p-1 cursor-pointer" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
     HTML
 
     assert_equal(expected, actual)
@@ -34,7 +34,7 @@ class AtomicView::Components::ColorFieldComponentTest < ViewComponent::TestCase
       title: "Choose your favorite color"
     })).to_html.strip
     expected = <<~HTML.strip
-      <input class="color-picker rounded-well h-9 w-9 border border-border p-1 cursor-pointer" title="Choose your favorite color" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
+      <input class="color-picker rounded-well h-8 w-8 border border-border p-1 cursor-pointer" title="Choose your favorite color" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
     HTML
 
     assert_equal(expected, actual)
@@ -43,7 +43,7 @@ class AtomicView::Components::ColorFieldComponentTest < ViewComponent::TestCase
   test "renders color field with basic html structure" do
     actual = render_inline(AtomicView::Components::ColorFieldComponent.new(@form, :test_model, :favorite_color)).to_html.strip
     expected = <<~HTML.strip
-      <input class="rounded-well h-9 w-9 border border-border p-1 cursor-pointer" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
+      <input class="rounded-well h-8 w-8 border border-border p-1 cursor-pointer" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
     HTML
 
     assert_equal(expected, actual)
@@ -52,7 +52,7 @@ class AtomicView::Components::ColorFieldComponentTest < ViewComponent::TestCase
   test "renders color field for correct attribute" do
     actual = render_inline(AtomicView::Components::ColorFieldComponent.new(@form, :test_model, :favorite_color)).to_html.strip
     expected = <<~HTML.strip
-      <input class="rounded-well h-9 w-9 border border-border p-1 cursor-pointer" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
+      <input class="rounded-well h-8 w-8 border border-border p-1 cursor-pointer" value="#000000" type="color" name="test_model[favorite_color]" id="test_model_favorite_color">
     HTML
 
     assert_equal(expected, actual)

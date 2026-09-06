@@ -6,7 +6,7 @@ class AtomicView::Components::NavItemComponentTest < ViewComponent::TestCase
   test "renders an inactive nav item by default" do
     actual = render_inline(AtomicView::Components::NavItemComponent.new(label: "Home", href: "/home")).to_html.strip
     expected = <<~HTML.strip
-      <a href="/home" class="flex items-center gap-2 rounded-btn px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-offset hover:text-foreground">
+      <a href="/home" class="flex items-center gap-2 rounded-btn px-2.5 py-1.5 text-sm font-medium text-muted-foreground hover:bg-offset hover:text-foreground">
         Home
       </a>
     HTML

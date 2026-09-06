@@ -22,7 +22,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
   test "renders button with string label and primary variant by default" do
     actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Submit", {})).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Submit</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Submit</button>
     HTML
 
     assert_equal(expected, actual)
@@ -35,7 +35,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
       disabled: true
     })).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 custom-button" id="submit-btn" disabled>Submit</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 custom-button" id="submit-btn" disabled>Submit</button>
     HTML
 
     assert_equal(expected, actual)
@@ -46,7 +46,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
       "Custom Button Content"
     end.to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Custom Button Content</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Custom Button Content</button>
     HTML
 
     assert_equal(expected, actual)
@@ -57,7 +57,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
       "Block Content Only"
     end.to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 btn-block">Block Content Only</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 btn-block">Block Content Only</button>
     HTML
 
     assert_equal(expected, actual)
@@ -68,7 +68,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
       data: {confirm: "Are you sure?", method: :delete}
     })).to_html.strip
     expected = <<~HTML.strip
-      <button data-confirm="Are you sure?" data-method="delete" class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Submit</button>
+      <button data-confirm="Are you sure?" data-method="delete" class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Submit</button>
     HTML
 
     assert_equal(expected, actual)
@@ -78,7 +78,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
   test "renders primary variant" do
     actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Primary", {variant: :primary})).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Primary</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">Primary</button>
     HTML
 
     assert_equal(expected, actual)
@@ -87,7 +87,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
   test "renders secondary variant" do
     actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Secondary", {variant: :secondary})).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80">Secondary</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80">Secondary</button>
     HTML
 
     assert_equal(expected, actual)
@@ -96,7 +96,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
   test "renders destructive variant" do
     actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Delete", {variant: :destructive})).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-[3px] bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20">Delete</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-[3px] bg-destructive text-destructive-foreground shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20">Delete</button>
     HTML
 
     assert_equal(expected, actual)
@@ -105,7 +105,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
   test "renders muted variant" do
     actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Muted", {variant: :muted})).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-transparent text-muted-foreground hover:bg-muted">Muted</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-transparent text-muted-foreground hover:bg-muted">Muted</button>
     HTML
 
     assert_equal(expected, actual)
@@ -114,7 +114,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
   test "renders link variant" do
     actual = render_inline(AtomicView::Components::ButtonComponent.new(@form, "Link", {variant: :link})).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-8 rounded-md px-3 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] text-primary underline-offset-4 hover:underline">Link</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] text-primary underline-offset-4 hover:underline">Link</button>
     HTML
 
     assert_equal(expected, actual)

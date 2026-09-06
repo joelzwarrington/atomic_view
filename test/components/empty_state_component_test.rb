@@ -53,7 +53,7 @@ class AtomicView::Components::EmptyStateComponentTest < ViewComponent::TestCase
   test "renders the outer container with the expected layout classes" do
     actual = render_inline(AtomicView::Components::EmptyStateComponent.new(title: "No messages")).to_html
 
-    assert_includes(actual, "flex flex-col items-center text-center gap-2 p-8")
+    assert_includes(actual, "flex flex-col items-center text-center gap-2 p-6")
   end
 
   test "merges custom class and forwards other options" do

@@ -87,7 +87,7 @@ module AtomicView
       end
 
       def segment_base_classes
-        "rounded-btn px-3 py-1.5 text-sm font-medium transition-colors"
+        "rounded-btn px-2.5 py-1 text-sm font-medium transition-colors"
       end
 
       def active_classes

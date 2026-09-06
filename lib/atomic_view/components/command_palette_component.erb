@@ -4,19 +4,19 @@
     placeholder: placeholder,
     autocomplete: "off",
     autofocus: true,
-    class: "w-full bg-transparent px-4 py-3 text-lg text-foreground placeholder:text-muted-foreground focus:outline-none",
+    class: "w-full bg-transparent px-3 py-2 text-lg text-foreground placeholder:text-muted-foreground focus:outline-none",
     data: input_data_attributes
   ) %>
 
   <div class="max-h-80 overflow-y-auto border-t border-border py-2">
     <% sections.each do |section| %>
       <div role="group">
-        <p class="px-4 pb-1 pt-2 text-xs uppercase text-muted-foreground"><%= section[:label] %></p>
+        <p class="px-3 pb-1 pt-2 text-xs uppercase text-muted-foreground"><%= section[:label] %></p>
 
         <% section[:results].each do |result| %>
           <%= link_to(
             result[:href] || "#",
-            class: "flex items-center justify-between gap-3 px-4 py-2 text-sm text-foreground hover:bg-offset",
+            class: "flex items-center justify-between gap-3 px-3 py-1.5 text-sm text-foreground hover:bg-offset",
             data: row_data_attributes(result)
           ) do %>
             <span><%= result[:label] %></span>

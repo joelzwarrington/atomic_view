@@ -24,7 +24,7 @@ module AtomicView
 
         def container_html_class
           class_names(
-            "relative rounded-lg shadow-xs",
+            "relative rounded-btn shadow-xs",
             {"flex" => left_section_addon? || left_section_interaction? || right_section_addon? || right_section_interaction?},
             options[:container_class]
           )

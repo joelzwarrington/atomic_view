@@ -32,7 +32,7 @@ class AtomicView::Components::GroupedCollectionSelectComponentTest < ViewCompone
     ]
   end
 
-  CHROME_CLASS = "block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring"
+  CHROME_CLASS = "block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring"
 
   test "renders basic grouped collection select" do
     actual = render_inline(AtomicView::Components::GroupedCollectionSelectComponent.new(@form, :test_model, :country, @continents, :countries, :name, :code, :name)).to_html.strip

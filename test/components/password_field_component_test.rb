@@ -22,8 +22,8 @@ class AtomicView::Components::PasswordFieldComponentTest < ViewComponent::TestCa
   test "renders password field component" do
     actual = render_inline(AtomicView::Components::PasswordFieldComponent.new(@form, :test_model, :password)).to_html.strip
     expected = <<~HTML.strip
-      <div class="relative rounded-lg shadow-xs">
-        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="password" name="test_model[password]" id="test_model_password">
+      <div class="relative rounded-btn shadow-xs">
+        <input class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="password" name="test_model[password]" id="test_model_password">
       </div>
     HTML
 
@@ -36,8 +36,8 @@ class AtomicView::Components::PasswordFieldComponentTest < ViewComponent::TestCa
       autocomplete: "new-password"
     })).to_html.strip
     expected = <<~HTML.strip
-      <div class="relative rounded-lg shadow-xs">
-        <input placeholder="Enter password" autocomplete="new-password" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="password" name="test_model[password]" id="test_model_password">
+      <div class="relative rounded-btn shadow-xs">
+        <input placeholder="Enter password" autocomplete="new-password" class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="password" name="test_model[password]" id="test_model_password">
       </div>
     HTML
 
@@ -47,8 +47,8 @@ class AtomicView::Components::PasswordFieldComponentTest < ViewComponent::TestCa
   test "renders password field with container styling" do
     actual = render_inline(AtomicView::Components::PasswordFieldComponent.new(@form, :test_model, :password)).to_html.strip
     expected = <<~HTML.strip
-      <div class="relative rounded-lg shadow-xs">
-        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="password" name="test_model[password]" id="test_model_password">
+      <div class="relative rounded-btn shadow-xs">
+        <input class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="password" name="test_model[password]" id="test_model_password">
       </div>
     HTML
 
@@ -60,8 +60,8 @@ class AtomicView::Components::PasswordFieldComponentTest < ViewComponent::TestCa
 
     actual = render_inline(AtomicView::Components::PasswordFieldComponent.new(@form, :test_model, :password)).to_html.strip
     expected = <<~HTML.strip
-      <div class="relative rounded-lg shadow-xs">
-        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 dark:ring-white/10 focus:border-ring/20 dark:focus:ring-focus-ring text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring pr-10" type="password" name="test_model[password]" id="test_model_password">
+      <div class="relative rounded-btn shadow-xs">
+        <input class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 dark:ring-white/10 focus:border-ring/20 dark:focus:ring-focus-ring text-error ring-error-ring placeholder:text-error-placeholder focus:ring-error-focus-ring pr-10" type="password" name="test_model[password]" id="test_model_password">
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon" class="size-5 text-destructive">
         <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"></path>
