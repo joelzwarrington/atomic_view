@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-8">
+  <% sections.each do |section| %>
+    <section class="flex flex-col gap-3">
+      <h2 class="font-body text-sm font-semibold text-muted-foreground"><%= section[:heading] %></h2>
+
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <% section[:tokens].each do |token| %>
+          <div class="flex flex-col gap-2">
+            <div class="aspect-square rounded-card border border-border <%= token[:swatch_class] %>"></div>
+            <p class="font-mono text-xs font-medium text-foreground"><%= token[:name] %></p>
+            <p class="text-xs text-muted-foreground"><%= token[:description] %></p>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>
