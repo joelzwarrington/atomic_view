@@ -1,0 +1,25 @@
+<div class="group flex flex-col gap-2">
+  <%= render AtomicView::Components::SegmentedControlComponent.new(
+    options: [
+      {label: "Monthly", value: "monthly"},
+      {label: "Seasonal", value: "seasonal"}
+    ],
+    selected: selected,
+    name: "billing_cycle"
+  ) %>
+
+  <%# The panel below is revealed with a pure CSS `:has()` sibling check --
+      no JS required. It works even though the panel isn't a direct
+      sibling of the radio (it's nested a few levels deep inside the
+      segmented control's own markup): `group-has-[...]:` uses `:has()`
+      to look at *descendants* of `.group`, not just siblings, so the
+      ancestor/descendant distance between the radio and the panel
+      doesn't matter. %>
+  <div class="hidden group-has-[#billing\_cycle\_seasonal:checked]:block rounded-btn border border-border bg-offset p-4">
+    <label class="mb-2 block text-sm font-medium text-foreground">Season</label>
+    <select class="block w-full rounded-btn border-0 bg-surface py-1.5 text-sm text-foreground ring-1 ring-ring/10">
+      <option>Summer</option>
+      <option>Winter</option>
+    </select>
+  </div>
+</div>
