@@ -22,7 +22,7 @@ class AtomicView::Components::RangeFieldComponentTest < ViewComponent::TestCase
   test "renders range field component" do
     actual = render_inline(AtomicView::Components::RangeFieldComponent.new(@form, :test_model, :volume)).to_html.strip
     expected = <<~HTML.strip
-      <input type="range" name="test_model[volume]" id="test_model_volume">
+      <input class="accent-primary h-2 rounded-pill bg-offset" type="range" name="test_model[volume]" id="test_model_volume">
     HTML
 
     assert_equal(expected, actual)
@@ -35,7 +35,7 @@ class AtomicView::Components::RangeFieldComponentTest < ViewComponent::TestCase
       step: 5
     })).to_html.strip
     expected = <<~HTML.strip
-      <input min="0" max="100" step="5" type="range" name="test_model[volume]" id="test_model_volume">
+      <input min="0" max="100" step="5" class="accent-primary h-2 rounded-pill bg-offset" type="range" name="test_model[volume]" id="test_model_volume">
     HTML
 
     assert_equal(expected, actual)
@@ -44,7 +44,18 @@ class AtomicView::Components::RangeFieldComponentTest < ViewComponent::TestCase
   test "renders range field with basic html structure" do
     actual = render_inline(AtomicView::Components::RangeFieldComponent.new(@form, :test_model, :volume)).to_html.strip
     expected = <<~HTML.strip
-      <input type="range" name="test_model[volume]" id="test_model_volume">
+      <input class="accent-primary h-2 rounded-pill bg-offset" type="range" name="test_model[volume]" id="test_model_volume">
+    HTML
+
+    assert_equal(expected, actual)
+  end
+
+  test "renders range field with custom class merged with default styling" do
+    actual = render_inline(AtomicView::Components::RangeFieldComponent.new(@form, :test_model, :volume, {
+      class: "custom-range-field"
+    })).to_html.strip
+    expected = <<~HTML.strip
+      <input class="custom-range-field accent-primary h-2 rounded-pill bg-offset" type="range" name="test_model[volume]" id="test_model_volume">
     HTML
 
     assert_equal(expected, actual)
