@@ -1,0 +1,11 @@
+<%= tag.div(**html_options, class: html_class, data: data_attributes) do %>
+  <%= tag.div(class: "inline-block", data: trigger_data_attributes) do %>
+    <%= trigger %>
+  <% end %>
+
+  <% if menu? %>
+    <%= tag.div(class: menu_class, data: menu_data_attributes) do %>
+      <%= menu %>
+    <% end %>
+  <% end %>
+<% end %>
