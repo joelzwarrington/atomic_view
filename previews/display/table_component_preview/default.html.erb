@@ -1,0 +1,30 @@
+<%= render AtomicView::Components::TableComponent.new do |table| %>
+  <thead>
+    <tr class="<%= table.head_class %>">
+      <th class="px-3 py-2">Site</th>
+      <th class="px-3 py-2">Camper</th>
+      <th class="px-3 py-2">Check-in</th>
+      <th class="px-3 py-2">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="<%= table.row_class %>">
+      <td class="px-3 py-2">Riverbend 12</td>
+      <td class="px-3 py-2">Alex Rivera</td>
+      <td class="px-3 py-2">Sep 5, 2026</td>
+      <td class="px-3 py-2">Confirmed</td>
+    </tr>
+    <tr class="<%= table.row_class %>">
+      <td class="px-3 py-2">Pinecrest 4</td>
+      <td class="px-3 py-2">Jordan Lee</td>
+      <td class="px-3 py-2">Sep 6, 2026</td>
+      <td class="px-3 py-2">Pending</td>
+    </tr>
+    <tr class="<%= table.row_class %>">
+      <td class="px-3 py-2">Lakeview 7</td>
+      <td class="px-3 py-2">Sam Patel</td>
+      <td class="px-3 py-2">Sep 8, 2026</td>
+      <td class="px-3 py-2">Confirmed</td>
+    </tr>
+  </tbody>
+<% end %>

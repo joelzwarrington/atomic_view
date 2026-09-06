@@ -1,0 +1,19 @@
+<nav class="flex items-center gap-1" aria-label="Pagination">
+  <% if first_page? %>
+    <span class="<%= disabled_control_classes %>" aria-disabled="true">Previous</span>
+  <% else %>
+    <%= link_to "Previous", path_for(current_page - 1), class: control_classes %>
+  <% end %>
+
+  <div class="flex items-center gap-1">
+    <% page_numbers.each do |page| %>
+      <%= link_to page, path_for(page), **page_link_attributes(page) %>
+    <% end %>
+  </div>
+
+  <% if last_page? %>
+    <span class="<%= disabled_control_classes %>" aria-disabled="true">Next</span>
+  <% else %>
+    <%= link_to "Next", path_for(current_page + 1), class: control_classes %>
+  <% end %>
+</nav>
