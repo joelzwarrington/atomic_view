@@ -42,7 +42,7 @@ module AtomicView
       end
 
       def html_class
-        class_names("rounded-card shadow-panel p-0 backdrop:bg-backdrop", @options[:class])
+        class_names("bg-surface text-foreground rounded-card shadow-panel p-0 backdrop:bg-backdrop", @options[:class])
       end
 
       def data_attributes

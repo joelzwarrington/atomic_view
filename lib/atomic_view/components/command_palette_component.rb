@@ -52,7 +52,7 @@ module AtomicView
       end
 
       def html_class
-        class_names("w-full max-w-lg rounded-card p-0 shadow-panel backdrop:bg-backdrop", @options[:class])
+        class_names("w-full max-w-lg rounded-card bg-surface p-0 text-foreground shadow-panel backdrop:bg-backdrop", @options[:class])
       end
 
       def data_attributes
