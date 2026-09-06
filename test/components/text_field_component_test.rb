@@ -77,7 +77,7 @@ class AtomicView::Components::TextFieldComponentTest < ViewComponent::TestCase
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               Name:
             </div>
-        <input left_section="Name:" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pl-10" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pl-10" type="text" name="test_model[name]" id="test_model_name">
       </div>
     HTML
 
@@ -90,7 +90,7 @@ class AtomicView::Components::TextFieldComponentTest < ViewComponent::TestCase
     })).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs">
-        <input right_section="@example.com" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pr-10" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pr-10" type="text" name="test_model[name]" id="test_model_name">
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               @example.com
             </div>
@@ -125,7 +125,7 @@ class AtomicView::Components::TextFieldComponentTest < ViewComponent::TestCase
     })).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs w-full lg:w-1/2">
-        <input container_class="w-full lg:w-1/2" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="text" name="test_model[name]" id="test_model_name">
       </div>
     HTML
 

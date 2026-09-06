@@ -59,7 +59,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     actual = render_inline(AtomicView::Components::FieldComponent.new(@form, :test_model, :name, {container_class: "custom-container"})).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs custom-container">
-        <input container_class="custom-container" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="text" name="test_model[name]" id="test_model_name">
       </div>
     HTML
 
@@ -73,7 +73,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               Left
             </div>
-        <input left_section="Left" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pl-10" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pl-10" type="text" name="test_model[name]" id="test_model_name">
       </div>
     HTML
 
@@ -88,7 +88,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs flex">
             <span class="inline-flex items-center rounded-l-lg border border-r-0 border-ring/10 dark:border-white/10 bg-transparent dark:bg-white/5 px-3 text-primary dark:text-white sm:text-sm">Addon</span>
-        <input left_section="Addon" left_section_as_addon="true" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-r-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-r-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
       </div>
     HTML
 
@@ -103,7 +103,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs flex">
             <button>Click</button>
-        <input left_section="&lt;button&gt;Click&lt;/button&gt;" left_section_as_interaction="true" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-r-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-r-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
       </div>
     HTML
 
@@ -114,7 +114,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     actual = render_inline(AtomicView::Components::FieldComponent.new(@form, :test_model, :name, {right_section: "Right"})).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs">
-        <input right_section="Right" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pr-10" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring pr-10" type="text" name="test_model[name]" id="test_model_name">
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               Right
             </div>
@@ -131,7 +131,7 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     })).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs flex">
-        <input right_section="Addon" right_section_as_addon="true" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-l-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-l-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
             <span class="inline-flex items-center rounded-r-lg border border-l-0 border-ring/10 dark:border-white/10 bg-transparent dark:bg-white/5 px-3 text-primary dark:text-white sm:text-sm">Addon</span>
       </div>
     HTML
@@ -146,12 +146,28 @@ class AtomicView::Components::FieldComponentTest < ViewComponent::TestCase
     })).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-lg shadow-xs flex">
-        <input right_section="&lt;button&gt;Click&lt;/button&gt;" right_section_as_interaction="true" class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-l-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
+        <input class="block w-full appearance-none h-9 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 ring-1 text-base disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring shadow-none rounded-none rounded-l-lg ring-inset" type="text" name="test_model[name]" id="test_model_name">
             <button>Click</button>
       </div>
     HTML
 
     assert_equal(expected, actual)
+  end
+
+  test "does not leak section/container options as html attributes on the input" do
+    actual = render_inline(AtomicView::Components::FieldComponent.new(@form, :test_model, :name, {
+      left_section: "Left",
+      left_section_as_addon: true,
+      right_section: "Right",
+      right_section_as_interaction: true,
+      container_class: "custom-container"
+    })).to_html
+
+    assert_not_includes(actual, "left_section=")
+    assert_not_includes(actual, "left_section_as_addon=")
+    assert_not_includes(actual, "right_section=")
+    assert_not_includes(actual, "right_section_as_interaction=")
+    assert_not_includes(actual, "container_class=")
   end
 
   test "renders field with error styling when method has errors" do

@@ -1,0 +1,7 @@
+<%= form_with model: model do |form| %>
+  <%= form.label :attribute, label %>
+  <%= form.text_field :attribute,
+    placeholder: placeholder,
+    left_section_as_interaction: true,
+    left_section: form.select(:currency, [["USD", "usd"], ["EUR", "eur"]], {}, class: "max-w-24 rounded-r-none ring-0 border border-r-0 border-border") %>
+<% end %>

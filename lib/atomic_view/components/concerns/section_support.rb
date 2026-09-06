@@ -4,6 +4,24 @@ module AtomicView
   module Components
     module Concerns
       module SectionSupport
+        SECTION_OPTION_KEYS = %i[
+          container_class
+          left_section
+          left_section_as_addon
+          left_section_as_interaction
+          right_section
+          right_section_as_addon
+          right_section_as_interaction
+        ].freeze
+
+        # The options hash minus the section/container keys SectionSupport
+        # itself consumes -- pass this (not the raw `options`) to whatever
+        # renders the actual `<input>`/`<select>` tag, so these keys don't
+        # leak through as literal (invalid) HTML attributes.
+        def options_without_sections
+          options.except(*SECTION_OPTION_KEYS)
+        end
+
         def container_html_class
           class_names(
             "relative rounded-lg shadow-xs",
