@@ -1,0 +1,14 @@
+<%= tag.div(**html_options, class: html_class, data: data_attributes, role: "alert") do %>
+  <%= icon(icon_name, options: {class: icon_class}).to_s.html_safe %>
+  <div class="min-w-0 flex-1">
+    <p class="font-body text-sm font-semibold text-foreground"><%= title %></p>
+    <% if description.present? %>
+      <p class="mt-1 text-sm text-muted-foreground"><%= description %></p>
+    <% end %>
+  </div>
+  <% if dismissible %>
+    <%= tag.button(type: "button", class: "inline-flex shrink-0 items-center text-muted-foreground hover:text-foreground", data: {action: "click->atomic-view--toast#dismiss"}, aria: {label: "Dismiss"}) do %>
+      <%= icon("x-mark", variant: :mini, options: {class: "size-4"}).to_s.html_safe %>
+    <% end %>
+  <% end %>
+<% end %>
