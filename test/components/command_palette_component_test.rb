@@ -1,0 +1,119 @@
+# frozen_string_literal: true
+
+require "test_helper"
+
+class AtomicView::Components::CommandPaletteComponentTest < ViewComponent::TestCase
+  test "renders the dialog with the given id" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette")).to_html
+
+    assert_includes(actual, "<dialog")
+    assert_includes(actual, "id=\"example-command-palette\"")
+  end
+
+  test "always renders the command palette controller" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette")).to_html
+
+    assert_includes(actual, "data-controller=\"atomic-view--command-palette\"")
+  end
+
+  test "renders a borderless search input wired to the input target and actions" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette", placeholder: "Jump to..."))
+
+    input = actual.css("input").first
+    assert_equal("search", input["type"])
+    assert_equal("Jump to...", input["placeholder"])
+    assert_includes(input["class"], "bg-transparent")
+    assert_includes(input["class"], "focus:outline-none")
+    assert_not_includes(input["class"], "border")
+    assert_equal("input", input["data-atomic-view--command-palette-target"])
+    assert_includes(input["data-action"], "input->atomic-view--command-palette#filter")
+    assert_includes(input["data-action"], "keydown->atomic-view--command-palette#navigate")
+  end
+
+  test "defaults the search placeholder" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette"))
+
+    assert_equal("Search...", actual.css("input").first["placeholder"])
+  end
+
+  test "renders a section label for each group" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
+      id: "example-command-palette",
+      sections: [
+        {label: "Pages", results: [{label: "Dashboard", href: "/dashboard"}]},
+        {label: "Actions", results: [{label: "Create new park", href: "/parks/new"}]}
+      ]
+    )).to_html
+
+    assert_includes(actual, "Pages")
+    assert_includes(actual, "Actions")
+    assert_includes(actual, "text-xs uppercase text-muted-foreground")
+  end
+
+  test "renders a result row per result with the given href" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
+      id: "example-command-palette",
+      sections: [{label: "Pages", results: [{label: "Dashboard", href: "/dashboard"}]}]
+    ))
+
+    row = actual.css("a").find { |node| node.text.include?("Dashboard") }
+    assert_equal("/dashboard", row["href"])
+  end
+
+  test "gives each result row a lowercased data-search-text attribute" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
+      id: "example-command-palette",
+      sections: [{label: "Pages", results: [{label: "Dashboard", href: "/dashboard"}]}]
+    ))
+
+    row = actual.css("a").find { |node| node.text.include?("Dashboard") }
+    assert_equal("dashboard", row["data-search-text"])
+    assert_equal("row", row["data-atomic-view--command-palette-target"])
+  end
+
+  test "allows a result to override its matchable search text" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
+      id: "example-command-palette",
+      sections: [{label: "Dashboard", results: [{label: "Dashboard", href: "/dashboard", search_text: "dashboard home overview"}]}]
+    ))
+
+    row = actual.css("a").find { |node| node.text.include?("Dashboard") }
+    assert_equal("dashboard home overview", row["data-search-text"])
+  end
+
+  test "renders a keyboard-hint kbd when a hint is given" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
+      id: "example-command-palette",
+      sections: [{label: "Pages", results: [{label: "Dashboard", href: "/dashboard", hint: "G D"}]}]
+    )).to_html
+
+    assert_includes(actual, "<kbd")
+    assert_includes(actual, "G D")
+    assert_includes(actual, "rounded-well")
+    assert_includes(actual, "font-mono")
+  end
+
+  test "does not render a kbd when no hint is given" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
+      id: "example-command-palette",
+      sections: [{label: "Pages", results: [{label: "Dashboard", href: "/dashboard"}]}]
+    )).to_html
+
+    assert_not_includes(actual, "<kbd")
+  end
+
+  test "renders no sections by default" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette")).to_html
+
+    assert_not_includes(actual, "role=\"group\"")
+  end
+
+  test "merges custom class and forwards other options" do
+    actual = render_inline(
+      AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette", class: "custom-palette", data: {testid: "palette"})
+    ).to_html
+
+    assert_includes(actual, "custom-palette")
+    assert_includes(actual, "data-testid=\"palette\"")
+  end
+end
