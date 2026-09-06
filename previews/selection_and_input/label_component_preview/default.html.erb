@@ -1,3 +1,9 @@
 <%= form_with model: model do |form| %>
-  <%= form.label :attribute %>
+  <div>
+    <%= form.label :attribute %>
+  </div>
+
+  <div class="mt-4">
+    <%= form.label :attribute, nil, variant: :caption %>
+  </div>
 <% end %>
