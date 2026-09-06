@@ -1,22 +1,21 @@
 module Display
-  # Toast
-  #
-  # A single, self-dismissing notification -- render one per toast and let
-  # the host app stack them, e.g.:
-  #
-  #   <div class="fixed bottom-4 right-4 flex flex-col-reverse gap-2 z-50">
-  #     <%= render AtomicView::Components::ToastComponent.new(title: "Saved") %>
-  #   </div>
-  #
-  # Wired to `atomic-view--toast`. No host app setup needed -- the
-  # controller is pinned so it's picked up by the same
-  # `eagerLoadControllersFrom("controllers", application)` call every
-  # Rails + importmap + Stimulus app already has by default.
   class ToastComponentPreview < Lookbook::Preview
     # @!group Variants
 
     # Success
     # -------
+    # A single, self-dismissing notification -- render one per toast and
+    # let the host app stack them, e.g.:
+    #
+    #   <div class="fixed bottom-4 right-4 flex flex-col-reverse gap-2 z-50">
+    #     <%= render AtomicView::Components::ToastComponent.new(title: "Saved") %>
+    #   </div>
+    #
+    # Wired to `atomic-view--toast`. No host app setup needed -- the
+    # controller is pinned so it's picked up by the same
+    # `eagerLoadControllersFrom("controllers", application)` call every
+    # Rails + importmap + Stimulus app already has by default.
+    #
     # @param title text "The toast's heading"
     # @param description textarea "Optional supporting copy"
     def success(title: "Changes saved", description: "Your profile has been updated.")

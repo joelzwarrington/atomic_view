@@ -1,24 +1,24 @@
 module Display
-  # Modal
-  #
-  # A confirmation dialog built on the native `<dialog>` element. Opening
-  # it from elsewhere on the page (a trigger button, a link in a table
-  # row, etc.) is the host app's concern -- the trigger doesn't need to be
-  # inside the dialog, so a plain `showModal()` call is simplest. Elements
-  # *inside* the dialog (like the footer's Cancel button below) can use a
-  # Stimulus action instead, since they're descendants of the `<dialog>`
-  # that carries the controller: `data-action="click->atomic-view--modal#close"`.
-  #
-  # Wired to `atomic-view--modal`. No host app setup needed -- the
-  # controller is pinned so it's picked up by the same
-  # `eagerLoadControllersFrom("controllers", application)` call every
-  # Rails + importmap + Stimulus app already has by default.
   class ModalComponentPreview < Lookbook::Preview
     # @!group Examples
 
     # Plain modal
     # -----------
+    # A confirmation dialog built on the native `<dialog>` element. Opening
+    # it from elsewhere on the page (a trigger button, a link in a table
+    # row, etc.) is the host app's concern -- the trigger doesn't need to
+    # be inside the dialog, so a plain `showModal()` call is simplest.
+    # Elements *inside* the dialog (like the footer's Cancel button below)
+    # can use a Stimulus action instead, since they're descendants of the
+    # `<dialog>` that carries the controller:
+    # `data-action="click->atomic-view--modal#close"`.
+    #
     # `footer` is a slot -- typically a Cancel/Confirm button pair.
+    #
+    # Wired to `atomic-view--modal`. No host app setup needed -- the
+    # controller is pinned so it's picked up by the same
+    # `eagerLoadControllersFrom("controllers", application)` call every
+    # Rails + importmap + Stimulus app already has by default.
     #
     # @param title text "The modal's heading"
     def default(title: "Update your plan")
