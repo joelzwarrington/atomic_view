@@ -1,0 +1,14 @@
+<%= tag.div(**@html_options.except(:class), class: track_class) do %>
+  <% if link_mode? %>
+    <% options.each do |option| %>
+      <%= link_to option[:label], option[:href], **link_attributes(option) %>
+    <% end %>
+  <% else %>
+    <% options.each do |option| %>
+      <%= tag.span(class: "contents") do %>
+        <%= tag.input(**radio_attributes(option)) %>
+        <%= tag.label(option[:label], for: radio_id(option), class: label_classes(option)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
