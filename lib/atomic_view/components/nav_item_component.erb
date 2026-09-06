@@ -1,0 +1,6 @@
+<%= tag.a(**@options.except(:class), href: href, class: html_class) do %>
+  <% if icon_name.present? %>
+    <%= icon(icon_name, options: {class: "size-4 shrink-0"}).to_s.html_safe %>
+  <% end %>
+  <%= label %>
+<% end %>

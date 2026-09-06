@@ -1,0 +1,24 @@
+<div class="flex max-w-xs flex-col gap-4">
+  <nav class="flex flex-col gap-1">
+    <%= render AtomicView::Components::NavItemComponent.new(label: "Home", href: "#", icon: "home", active: true) %>
+    <%= render AtomicView::Components::NavItemComponent.new(label: "Parks", href: "#", icon: "map") %>
+  </nav>
+
+  <details class="group" open>
+    <summary class="flex cursor-pointer list-none items-center gap-2 rounded-btn px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-offset hover:text-foreground">
+      <%= icon("building-office-2", options: {class: "size-4 shrink-0"}).to_s.html_safe %>
+      Sites
+      <%= icon("chevron-right", options: {class: "ml-auto size-4 shrink-0 transition-transform group-open:rotate-90"}).to_s.html_safe %>
+    </summary>
+
+    <div class="ml-6 mt-1 flex flex-col gap-1">
+      <%= render AtomicView::Components::NavItemComponent.new(label: "Overview", href: "#") %>
+      <%= render AtomicView::Components::NavItemComponent.new(label: "Availability", href: "#", active: true) %>
+      <%= render AtomicView::Components::NavItemComponent.new(label: "Maintenance", href: "#") %>
+    </div>
+  </details>
+
+  <nav class="flex flex-col gap-1">
+    <%= render AtomicView::Components::NavItemComponent.new(label: "Campers", href: "#", icon: "users", title: "Campers") %>
+  </nav>
+</div>
