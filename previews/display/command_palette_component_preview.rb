@@ -13,6 +13,10 @@ module Display
     # docs for the shape); the controller filters rows client-side as the
     # user types and supports arrow-key navigation.
     #
+    # The bottom bar below documents facet shortcuts (`#` for projects, `>`
+    # for users, `?` for help) using `footer`, a free-form slot -- see the
+    # template for how `KbdComponent` is mixed inline with plain text.
+    #
     # No host app setup needed -- the controller is pinned so it's picked up
     # by the same `eagerLoadControllersFrom("controllers", application)`
     # call every Rails + importmap + Stimulus app already has by default.

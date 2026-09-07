@@ -109,6 +109,21 @@ class AtomicView::Components::CommandPaletteComponentTest < ViewComponent::TestC
     assert_not_includes(actual, "role=\"group\"")
   end
 
+  test "does not render a footer bar by default" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette")).to_html
+
+    assert_not_includes(actual, "border-t border-border bg-offset")
+  end
+
+  test "renders a footer bar when the footer slot is given" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette")) do |palette|
+      palette.with_footer { "Type # to access projects." }
+    end.to_html
+
+    assert_includes(actual, "border-t border-border bg-offset")
+    assert_includes(actual, "Type # to access projects.")
+  end
+
   test "merges custom class and forwards other options" do
     actual = render_inline(
       AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette", class: "custom-palette", data: {testid: "palette"})

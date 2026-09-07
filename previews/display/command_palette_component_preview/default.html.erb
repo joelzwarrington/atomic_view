@@ -22,4 +22,14 @@
       ]
     }
   ]
-) %>
+) do |palette| %>
+  <% palette.with_footer do %>
+    Type
+    <%= render(AtomicView::Components::KbdComponent.new) { "#" } %>
+    to access projects,
+    <%= render(AtomicView::Components::KbdComponent.new) { ">" } %>
+    for users, and
+    <%= render(AtomicView::Components::KbdComponent.new) { "?" } %>
+    for help.
+  <% end %>
+<% end %>

@@ -32,4 +32,10 @@
       </div>
     <% end %>
   </div>
+
+  <% if footer? %>
+    <div class="border-t border-border bg-offset px-3 py-2 text-xs text-muted-foreground">
+      <%= footer %>
+    </div>
+  <% end %>
 <% end %>

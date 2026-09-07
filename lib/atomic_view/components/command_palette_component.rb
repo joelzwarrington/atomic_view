@@ -36,7 +36,14 @@ module AtomicView
     #
     # `result[:hint]`, when given, renders as a `<kbd>` -- e.g. a keyboard
     # shortcut like "G D" -- next to the result label.
+    #
+    # `footer` is a slot for a bottom hint bar documenting shortcuts/facets
+    # (e.g. "Type # to access projects") -- free-form content, since it's
+    # typically a sentence with `KbdComponent`s mixed in rather than
+    # structured data.
     class CommandPaletteComponent < AtomicView::Component
+      renders_one :footer
+
       attr_reader :id, :placeholder, :sections
 
       def initialize(id:, sections: [], placeholder: "Search...", **options)
@@ -52,7 +59,7 @@ module AtomicView
       end
 
       def html_class
-        class_names("mx-auto mt-[15vh] w-full max-w-lg rounded-card bg-surface p-0 text-foreground shadow-panel backdrop:bg-backdrop", @options[:class])
+        class_names("mx-auto mt-[15vh] w-full max-w-lg overflow-hidden rounded-card bg-surface p-0 text-foreground shadow-panel backdrop:bg-backdrop", @options[:class])
       end
 
       def data_attributes
