@@ -25,8 +25,8 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", 'LICENSE.txt', 'Rakefile', 'README.md']
   end
 
-  spec.add_dependency "zeitwerk", "~> 2.7.2"
-  spec.add_dependency "importmap-rails", '~> 2.0.1'
+  spec.add_dependency "zeitwerk", "~> 2.8.3"
+  spec.add_dependency "importmap-rails", '~> 2.2.3'
   spec.add_dependency "rails", "~> 8.0.1"
   spec.add_dependency "view_component", "~> 3.21"
   spec.add_dependency "tailwindcss-rails", "~> 4.6"
