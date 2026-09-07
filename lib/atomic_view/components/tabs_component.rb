@@ -16,13 +16,24 @@ module AtomicView
     # filter chips raised on a muted background), tabs read as page-level
     # navigation -- a plain row of links with a colored underline on the
     # active one, sharing a bottom divider with the rest of the row.
+    #
+    # Pass `turbo_frame:` to swap tabs without a full page load: every tab
+    # link gets a matching `data-turbo-frame`. Wrap *both* this component
+    # and the content below it in the same `<turbo-frame id="...">` --
+    # not just the content -- so the newly-active tab's underline arrives
+    # in the same swap as the new content, rather than the frame updating
+    # while the tab bar outside it still shows the old tab active. The
+    # component doesn't render that frame itself -- it stays agnostic
+    # about the content underneath, the same way it doesn't know
+    # what each `href` points to.
     class TabsComponent < AtomicView::Component
-      attr_reader :options, :selected
+      attr_reader :options, :selected, :turbo_frame
 
-      def initialize(options:, selected:, **html_options)
+      def initialize(options:, selected:, turbo_frame: nil, **html_options)
         super()
         @options = options
         @selected = selected
+        @turbo_frame = turbo_frame
         @html_options = html_options
       end
 
@@ -37,6 +48,7 @@ module AtomicView
       def tab_attributes(option)
         attributes = {class: tab_classes(option)}
         attributes[:"aria-current"] = "true" if active?(option)
+        attributes[:data] = {turbo_frame: turbo_frame} if turbo_frame.present?
         attributes
       end
 

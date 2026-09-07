@@ -1,0 +1,16 @@
+<turbo-frame id="tabs-demo-frame">
+  <%= render AtomicView::Components::TabsComponent.new(
+    options: [
+      {label: "Overview", href: "/preview/display/tabs/turbo_frame_overview"},
+      {label: "Invoices", href: "/preview/display/tabs/turbo_frame_invoices"}
+    ],
+    selected: selected,
+    turbo_frame: "tabs-demo-frame"
+  ) %>
+
+  <% if selected == "Invoices" %>
+    <p class="mt-4 text-sm text-muted-foreground">Invoices content — swapped in without a full page reload.</p>
+  <% else %>
+    <p class="mt-4 text-sm text-muted-foreground">Overview content — swapped in without a full page reload.</p>
+  <% end %>
+</turbo-frame>

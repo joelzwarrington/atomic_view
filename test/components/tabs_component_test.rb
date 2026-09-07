@@ -58,6 +58,37 @@ class AtomicView::Components::TabsComponentTest < ViewComponent::TestCase
     assert_includes(container["class"], "border-border")
   end
 
+  test "does not target a turbo frame by default" do
+    actual = render_inline(
+      AtomicView::Components::TabsComponent.new(
+        options: [{label: "Overview", href: "/parks/1"}],
+        selected: "Overview"
+      )
+    )
+
+    overview_link = actual.css("a").find { |node| node.text == "Overview" }
+    assert_nil(overview_link["data-turbo-frame"])
+  end
+
+  test "targets the given turbo frame on every tab link" do
+    actual = render_inline(
+      AtomicView::Components::TabsComponent.new(
+        options: [
+          {label: "Overview", href: "/parks/1"},
+          {label: "Invoices", href: "/parks/1/invoices"}
+        ],
+        selected: "Overview",
+        turbo_frame: "park-tabs-content"
+      )
+    )
+
+    overview_link = actual.css("a").find { |node| node.text == "Overview" }
+    invoices_link = actual.css("a").find { |node| node.text == "Invoices" }
+
+    assert_equal("park-tabs-content", overview_link["data-turbo-frame"])
+    assert_equal("park-tabs-content", invoices_link["data-turbo-frame"])
+  end
+
   test "merges a custom class and forwards other options onto the container" do
     actual = render_inline(
       AtomicView::Components::TabsComponent.new(
