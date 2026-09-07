@@ -138,4 +138,15 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
+  /* Hides the browser's native clear ("x") button on type="search" inputs
+     -- Tailwind's appearance-none doesn't reach this WebKit/Firefox-only
+     pseudo-element, so it has to be targeted directly. */
+  input[type="search"]::-webkit-search-cancel-button {
+    appearance: none;
+  }
+
+  input[type="search"] {
+    appearance: textfield;
+  }
 }
