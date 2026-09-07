@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "zeitwerk", "~> 2.8.3"
   spec.add_dependency "importmap-rails", '~> 2.2.3'
-  spec.add_dependency "rails", "~> 8.0.1"
+  spec.add_dependency "rails", ">= 8.0.1", "< 8.2"
   spec.add_dependency "view_component", "~> 4.15"
   spec.add_dependency "tailwindcss-rails", "~> 4.6"
   spec.add_dependency "tailwind_merge", "~> 1.5"

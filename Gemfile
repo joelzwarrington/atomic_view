@@ -11,7 +11,7 @@ gem "minitest", "~> 5.0"
 gem "rspec", "~> 3.0"
 gem "standard", "~> 1.21"
 
-gem "rails", "~> 8.0.1"
+gem "rails", ">= 8.0.1", "< 8.2"
 gem "sqlite3"
 gem "sprockets-rails"
 gem "puma", ">= 5.0"

@@ -70,7 +70,7 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
     })).to_html.strip
     expected = <<~HTML.strip
       <div class="relative rounded-btn shadow-xs">
-        <input name="test_model[category][]" type="hidden" value="" autocomplete="off"><select class="custom-select block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" multiple="multiple" name="test_model[category][]" id="test_model_category"><option value="1">Option 1</option></select>
+        <input name="test_model[category][]" type="hidden" value=""><select class="custom-select block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" multiple="multiple" name="test_model[category][]" id="test_model_category"><option value="1">Option 1</option></select>
       </div>
     HTML
 
