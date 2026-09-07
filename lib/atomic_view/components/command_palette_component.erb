@@ -21,7 +21,11 @@
           ) do %>
             <span><%= result[:label] %></span>
             <% if result[:hint].present? %>
-              <kbd class="rounded-well border border-border bg-offset px-1.5 py-0.5 font-mono text-xs text-muted-foreground"><%= result[:hint] %></kbd>
+              <span class="inline-flex items-center gap-0.5">
+                <% Array(result[:hint]).each do |key| %>
+                  <%= render(AtomicView::Components::KbdComponent.new) { key } %>
+                <% end %>
+              </span>
             <% end %>
           <% end %>
         <% end %>

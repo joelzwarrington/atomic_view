@@ -1,0 +1,5 @@
+<div class="inline-flex items-center gap-0.5">
+  <% ["⌘", "⇧", "⌥", "⌃"].each do |key| %>
+    <%= render(AtomicView::Components::KbdComponent.new) { key } %>
+  <% end %>
+</div>
