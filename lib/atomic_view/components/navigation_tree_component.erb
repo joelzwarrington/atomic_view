@@ -1,0 +1,8 @@
+<%= tag.nav(**@options.except(:class), class: container_class) do %>
+  <% if label.present? %>
+    <div class="px-2.5 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground"><%= label %></div>
+  <% end %>
+  <% items.each do |item| %>
+    <%= item %>
+  <% end %>
+<% end %>

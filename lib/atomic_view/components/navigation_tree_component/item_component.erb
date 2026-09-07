@@ -1,0 +1,23 @@
+<% if group? %>
+  <%= tag.details(**@options.except(:class), open: open?, class: "[&[open]>summary_svg:last-child]:rotate-90") do %>
+    <%= tag.summary(class: html_class) do %>
+      <% if icon_name.present? %>
+        <%= icon(icon_name, options: {class: "size-4 shrink-0"}).to_s.html_safe %>
+      <% end %>
+      <%= label %>
+      <%= icon("chevron-right", options: {class: "ml-auto size-4 shrink-0 transition-transform"}).to_s.html_safe %>
+    <% end %>
+    <div class="ml-6 mt-1 flex flex-col gap-1">
+      <% items.each do |item| %>
+        <%= item %>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <%= tag.a(**@options.except(:class), href: href, class: html_class) do %>
+    <% if icon_name.present? %>
+      <%= icon(icon_name, options: {class: "size-4 shrink-0"}).to_s.html_safe %>
+    <% end %>
+    <%= label %>
+  <% end %>
+<% end %>
