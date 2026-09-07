@@ -43,6 +43,12 @@
   --color-success: var(--color-emerald-800);
   --color-success-foreground: var(--color-emerald-50);
 
+  --color-warning: var(--color-amber-800);
+  --color-warning-foreground: var(--color-amber-50);
+
+  --color-info: var(--color-blue-800);
+  --color-info-foreground: var(--color-blue-50);
+
   --color-disabled: var(--color-gray-50);
   --color-disabled-foreground: var(--color-zinc-500);
   --color-disabled-ring: var(--color-zinc-200);
@@ -107,6 +113,12 @@
 
   --color-success: var(--color-emerald-50);
   --color-success-foreground: var(--color-emerald-800);
+
+  --color-warning: var(--color-amber-50);
+  --color-warning-foreground: var(--color-amber-800);
+
+  --color-info: var(--color-blue-50);
+  --color-info-foreground: var(--color-blue-800);
 
   --color-disabled: var(--color-neutral-800);
   --color-disabled-foreground: var(--color-neutral-400);

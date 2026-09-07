@@ -1,0 +1,15 @@
+<%= tag.div(**html_options, class: html_class, role: "alert") do %>
+  <div class="flex">
+    <div class="shrink-0">
+      <%= icon(icon_name, options: {class: icon_class}).to_s.html_safe %>
+    </div>
+    <div class="ml-2 min-w-0 flex-1">
+      <% if title.present? %>
+        <p class="text-sm font-medium <%= text_class %>"><%= title %></p>
+      <% end %>
+      <div class="<%= content_class %>">
+        <%= content %>
+      </div>
+    </div>
+  </div>
+<% end %>
