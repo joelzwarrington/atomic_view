@@ -97,7 +97,7 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
 
     # Check for the presence of custom year range
     assert_includes actual, '<option value="2020">2020</option>'
-    # 2025 should be present (might be selected due to current date)
+    # 2025 should be present (might be selected="selected" due to current date)
     assert_includes actual, 'value="2025"'
     assert_not_includes actual, '<option value="2030">2030</option>' # Should not include years outside range
   end

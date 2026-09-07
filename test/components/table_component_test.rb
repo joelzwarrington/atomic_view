@@ -4,9 +4,9 @@ require "test_helper"
 
 class AtomicView::Components::TableComponentTest < ViewComponent::TestCase
   test "renders a table wrapper with the expected classes" do
-    actual = render_inline(AtomicView::Components::TableComponent.new) { "Content" }.to_html.strip
+    actual = render_inline(AtomicView::Components::TableComponent.new) { "<tbody><tr><td>Content</td></tr></tbody>".html_safe }.to_html.strip
     expected = <<~HTML.strip
-      <table class="w-full text-sm">Content</table>
+      <table class="w-full text-sm"><tbody><tr><td>Content</td></tr></tbody></table>
     HTML
 
     assert_equal(expected, actual)
@@ -56,9 +56,9 @@ class AtomicView::Components::TableComponentTest < ViewComponent::TestCase
   end
 
   test "merges custom class and forwards other options on the table tag" do
-    actual = render_inline(AtomicView::Components::TableComponent.new(class: "custom-table", id: "parks-table")) { "Content" }.to_html.strip
+    actual = render_inline(AtomicView::Components::TableComponent.new(class: "custom-table", id: "parks-table")) { "<tbody><tr><td>Content</td></tr></tbody>".html_safe }.to_html.strip
     expected = <<~HTML.strip
-      <table id="parks-table" class="w-full text-sm custom-table">Content</table>
+      <table id="parks-table" class="w-full text-sm custom-table"><tbody><tr><td>Content</td></tr></tbody></table>
     HTML
 
     assert_equal(expected, actual)

@@ -56,7 +56,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
       data: {action: "input->controller#update", target: "form.dateField"}
     })).to_html.strip
     expected = <<~HTML.strip
-      <input data-action="input-&gt;controller#update" data-target="form.dateField" class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input data-action="input->controller#update" data-target="form.dateField" class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -84,7 +84,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
   test "renders date field with disabled attribute" do
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :birthdate, {disabled: true})).to_html.strip
     expected = <<~HTML.strip
-      <input disabled class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input disabled="disabled" class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)
@@ -93,7 +93,7 @@ class AtomicView::Components::DateFieldComponentTest < ViewComponent::TestCase
   test "renders date field with readonly attribute" do
     actual = render_inline(AtomicView::Components::DateFieldComponent.new(@form, :test_model, :birthdate, {readonly: true})).to_html.strip
     expected = <<~HTML.strip
-      <input readonly class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
+      <input readonly="readonly" class="block w-full appearance-none h-8 min-w-0 z-10 flex-1 rounded-btn border-0 py-1 shadow-xs ring-1 text-sm disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring" type="date" name="test_model[birthdate]" id="test_model_birthdate">
     HTML
 
     assert_equal(expected, actual)

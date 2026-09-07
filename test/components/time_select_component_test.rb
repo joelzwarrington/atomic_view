@@ -30,7 +30,7 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
     # Check that the sub-selects are wrapped in a flex row
     assert_includes html, '<div class="flex gap-2">'
 
-    # Check for hidden date fields (year, month, day) that time_select creates
+    # Check for hidden="hidden" date fields (year, month, day) that time_select creates
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_1i"'
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_2i"'
     assert_includes html, '<input type="hidden" id="test_model_meeting_time_3i"'
@@ -106,7 +106,7 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
 
     html = result.to_html
 
-    # When ignore_date is true, it should only show time selects without hidden date fields
+    # When ignore_date is true, it should only show time selects without hidden="hidden" date fields
     assert_not_includes html, '<input type="hidden" id="test_model_meeting_time_1i"'
 
     # Should have hour and minute selects
@@ -119,13 +119,13 @@ class AtomicView::Components::TimeSelectComponentTest < ViewComponent::TestCase
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :meeting_time, {}, {data: {action: "change->controller#update"}}))
 
     # Check that data attributes are applied
-    assert_includes result.to_html, 'data-action="change-&gt;controller#update"'
+    assert_includes result.to_html, 'data-action="change->controller#update"'
   end
 
   test "renders time select with disabled option" do
     result = render_inline(AtomicView::Components::TimeSelectComponent.new(@form, :test_model, :meeting_time, {}, {disabled: true}))
 
-    # Check that disabled attribute is applied
+    # Check that disabled="disabled" attribute is applied
     assert_includes result.to_html, "disabled"
   end
 end

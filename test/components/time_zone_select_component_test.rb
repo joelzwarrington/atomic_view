@@ -92,7 +92,7 @@ class AtomicView::Components::TimeZoneSelectComponentTest < ViewComponent::TestC
     actual = render_inline(AtomicView::Components::TimeZoneSelectComponent.new(@form, :test_model, :time_zone, nil, {}, {data: {action: "change->controller#update"}})).to_html
 
     # Check that data attributes are applied
-    assert_includes actual, 'data-action="change-&gt;controller#update"'
+    assert_includes actual, 'data-action="change->controller#update"'
     assert_includes actual, "</select>"
   end
 
@@ -115,7 +115,7 @@ class AtomicView::Components::TimeZoneSelectComponentTest < ViewComponent::TestC
   test "renders time zone select with disabled option" do
     actual = render_inline(AtomicView::Components::TimeZoneSelectComponent.new(@form, :test_model, :time_zone, nil, {}, {disabled: true})).to_html
 
-    # Check that disabled attribute is applied
+    # Check that disabled="disabled" attribute is applied
     assert_includes actual, "disabled"
     assert_includes actual, "</select>"
   end

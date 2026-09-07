@@ -39,7 +39,7 @@ class AtomicView::Components::DropdownComponentTest < ViewComponent::TestCase
     end.to_html
 
     assert_includes(actual, "data-atomic-view--dropdown-target=\"trigger\"")
-    assert_includes(actual, "data-action=\"click-&gt;atomic-view--dropdown#toggle\"")
+    assert_includes(actual, "data-action=\"click->atomic-view--dropdown#toggle\"")
   end
 
   test "wires the menu target" do

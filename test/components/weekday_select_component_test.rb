@@ -70,7 +70,7 @@ class AtomicView::Components::WeekdaySelectComponentTest < ViewComponent::TestCa
   test "renders weekday select with html options" do
     actual = render_inline(AtomicView::Components::WeekdaySelectComponent.new(@form, :test_model, :preferred_day, {}, {class: "custom-select", multiple: true})).to_html.strip
     expected = <<~HTML.strip
-      <input name="test_model[preferred_day][]" type="hidden" value="" autocomplete="off"><select class="custom-select #{CHROME_CLASS}" multiple name="test_model[preferred_day][]" id="test_model_preferred_day"><option value="Monday">Monday</option>
+      <input name="test_model[preferred_day][]" type="hidden" value="" autocomplete="off"><select class="custom-select #{CHROME_CLASS}" multiple="multiple" name="test_model[preferred_day][]" id="test_model_preferred_day"><option value="Monday">Monday</option>
       <option value="Tuesday">Tuesday</option>
       <option value="Wednesday">Wednesday</option>
       <option value="Thursday">Thursday</option>
@@ -85,7 +85,7 @@ class AtomicView::Components::WeekdaySelectComponentTest < ViewComponent::TestCa
   test "renders weekday select with data attributes" do
     actual = render_inline(AtomicView::Components::WeekdaySelectComponent.new(@form, :test_model, :preferred_day, {}, {data: {action: "change->controller#update"}})).to_html.strip
     expected = <<~HTML.strip
-      <select data-action="change-&gt;controller#update" class="#{CHROME_CLASS}" name="test_model[preferred_day]" id="test_model_preferred_day"><option value="Monday">Monday</option>
+      <select data-action="change->controller#update" class="#{CHROME_CLASS}" name="test_model[preferred_day]" id="test_model_preferred_day"><option value="Monday">Monday</option>
       <option value="Tuesday">Tuesday</option>
       <option value="Wednesday">Wednesday</option>
       <option value="Thursday">Thursday</option>
@@ -132,7 +132,7 @@ class AtomicView::Components::WeekdaySelectComponentTest < ViewComponent::TestCa
   test "renders weekday select with disabled option" do
     actual = render_inline(AtomicView::Components::WeekdaySelectComponent.new(@form, :test_model, :preferred_day, {}, {disabled: true})).to_html.strip
     expected = <<~HTML.strip
-      <select disabled class="#{CHROME_CLASS}" name="test_model[preferred_day]" id="test_model_preferred_day"><option value="Monday">Monday</option>
+      <select disabled="disabled" class="#{CHROME_CLASS}" name="test_model[preferred_day]" id="test_model_preferred_day"><option value="Monday">Monday</option>
       <option value="Tuesday">Tuesday</option>
       <option value="Wednesday">Wednesday</option>
       <option value="Thursday">Thursday</option>

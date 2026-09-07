@@ -35,7 +35,7 @@ class AtomicView::Components::ButtonComponentTest < ViewComponent::TestCase
       disabled: true
     })).to_html.strip
     expected = <<~HTML.strip
-      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 custom-button" id="submit-btn" disabled>Submit</button>
+      <button class="h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 custom-button" id="submit-btn" disabled="disabled">Submit</button>
     HTML
 
     assert_equal(expected, actual)

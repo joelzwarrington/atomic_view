@@ -16,7 +16,7 @@ PATH
       rails (~> 8.0.1)
       tailwind_merge (~> 1.5)
       tailwindcss-rails (~> 4.6)
-      view_component (~> 3.21)
+      view_component (~> 4.15)
       zeitwerk (~> 2.8.3)
 
 GEM
@@ -160,7 +160,6 @@ GEM
       net-pop
       net-smtp
     marcel (1.2.1)
-    method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.27.0)
     net-imap (0.6.6)
@@ -330,10 +329,10 @@ GEM
     unicode-emoji (4.2.0)
     uri (1.1.1)
     useragent (0.16.11)
-    view_component (3.27.0)
-      activesupport (>= 5.2.0, < 8.2)
+    view_component (4.15.0)
+      actionview (>= 7.1.0)
+      activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
-      method_source (~> 1.0)
     view_component-form (0.3.1)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)

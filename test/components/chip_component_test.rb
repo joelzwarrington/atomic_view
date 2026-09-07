@@ -39,7 +39,7 @@ class AtomicView::Components::ChipComponentTest < ViewComponent::TestCase
     actual = render_inline(AtomicView::Components::ChipComponent.new(dismissible: true)) { "Filter" }.to_html.strip
 
     assert_includes(actual, "data-controller=\"atomic-view--chip\"")
-    assert_includes(actual, "data-action=\"click-&gt;atomic-view--chip#remove\"")
+    assert_includes(actual, "data-action=\"click->atomic-view--chip#remove\"")
   end
 
   test "does not wire the dismiss Stimulus controller when not dismissible" do
@@ -57,7 +57,7 @@ class AtomicView::Components::ChipComponentTest < ViewComponent::TestCase
     ) { "Filter" }.to_html.strip
 
     assert_includes(actual, "data-controller=\"analytics\"")
-    assert_includes(actual, "data-action=\"click-&gt;analytics#track\"")
+    assert_includes(actual, "data-action=\"click->analytics#track\"")
     assert_includes(actual, "custom-dismiss")
   end
 

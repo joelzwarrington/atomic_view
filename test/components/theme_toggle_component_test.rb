@@ -9,7 +9,7 @@ class AtomicView::Components::ThemeToggleComponentTest < ViewComponent::TestCase
     assert_includes(actual, "<button")
     assert_includes(actual, "type=\"button\"")
     assert_includes(actual, "data-controller=\"atomic-view--theme-toggle\"")
-    assert_includes(actual, "data-action=\"click-&gt;atomic-view--theme-toggle#toggle\"")
+    assert_includes(actual, "data-action=\"click->atomic-view--theme-toggle#toggle\"")
   end
 
   test "has an accessible label" do

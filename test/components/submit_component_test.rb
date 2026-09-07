@@ -53,7 +53,7 @@ class AtomicView::Components::SubmitComponentTest < ViewComponent::TestCase
       disabled: true
     })).to_html.strip
     expected = <<~HTML.strip
-      <input type="submit" name="commit" value="Submit" class="custom-submit h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90" id="submit-button" disabled data-disable-with="Submit">
+      <input type="submit" name="commit" value="Submit" class="custom-submit h-7 rounded-btn px-2.5 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90" id="submit-button" disabled="disabled" data-disable-with="Submit">
     HTML
 
     assert_equal(expected, actual)
