@@ -14,13 +14,13 @@ module Display
         items: [
           {
             icon: "flag",
-            actor: "Karen Will",
+            actor: "Joel W",
             description: "created this park",
             time: "Jan 12, 2024"
           },
           {
             icon: "arrow-path",
-            actor: "Karen Will",
+            actor: "Joel W",
             description: "changed the tax code",
             time: "Mar 3, 2024",
             content: diff_content("HST NS 2024", "HST NS 2025")
@@ -32,8 +32,8 @@ module Display
             content: diff_content("Needs attention", "Active")
           },
           {
-            avatar: "KW",
-            actor: "Karen Will",
+            avatar: "JW",
+            actor: "Joel W",
             description: "commented",
             time: "3 hours ago",
             content: comment_bubble("Following up with QuickBooks support about the sync delay on last month's invoices.")
