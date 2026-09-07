@@ -1,0 +1,10 @@
+<%= marker %>
+<div class="min-w-0 flex-1 pt-0.5">
+  <div class="text-sm text-foreground">
+    <%= meta %>
+    <% if time.present? %>
+      <%= local_time_ago(time, class: "ml-2 text-xs text-muted-foreground") %>
+    <% end %>
+  </div>
+  <%= content if content? %>
+</div>

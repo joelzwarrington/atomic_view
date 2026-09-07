@@ -5,32 +5,37 @@ module AtomicView
     # Timeline
     #
     # A vertical audit/activity feed -- e.g. a record's created/changed/
-    # commented history. Items are supplied as plain data rather than
-    # slots, the same call `CommandPaletteComponent` makes for its result
-    # rows: every item needs the same marker + meta-line + connecting-line
-    # layout generated consistently, which a free-form slot would push
-    # onto every consumer to reassemble by hand.
+    # commented history. Each row is a `with_item` slot rather than a plain
+    # data hash: every item needs the same marker + meta-line + connecting-
+    # line layout generated consistently, and slots let each item take
+    # strongly-typed keyword arguments (with real defaults) plus optional
+    # free-form block content, instead of a loose symbol-keyed hash.
     #
-    #   items: [
-    #     { icon: "flag", actor: "Karen Will", description: "created this park", time: "Jan 12, 2024" },
-    #     { avatar: "KW", actor: "Karen Will", description: "commented", time: "3h ago",
-    #       content: tag.div("Following up...", class: "mt-2 rounded-btn bg-offset p-2 text-sm") }
-    #   ]
+    #   render(TimelineComponent.new) do |timeline|
+    #     timeline.with_item(icon: "flag", actor: "Karen Will", description: "created this park", time: 1.year.ago)
+    #
+    #     timeline.with_item(avatar: "KW", actor: "Karen Will", description: "commented", time: 3.hours.ago) do
+    #       tag.div("Following up...", class: "mt-2 rounded-btn bg-offset p-2 text-sm")
+    #     end
+    #   end
     #
     # Each item needs exactly one marker: `icon:` (a Heroicon name, shown in
     # a plain circular badge) or `avatar:` (initials, rendered via
     # `AvatarComponent`) -- for a system event vs. something a person did.
     # `actor:` is optional bold text before `description:` (omit it for
-    # system-generated events, e.g. "Status changed automatically").
-    # `content:` is optional free-form HTML-safe markup below the meta
-    # line -- a diff comparison, a badge change, a comment bubble -- since
-    # that part varies too much to model as data.
+    # system-generated events, e.g. "Status changed automatically"). `time:`
+    # takes a real `Time`/`Date`/`DateTime`/`ActiveSupport::TimeWithZone`
+    # rather than a preformatted string -- see `ItemComponent`'s class docs
+    # for how it's rendered. The block passed to `with_item` is optional
+    # free-form HTML-safe content below the meta line -- a diff comparison,
+    # a badge change, a comment bubble -- since that part varies too much
+    # to model as a keyword argument. See `ItemComponent` for the per-item
+    # API.
     class TimelineComponent < AtomicView::Component
-      attr_reader :items
+      renders_many :items, "ItemComponent"
 
-      def initialize(items:, **options)
+      def initialize(**options)
         super()
-        @items = items
         @options = options
       end
 
@@ -38,29 +43,12 @@ module AtomicView
         class_names("flex flex-col", @options[:class])
       end
 
-      def item_class(index)
+      def item_wrapper_class(index)
         class_names("relative flex gap-3.5", "pb-6" => !last?(index))
       end
 
       def render_line?(index)
         !last?(index)
-      end
-
-      def marker(item)
-        if item[:avatar].present?
-          render(AvatarComponent.new(initials: item[:avatar], class: "size-7 shrink-0 text-xs"))
-        else
-          tag.span(class: "flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground") do
-            icon(item[:icon], options: {class: "size-3.5"}).to_s.html_safe
-          end
-        end
-      end
-
-      def meta(item)
-        parts = []
-        parts << tag.strong(item[:actor], class: "font-semibold") if item[:actor].present?
-        parts << item[:description]
-        safe_join(parts, " ")
       end
 
       private

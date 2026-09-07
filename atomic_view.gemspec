@@ -32,4 +32,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tailwindcss-rails", "~> 4.6"
   spec.add_dependency "tailwind_merge", "~> 0.12"
   spec.add_dependency "heroicons", "~> 2.0"
+  spec.add_dependency "local_time", "~> 3.0"
 end

@@ -32,3 +32,16 @@ pin_all_from File.expand_path("../app/assets/javascripts/atomic_view/controllers
 # works as a single self-contained pin with no extra import map entries.
 # Used by `dropdown_controller.js`.
 pin "@floating-ui/dom", to: "https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.8.0/+esm"
+
+# `bin/importmap pin local-time` vendors the package locally under
+# "vendor/javascript" -- which works for a real Rails app, but this engine's
+# `atomic_view.precompile` initializer (see `engine.rb`) never adds
+# "vendor/javascript" to `app.config.assets.paths`, so a host app can't
+# actually serve the vendored file. Pinned to jsDelivr's `+esm` bundle
+# instead, same fix as `@floating-ui/dom` above. Used by `ItemComponent`'s
+# `local_time_ago` calls (see `TimelineComponent`'s class docs) -- the host
+# app still needs to `import LocalTime from "local-time"; LocalTime.start()`
+# per local_time's own Importmap install docs for times to localize
+# client-side; without that the server-rendered UTC fallback text just
+# stays as-is.
+pin "local-time", to: "https://cdn.jsdelivr.net/npm/local-time@3.0.3/+esm"

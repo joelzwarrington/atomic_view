@@ -5,48 +5,50 @@ module Display
     # A vertical audit/activity feed for a record's history — created,
     # changed, auto-updated, and commented events all share the same
     # marker + meta-line layout, with a connecting line down the left
-    # edge. Items are plain data (see `TimelineComponent`'s class docs for
-    # the shape); `content` carries whatever varies too much to model as
-    # data — a diff comparison, a status-change badge pair, a comment
-    # bubble.
+    # edge. Items are `with_item` slots (see `TimelineComponent`'s class
+    # docs for the keyword arguments); the block passed to `with_item`
+    # carries whatever varies too much to model as a keyword argument — a
+    # diff comparison, a status-change badge pair, a comment bubble.
+    # `time:` takes a real `Time` -- rendered via the `local_time` gem's
+    # `local_time_ago` helper, which ages from "3 hours ago" into a full
+    # date on its own, so there's no need to pick relative vs. absolute
+    # phrasing per item here.
     def default
-      render(AtomicView::Components::TimelineComponent.new(
-        items: [
-          {
-            icon: "flag",
-            actor: "Joel W",
-            description: "created this park",
-            time: "Jan 12, 2024"
-          },
-          {
-            icon: "arrow-path",
-            actor: "Joel W",
-            description: "changed the tax code",
-            time: "Mar 3, 2024",
-            content: diff_content("HST NS 2024", "HST NS 2025")
-          },
-          {
-            icon: "arrow-path",
-            description: "Status changed automatically",
-            time: "3 days ago",
-            content: diff_content("Needs attention", "Active")
-          },
-          {
-            avatar: "JW",
-            actor: "Joel W",
-            description: "commented",
-            time: "3 hours ago",
-            content: comment_bubble("Following up with QuickBooks support about the sync delay on last month's invoices.")
-          },
-          {
-            avatar: "CS",
-            actor: "Camped Support",
-            description: "commented",
-            time: "1 hour ago",
-            content: comment_bubble("Reached out to QuickBooks on your behalf — sync should resume within 24 hours.")
-          }
-        ]
-      ))
+      render(AtomicView::Components::TimelineComponent.new) do |timeline|
+        timeline.with_item(
+          icon: "flag",
+          actor: "Joel W",
+          description: "created this park",
+          time: 1.year.ago
+        )
+
+        timeline.with_item(
+          icon: "arrow-path",
+          actor: "Joel W",
+          description: "changed the tax code",
+          time: 3.months.ago
+        ) { diff_content("HST NS 2024", "HST NS 2025") }
+
+        timeline.with_item(
+          icon: "arrow-path",
+          description: "Status changed automatically",
+          time: 3.days.ago
+        ) { diff_content("Needs attention", "Active") }
+
+        timeline.with_item(
+          avatar: "JW",
+          actor: "Joel W",
+          description: "commented",
+          time: 3.hours.ago
+        ) { comment_bubble("Following up with QuickBooks support about the sync delay on last month's invoices.") }
+
+        timeline.with_item(
+          avatar: "CS",
+          actor: "Camped Support",
+          description: "commented",
+          time: 1.hour.ago
+        ) { comment_bubble("Reached out to QuickBooks on your behalf — sync should resume within 24 hours.") }
+      end
     end
 
     private

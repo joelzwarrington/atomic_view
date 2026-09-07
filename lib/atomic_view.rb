@@ -6,6 +6,7 @@ require 'atomic_view/configuration'
 
 require "tailwind_merge"
 require "heroicons"
+require "local_time"
 require "view_component"
 require "view_component/form"
 require "zeitwerk"

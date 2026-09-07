@@ -1,19 +1,10 @@
 <%= tag.div(**@options.except(:class), class: container_class) do %>
   <% items.each_with_index do |item, index| %>
-    <div class="<%= item_class(index) %>">
+    <div class="<%= item_wrapper_class(index) %>">
       <% if render_line?(index) %>
         <div class="absolute left-[13px] top-7 -bottom-6 w-px bg-border"></div>
       <% end %>
-      <%= marker(item) %>
-      <div class="min-w-0 flex-1 pt-0.5">
-        <div class="text-sm text-foreground">
-          <%= meta(item) %>
-          <% if item[:time].present? %>
-            <span class="ml-2 text-xs text-muted-foreground"><%= item[:time] %></span>
-          <% end %>
-        </div>
-        <%= item[:content] if item[:content].present? %>
-      </div>
+      <%= item %>
     </div>
   <% end %>
 <% end %>

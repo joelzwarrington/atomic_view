@@ -3,6 +3,7 @@
 module AtomicView
   class Component < ViewComponent::Base
     include Heroicons::Engine.helpers
+    include LocalTimeHelper
 
     def icon(name, variant: Heroicons.configuration.variant, options: {}, path_options: {})
       Heroicons::Icon.render(
