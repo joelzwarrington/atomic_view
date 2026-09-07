@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", "~> 8.0.1"
   spec.add_dependency "view_component", "~> 3.21"
   spec.add_dependency "tailwindcss-rails", "~> 4.6"
-  spec.add_dependency "tailwind_merge", "~> 0.12"
+  spec.add_dependency "tailwind_merge", "~> 1.5"
   spec.add_dependency "heroicons", "~> 2.0"
   spec.add_dependency "local_time", "~> 3.0"
 end
