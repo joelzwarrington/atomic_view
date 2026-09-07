@@ -6,7 +6,7 @@ module AtomicView
     include LocalTimeHelper
 
     def icon(name, variant: Heroicons.configuration.variant, options: {}, path_options: {})
-      Heroicons::Icon.render(
+      raw Heroicons::Icon.render( # rubocop:disable Rails/OutputSafety
         name: name,
         variant: variant,
         options: options,
