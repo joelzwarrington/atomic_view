@@ -46,7 +46,7 @@ class AtomicView::Components::ModalComponentTest < ViewComponent::TestCase
   test "does not render a footer by default" do
     actual = render_inline(AtomicView::Components::ModalComponent.new(id: "example-modal")).to_html
 
-    assert_not_includes(actual, "mt-6 flex justify-end gap-2")
+    assert_not_includes(actual, "mt-4 flex justify-end gap-2")
   end
 
   test "renders footer buttons when the footer slot is given" do
@@ -56,7 +56,7 @@ class AtomicView::Components::ModalComponentTest < ViewComponent::TestCase
       end
     end.to_html
 
-    assert_includes(actual, "mt-6 flex justify-end gap-2")
+    assert_includes(actual, "mt-4 flex justify-end gap-2")
     assert_includes(actual, "Cancel")
     assert_includes(actual, "Delete")
   end
