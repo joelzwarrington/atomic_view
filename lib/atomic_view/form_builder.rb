@@ -16,5 +16,17 @@ module AtomicView
         objectify_options(options), @default_html_options.merge(html_options)
       )
     end
+
+    # Rails 7.1 renamed `field_helpers`' entry from `:text_area` to
+    # `:textarea`, so view_component-form's dynamic method generation (which
+    # iterates `field_helpers`) now defines a component-backed `textarea`
+    # method but leaves `text_area` falling through to Rails' native,
+    # unstyled helper. Without this override, `form.text_area` would bypass
+    # AtomicView::Components::TextAreaComponent entirely.
+    def text_area(method, options = {})
+      render_component(
+        :text_area, @object_name, method, objectify_options(options)
+      )
+    end
   end
 end
