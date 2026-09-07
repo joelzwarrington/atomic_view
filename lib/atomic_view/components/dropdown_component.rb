@@ -30,11 +30,15 @@ module AtomicView
       end
 
       def html_options
-        @options.except(:class, :data)
+        @options.except(:class, :data, :trigger_class)
       end
 
       def html_class
         class_names("relative inline-block", @options[:class])
+      end
+
+      def trigger_class
+        class_names("inline-block", @options[:trigger_class])
       end
 
       def data_attributes

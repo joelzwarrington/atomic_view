@@ -1,0 +1,21 @@
+<div class="flex w-80 items-center gap-2">
+  <div class="flex-1 min-w-0">
+    <%= render AtomicView::Components::DropdownComponent.new(trigger_class: "block min-w-0") do |dropdown| %>
+      <% dropdown.with_trigger do %>
+        <button type="button" class="flex w-full items-center gap-2 rounded-btn border border-border bg-surface px-3 py-2 text-sm font-medium text-foreground hover:bg-offset">
+          <span class="truncate">Ridgeline Campground &amp; RV Resort at Summit Meadows</span>
+          <%= icon("chevron-down", variant: :mini, options: {class: "size-4 shrink-0 text-muted-foreground"}).to_s.html_safe %>
+        </button>
+      <% end %>
+
+      <% dropdown.with_menu do %>
+        <div class="w-64 p-1">
+          <a href="#" class="block rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">Settings</a>
+          <a href="#" class="block rounded-btn px-2 py-1.5 text-sm text-destructive hover:bg-offset">Sign out</a>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <span class="shrink-0 text-xs text-muted-foreground">Fixed sibling</span>
+</div>

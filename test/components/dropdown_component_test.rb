@@ -66,4 +66,31 @@ class AtomicView::Components::DropdownComponentTest < ViewComponent::TestCase
     assert_includes(actual, "custom-dropdown")
     assert_includes(actual, "data-testid=\"dropdown\"")
   end
+
+  test "defaults the trigger wrapper to inline-block" do
+    actual = render_inline(AtomicView::Components::DropdownComponent.new) do |dropdown|
+      dropdown.with_trigger { "Open menu" }
+    end.to_html
+
+    assert_match(/class="inline-block"[^>]*data-atomic-view--dropdown-target="trigger"/, actual)
+  end
+
+  test "allows the trigger wrapper class to be customized for full-width truncating triggers" do
+    actual = render_inline(
+      AtomicView::Components::DropdownComponent.new(trigger_class: "block min-w-0")
+    ) do |dropdown|
+      dropdown.with_trigger { "Open menu" }
+    end.to_html
+
+    assert_match(/class="block min-w-0"[^>]*data-atomic-view--dropdown-target="trigger"/, actual)
+  end
+
+  test "does not forward trigger_class as an html attribute on the root" do
+    actual = render_inline(
+      AtomicView::Components::DropdownComponent.new(trigger_class: "block min-w-0")
+    ).to_html
+
+    assert_not_includes(actual, "trigger_class")
+    assert_not_includes(actual, "trigger-class")
+  end
 end

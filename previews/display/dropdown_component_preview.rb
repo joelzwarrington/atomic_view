@@ -32,6 +32,19 @@ module Display
       render_with_template
     end
 
+    # Full-width truncating trigger
+    # ------------------------------
+    # Pass `trigger_class:` (merged via `class_names`/`TailwindMerge`, same
+    # as the root `class:` option) to override the trigger wrapper's default
+    # `inline-block`. Without this, the wrapper's shrink-to-fit sizing takes
+    # its min-content width from the trigger's unbroken text, so a `truncate`
+    # span inside never actually ellipsizes even when the root is
+    # `flex-1 min-w-0`. `trigger_class: "block min-w-0"` lets the wrapper
+    # shrink with its flex container instead.
+    def full_width_truncating_trigger
+      render_with_template
+    end
+
     # @!endgroup
   end
 end
