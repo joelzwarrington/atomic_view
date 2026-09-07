@@ -1,0 +1,5 @@
+<%= tag.div(**@html_options.except(:class), class: container_class) do %>
+  <% options.each do |option| %>
+    <%= link_to option[:label], option[:href], **tab_attributes(option) %>
+  <% end %>
+<% end %>
