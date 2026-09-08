@@ -8,11 +8,17 @@ export default class extends Controller {
   connect() {
     document.addEventListener("keydown", this.onGlobalKeydown)
     this.element.addEventListener("close", this.onClose)
+    this.element.addEventListener("click", this.closeOnBackdrop)
   }
 
   disconnect() {
     document.removeEventListener("keydown", this.onGlobalKeydown)
     this.element.removeEventListener("close", this.onClose)
+    this.element.removeEventListener("click", this.closeOnBackdrop)
+  }
+
+  closeOnBackdrop = (event) => {
+    if (event.target === this.element) this.element.close()
   }
 
   onGlobalKeydown = (event) => {
