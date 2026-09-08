@@ -8,7 +8,7 @@
     data: input_data_attributes
   ) %>
 
-  <div class="max-h-80 overflow-y-auto border-t border-border py-2">
+  <div id="<%= results_id %>" class="max-h-80 overflow-y-auto border-t border-border py-2">
     <% sections.each do |section| %>
       <div role="group">
         <p class="px-3 pb-1 pt-2 text-xs uppercase text-muted-foreground"><%= section[:label] %></p>

@@ -46,11 +46,12 @@ module AtomicView
 
       attr_reader :id, :placeholder, :sections
 
-      def initialize(id:, sections: [], placeholder: "Search...", **options)
+      def initialize(id:, sections: [], placeholder: "Search...", input_data: {}, **options)
         super()
         @id = id
         @sections = sections
         @placeholder = placeholder
+        @input_data = input_data
         @options = options
       end
 
@@ -62,15 +63,18 @@ module AtomicView
         class_names("mx-auto mt-[15vh] w-full max-w-lg overflow-hidden rounded-card bg-surface p-0 text-foreground shadow-panel backdrop:bg-backdrop", @options[:class])
       end
 
+      def results_id
+        "#{id}-results"
+      end
+
       def data_attributes
-        (@options[:data] || {}).merge(controller: "atomic-view--command-palette")
+        controllers = ["atomic-view--command-palette", @options.dig(:data, :controller)].compact.join(" ")
+        (@options[:data] || {}).except(:controller).merge(controller: controllers)
       end
 
       def input_data_attributes
-        {
-          "atomic-view--command-palette-target" => "input",
-          :action => "input->atomic-view--command-palette#filter keydown->atomic-view--command-palette#navigate"
-        }
+        actions = ["input->atomic-view--command-palette#filter", "keydown->atomic-view--command-palette#navigate", @input_data[:action]].compact.join(" ")
+        {"atomic-view--command-palette-target" => "input", **@input_data.except(:action), "action" => actions}
       end
 
       def row_data_attributes(result)

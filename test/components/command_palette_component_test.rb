@@ -124,6 +124,36 @@ class AtomicView::Components::CommandPaletteComponentTest < ViewComponent::TestC
     assert_includes(actual, "Type # to access projects.")
   end
 
+  test "gives the results container a predictable id for turbo_stream targeting" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette")).to_html
+
+    assert_includes(actual, "id=\"example-command-palette-results\"")
+  end
+
+  test "appends a consumer-supplied controller rather than overwriting the default" do
+    actual = render_inline(
+      AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette", data: {controller: "extra-controller"})
+    ).to_html
+
+    assert_includes(actual, "data-controller=\"atomic-view--command-palette extra-controller\"")
+  end
+
+  test "merges input_data into the input, appending to the default actions" do
+    actual = render_inline(
+      AtomicView::Components::CommandPaletteComponent.new(
+        id: "example-command-palette",
+        input_data: {action: "input->extra#search", testid: "search-input"}
+      )
+    )
+
+    input = actual.css("input").first
+    assert_equal("input", input["data-atomic-view--command-palette-target"])
+    assert_equal("search-input", input["data-testid"])
+    assert_includes(input["data-action"], "input->atomic-view--command-palette#filter")
+    assert_includes(input["data-action"], "keydown->atomic-view--command-palette#navigate")
+    assert_includes(input["data-action"], "input->extra#search")
+  end
+
   test "merges custom class and forwards other options" do
     actual = render_inline(
       AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette", class: "custom-palette", data: {testid: "palette"})
