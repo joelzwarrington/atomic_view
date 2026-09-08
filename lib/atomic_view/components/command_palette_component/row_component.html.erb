@@ -3,7 +3,12 @@
   class: "flex items-center justify-between gap-3 px-3 py-1.5 text-sm text-foreground hover:bg-offset",
   data: data_attributes
 ) do %>
-  <span><%= label %></span>
+  <span class="flex items-center gap-2">
+    <% if icon_name.present? %>
+      <%= icon(icon_name, options: {class: "size-4 shrink-0 text-muted-foreground"}).to_s.html_safe %>
+    <% end %>
+    <%= label %>
+  </span>
   <% if hint.present? %>
     <span class="inline-flex items-center gap-0.5">
       <% Array(hint).each do |key| %>

@@ -48,7 +48,7 @@ class AtomicView::Components::CommandPaletteComponentTest < ViewComponent::TestC
 
     assert_includes(actual, "Pages")
     assert_includes(actual, "Actions")
-    assert_includes(actual, "text-xs uppercase text-muted-foreground")
+    assert_includes(actual, "text-xs font-semibold uppercase text-muted-foreground")
   end
 
   test "renders a result row per result with the given href" do

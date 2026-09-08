@@ -49,6 +49,20 @@ class AtomicView::Components::CommandPaletteComponent::RowComponentTest < ViewCo
     assert_not_includes(actual, "<kbd")
   end
 
+  test "renders an icon before the label when given" do
+    actual = render_inline(
+      AtomicView::Components::CommandPaletteComponent::RowComponent.new(label: "Dashboard", href: "/dashboard", icon: "home")
+    ).to_html
+
+    assert_includes(actual, "<svg")
+  end
+
+  test "does not render an icon when none is given" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent::RowComponent.new(label: "Dashboard", href: "/dashboard")).to_html
+
+    assert_not_includes(actual, "<svg")
+  end
+
   test "merges extra data options without overriding the target and search-text hooks" do
     actual = render_inline(
       AtomicView::Components::CommandPaletteComponent::RowComponent.new(label: "Dashboard", href: "/dashboard", data: {testid: "row"})

@@ -13,7 +13,7 @@ class AtomicView::Components::CommandPaletteComponent::SectionComponentTest < Vi
 
     assert_includes(actual, "role=\"group\"")
     assert_includes(actual, "Pages")
-    assert_includes(actual, "text-xs uppercase text-muted-foreground")
+    assert_includes(actual, "text-xs font-semibold uppercase text-muted-foreground")
   end
 
   test "renders a row per result, via the results: sugar" do

@@ -9,15 +9,19 @@ module AtomicView
       # Rendered via `CommandPaletteComponent#with_section`'s `results:`
       # sugar, or `SectionComponent#with_row` directly -- see
       # `CommandPaletteComponent`'s class docs.
+      #
+      # `icon:`, when given, renders a Heroicon before the label -- same
+      # `icon:` convention as `NavigationTreeComponent::ItemComponent`.
       class RowComponent < AtomicView::Component
-        attr_reader :label, :href, :hint
+        attr_reader :label, :href, :hint, :icon_name
 
-        def initialize(label:, href: "#", hint: nil, search_text: nil, **options)
+        def initialize(label:, href: "#", hint: nil, search_text: nil, icon: nil, **options)
           super()
           @label = label
           @href = href
           @hint = hint
           @search_text = search_text
+          @icon_name = icon
           @options = options
         end
 
