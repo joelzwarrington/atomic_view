@@ -18,6 +18,10 @@ module AtomicView
           @options = options
           results.each { |result| with_row(**result) }
         end
+
+        def data_attributes
+          (@options[:data] || {}).merge("atomic-view--command-palette-target" => "section")
+        end
       end
     end
   end

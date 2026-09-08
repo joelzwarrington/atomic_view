@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "row"]
+  static targets = ["input", "row", "section"]
 
   highlightedIndex = null
 
@@ -31,6 +31,7 @@ export default class extends Controller {
   onClose = () => {
     this.inputTarget.value = ""
     this.rowTargets.forEach((row) => row.classList.remove("hidden"))
+    this.sectionTargets.forEach((section) => section.classList.remove("hidden"))
     this.clearHighlight()
   }
 
@@ -40,6 +41,14 @@ export default class extends Controller {
     this.rowTargets.forEach((row) => {
       const matches = row.dataset.searchText.includes(query)
       row.classList.toggle("hidden", !matches)
+    })
+
+    // Hide a section immediately once every one of its rows is filtered
+    // out, rather than leaving its (now empty) label dangling until the
+    // server-side Turbo Stream search catches up.
+    this.sectionTargets.forEach((section) => {
+      const hasVisibleRow = this.rowTargets.some((row) => section.contains(row) && !row.classList.contains("hidden"))
+      section.classList.toggle("hidden", !hasVisibleRow)
     })
 
     this.clearHighlight()

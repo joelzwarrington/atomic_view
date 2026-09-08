@@ -16,6 +16,12 @@ class AtomicView::Components::CommandPaletteComponent::SectionComponentTest < Vi
     assert_includes(actual, "text-xs font-semibold uppercase text-muted-foreground")
   end
 
+  test "carries the data-atomic-view--command-palette-target=section JS hook" do
+    actual = render_inline(AtomicView::Components::CommandPaletteComponent::SectionComponent.new(label: "Pages"))
+
+    assert_equal("section", actual.css("div[role='group']").first["data-atomic-view--command-palette-target"])
+  end
+
   test "renders a row per result, via the results: sugar" do
     actual = render_inline(
       AtomicView::Components::CommandPaletteComponent::SectionComponent.new(
