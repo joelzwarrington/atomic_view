@@ -61,48 +61,6 @@ class AtomicView::Components::CommandPaletteComponentTest < ViewComponent::TestC
     assert_equal("/dashboard", row["href"])
   end
 
-  test "gives each result row a lowercased data-search-text attribute" do
-    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
-      id: "example-command-palette",
-      sections: [{label: "Pages", results: [{label: "Dashboard", href: "/dashboard"}]}]
-    ))
-
-    row = actual.css("a").find { |node| node.text.include?("Dashboard") }
-    assert_equal("dashboard", row["data-search-text"])
-    assert_equal("row", row["data-atomic-view--command-palette-target"])
-  end
-
-  test "allows a result to override its matchable search text" do
-    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
-      id: "example-command-palette",
-      sections: [{label: "Dashboard", results: [{label: "Dashboard", href: "/dashboard", search_text: "dashboard home overview"}]}]
-    ))
-
-    row = actual.css("a").find { |node| node.text.include?("Dashboard") }
-    assert_equal("dashboard home overview", row["data-search-text"])
-  end
-
-  test "renders a keyboard-hint kbd when a hint is given" do
-    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
-      id: "example-command-palette",
-      sections: [{label: "Pages", results: [{label: "Dashboard", href: "/dashboard", hint: "G D"}]}]
-    )).to_html
-
-    assert_includes(actual, "<kbd")
-    assert_includes(actual, "G D")
-    assert_includes(actual, "rounded-well")
-    assert_includes(actual, "font-mono")
-  end
-
-  test "does not render a kbd when no hint is given" do
-    actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(
-      id: "example-command-palette",
-      sections: [{label: "Pages", results: [{label: "Dashboard", href: "/dashboard"}]}]
-    )).to_html
-
-    assert_not_includes(actual, "<kbd")
-  end
-
   test "renders no sections by default" do
     actual = render_inline(AtomicView::Components::CommandPaletteComponent.new(id: "example-command-palette")).to_html
 

@@ -24,15 +24,31 @@ module AtomicView
     #
     # `SegmentedControlComponent` and `PaginationComponent` already use this
     # array-of-hashes shape for link collections, and it's the better fit
-    # here (over slots, `DropdownComponent`'s approach): every row needs the
-    # same two JS hooks -- a `[data-atomic-view--command-palette-target="row"]`
-    # marker and a `data-search-text` attribute -- generated consistently so
-    # the filter/keyboard-nav controller can rely on them, which a
-    # free-form slot would push onto every consumer to wire up by hand. The
-    # component stays agnostic about what a result *links to* (any `href`
-    # works -- a path, an external URL, a `turbo_frame`-aware route, etc.),
-    # which is the same kind of agnosticism `DropdownComponent` keeps about
-    # its menu content, just expressed as data instead of markup.
+    # here (over slots, `DropdownComponent`'s approach) as the *default*
+    # entry point: every row needs the same two JS hooks -- a
+    # `[data-atomic-view--command-palette-target="row"]` marker and a
+    # `data-search-text` attribute -- generated consistently so the
+    # filter/keyboard-nav controller can rely on them, which a free-form
+    # slot would push onto every consumer to wire up by hand. The component
+    # stays agnostic about what a result *links to* (any `href` works -- a
+    # path, an external URL, a `turbo_frame`-aware route, etc.), which is
+    # the same kind of agnosticism `DropdownComponent` keeps about its menu
+    # content, just expressed as data instead of markup.
+    #
+    # Under the hood, `sections:`/`results:` are sugar over real
+    # `SectionComponent`/`RowComponent` slots -- `with_section`/`with_row`
+    # accept the same keyword shape:
+    #
+    #   render(CommandPaletteComponent.new(id: "x")) do |palette|
+    #     palette.with_section(label: "Campers") do |section|
+    #       section.with_row(label: "Joel", href: "/campers/1")
+    #     end
+    #   end
+    #
+    # Because they're real components, `SectionComponent` and `RowComponent`
+    # are independently renderable outside the dialog -- e.g. from a Turbo
+    # Stream response that re-renders `results_id` while server-side
+    # filtering, without forking this markup. See those classes' docs.
     #
     # `result[:hint]`, when given, renders as a `<kbd>` -- e.g. a keyboard
     # shortcut like "G D" -- next to the result label.
@@ -43,16 +59,21 @@ module AtomicView
     # structured data.
     class CommandPaletteComponent < AtomicView::Component
       renders_one :footer
+      renders_many :sections, "AtomicView::Components::CommandPaletteComponent::SectionComponent"
 
-      attr_reader :id, :placeholder, :sections
+      attr_reader :id, :placeholder
+
+      def self.results_id(id)
+        "#{id}-results"
+      end
 
       def initialize(id:, sections: [], placeholder: "Search...", input_data: {}, **options)
         super()
         @id = id
-        @sections = sections
         @placeholder = placeholder
         @input_data = input_data
         @options = options
+        sections.each { |section| with_section(**section) }
       end
 
       def html_options
@@ -64,7 +85,7 @@ module AtomicView
       end
 
       def results_id
-        "#{id}-results"
+        self.class.results_id(id)
       end
 
       def data_attributes
@@ -75,17 +96,6 @@ module AtomicView
       def input_data_attributes
         actions = ["input->atomic-view--command-palette#filter", "keydown->atomic-view--command-palette#navigate", @input_data[:action]].compact.join(" ")
         {"atomic-view--command-palette-target" => "input", **@input_data.except(:action), "action" => actions}
-      end
-
-      def row_data_attributes(result)
-        {
-          "atomic-view--command-palette-target" => "row",
-          :search_text => search_text_for(result)
-        }
-      end
-
-      def search_text_for(result)
-        (result[:search_text] || result[:label]).to_s.downcase
       end
     end
   end

@@ -10,26 +10,7 @@
 
   <div id="<%= results_id %>" class="max-h-80 overflow-y-auto border-t border-border py-2">
     <% sections.each do |section| %>
-      <div role="group">
-        <p class="px-3 pb-1 pt-2 text-xs uppercase text-muted-foreground"><%= section[:label] %></p>
-
-        <% section[:results].each do |result| %>
-          <%= link_to(
-            result[:href] || "#",
-            class: "flex items-center justify-between gap-3 px-3 py-1.5 text-sm text-foreground hover:bg-offset",
-            data: row_data_attributes(result)
-          ) do %>
-            <span><%= result[:label] %></span>
-            <% if result[:hint].present? %>
-              <span class="inline-flex items-center gap-0.5">
-                <% Array(result[:hint]).each do |key| %>
-                  <%= render(AtomicView::Components::KbdComponent.new) { key } %>
-                <% end %>
-              </span>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
+      <%= section %>
     <% end %>
   </div>
 
