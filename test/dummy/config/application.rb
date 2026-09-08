@@ -27,6 +27,6 @@ module Dummy
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.lookbook.preview_paths = [AtomicView::Engine.root.join('lib/lookbook')]
+    config.lookbook.preview_paths = [AtomicView::Engine.root.join('previews')]
   end
 end
