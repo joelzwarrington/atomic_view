@@ -50,6 +50,38 @@ class AtomicView::Components::LinkComponentTest < ViewComponent::TestCase
     assert_equal("K", kbds[1].text.strip)
   end
 
+  test "does not wire the hotkey controller when no keybinds are given" do
+    actual = render_inline(AtomicView::Components::LinkComponent.new("/parks/new")) { "New park" }
+
+    link = actual.css("a").first
+    assert_nil(link["data-controller"])
+    assert_nil(link["data-action"])
+  end
+
+  test "wires the hotkey controller and a lowercased keydown filter for a single keybind" do
+    actual = render_inline(AtomicView::Components::LinkComponent.new("/parks/new", keybinds: "N")) { "New park" }
+
+    link = actual.css("a").first
+    assert_equal("atomic-view--hotkey", link["data-controller"])
+    assert_equal("keydown.n@window->atomic-view--hotkey#click", link["data-action"])
+  end
+
+  test "normalizes modifier symbols to Stimulus modifier names for a chord" do
+    actual = render_inline(AtomicView::Components::LinkComponent.new("/search", keybinds: ["⌘", "K"])) { "Search" }
+
+    link = actual.css("a").first
+    assert_equal("keydown.meta+k@window->atomic-view--hotkey#click", link["data-action"])
+  end
+
+  test "merges the hotkey controller/action alongside existing data attributes" do
+    actual = render_inline(AtomicView::Components::LinkComponent.new("/parks/new", keybinds: "N", data: {controller: "custom", action: "click->custom#go", turbo_frame: "_top"})) { "New park" }
+
+    link = actual.css("a").first
+    assert_equal("custom atomic-view--hotkey", link["data-controller"])
+    assert_equal("click->custom#go keydown.n@window->atomic-view--hotkey#click", link["data-action"])
+    assert_equal("_top", link["data-turbo-frame"])
+  end
+
   # Variant tests
   test "renders secondary variant" do
     actual = render_inline(AtomicView::Components::LinkComponent.new("#", variant: :secondary)) { "Secondary" }

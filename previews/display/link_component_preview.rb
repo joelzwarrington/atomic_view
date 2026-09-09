@@ -73,9 +73,14 @@ module Display
 
     # Single keybind
     # --------------
-    # Pass `keybinds:` to append a `KbdComponent` hint after the label --
-    # purely visual; the host app is responsible for wiring the actual
-    # keyboard shortcut (e.g. a Stimulus controller on the anchor).
+    # Pass `keybinds:` to append a `KbdComponent` hint after the label and
+    # wire the anchor to `atomic-view--hotkey` -- pressing "N" anywhere on
+    # the page clicks this link, not just when it's focused.
+    #
+    # No host app setup needed for the controller itself -- it's pinned so
+    # it's picked up by the same `eagerLoadControllersFrom("controllers",
+    # application)` call every Rails + importmap + Stimulus app already has
+    # by default.
     #
     # @param content text "The link's label"
     # @param href text "The link's destination"
@@ -85,7 +90,10 @@ module Display
 
     # Chord of keybinds
     # -----------------
-    # Pass an array to render several keys, e.g. for a modifier chord.
+    # Pass an array of keys pressed simultaneously, e.g. a modifier chord.
+    # Modifier symbols/names (⌘/cmd/command, ⇧, ⌃/control, ⌥/option) are
+    # normalized to Stimulus's own modifier names (meta/shift/ctrl/alt), so
+    # `["⌘", "K"]` becomes the `keydown.meta+k@window->...` filter.
     #
     # @param content text "The link's label"
     # @param href text "The link's destination"
