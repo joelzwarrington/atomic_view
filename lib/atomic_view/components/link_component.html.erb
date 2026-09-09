@@ -1,0 +1,10 @@
+<%= link_to(href, html_options) do %>
+  <%= content %>
+  <% if keybinds.present? %>
+    <span class="inline-flex items-center gap-0.5">
+      <% keybinds.each do |key| %>
+        <%= render(AtomicView::Components::KbdComponent.new) { key } %>
+      <% end %>
+    </span>
+  <% end %>
+<% end %>
