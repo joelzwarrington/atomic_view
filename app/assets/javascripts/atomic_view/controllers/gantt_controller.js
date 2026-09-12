@@ -8,34 +8,44 @@ import { Turbo } from "@hotwired/turbo-rails"
 
 // Connects to data-controller="atomic-view--gantt"
 //
-// Handles the grid's horizontal (date) pagination in both directions --
-// vertical (row) pagination needs no controller at all, it's a plain
-// `<turbo-frame loading="lazy">` (see `GanttComponent#row_pagination_id`).
-// Two IntersectionObservers, both rooted at this grid's own `scroller`
-// target rather than the page viewport (a `loading="lazy"` frame only ever
-// watches the page viewport, which is why the row axis can use one but this
-// one can't):
+// Handles the grid's horizontal (date) pagination:
 //
-//   - the trailing (date) sentinel loads more days as the grid scrolls
-//     right, appending to the end.
-//   - the leading (dateStart) sentinel loads earlier days as the grid
-//     scrolls left, prepending to the start -- after which this controller
-//     nudges `scrollLeft` by however much width was just added, so the
-//     content the user was already looking at doesn't visually jump. This
-//     is the only asymmetry between the two directions; the fetch/render
-//     logic itself is identical.
+//   - forward (scrolling right, more days ahead): an IntersectionObserver
+//     watches a trailing sentinel, rooted at this grid's own `scroller`
+//     target rather than the page viewport (a `loading="lazy"` frame only
+//     ever watches the page viewport, which is why the row axis --
+//     `GanttComponent#row_pagination_id` -- can use one but this can't).
+//   - backward (earlier days): a plain button the user clicks --
+//     `dateStartTrigger` -- not auto-loaded on scroll. An
+//     IntersectionObserver-driven backward sentinel sitting right at the
+//     scroll container's start is already within its own rootMargin the
+//     instant it's observed, before the user has done anything, and
+//     "wait for a gesture first" guards around that both have real gaps
+//     (a plain `scroll` listener never fires if the very first gesture
+//     *is* trying to scroll left from `scrollLeft: 0`, since the browser
+//     doesn't dispatch one when the position can't change; and gating the
+//     observer's own callback doesn't work either, since
+//     IntersectionObserver only calls back on a *change* in intersection
+//     state, so the one notification for an already-in-view target fires
+//     and gets dropped while gated, then never re-fires once ungated,
+//     since nothing about its geometry changed in between). A real click
+//     sidesteps all of that -- see `loadEarlierDates` below.
 //
-// See `GanttComponent`'s class docs for what each direction's stream
+// Both directions share the same fetch/prepend-or-append/rebase mechanics;
+// see `GanttComponent`'s class docs for what each direction's stream
 // response is expected to contain.
 //
-// Sentinels carry their next/prev-page URL as a `data-*` attribute on
-// themselves (rather than a Stimulus Value on this controller's root) so a
-// turbo_stream.replace of just the sentinel is enough to advance the
-// cursor. The `*SentinelTargetConnected` lifecycle callbacks below
-// re-observe automatically whenever Turbo swaps a sentinel out for its
-// replacement -- no manual re-wiring needed after each page loads.
+// The forward sentinel and the backward trigger both carry their page URL
+// as a `data-*` attribute on themselves (rather than a Stimulus Value on
+// this controller's root) so a `turbo_stream.replace` of just that element
+// is enough to advance the cursor. `dateSentinelTargetConnected` re-observes
+// automatically whenever Turbo swaps the forward sentinel out for its
+// replacement -- no manual re-wiring needed after each page loads; the
+// backward trigger needs no such wiring at all, since its `data-action`
+// attribute is enough for Stimulus to bind the click handler to whatever
+// element currently has it, including a freshly-swapped-in replacement.
 export default class extends Controller {
-  static targets = ["scroller", "dates", "dateSentinel", "dateLoader", "dateStartSentinel", "dateStartLoader"]
+  static targets = ["scroller", "dates", "dateSentinel", "dateLoader", "dateStartTrigger", "dateStartLoader", "originAnchored"]
   static values = {
     dateRootMargin: { type: String, default: "0px 400px 0px 0px" },
   }
@@ -44,33 +54,27 @@ export default class extends Controller {
   // in the initial DOM *before* `connect()` runs -- Stimulus wires up
   // existing targets as part of connecting the controller itself, and that
   // includes invoking their connected callbacks, ahead of calling
-  // `connect()`. So the observers those callbacks reach for have to exist
-  // by `initialize()` (guaranteed to run first, exactly once), not
-  // `connect()` -- creating them there worked by coincidence whenever a
+  // `connect()`. So the observer `dateSentinelTargetConnected` reaches for
+  // has to exist by `initialize()` (guaranteed to run first, exactly once),
+  // not `connect()` -- creating it there worked by coincidence whenever a
   // sentinel was added later via Turbo Stream, and threw on the very first
   // (already-in-the-DOM) sentinel otherwise.
   initialize() {
     this.dateForwardLoading = false
     this.dateBackwardLoading = false
-
-    const root = this.hasScrollerTarget ? this.scrollerTarget : null
+    // Running total of pixel width ever prepended to the date header so far
+    // -- see `rebaseOriginAnchored` below.
+    this.prependedWidth = 0
 
     this.dateForwardObserver = new IntersectionObserver(this.handleDateForwardIntersect, {
-      root,
+      root: this.hasScrollerTarget ? this.scrollerTarget : null,
       rootMargin: this.dateRootMarginValue,
-      threshold: 0,
-    })
-
-    this.dateBackwardObserver = new IntersectionObserver(this.handleDateBackwardIntersect, {
-      root,
-      rootMargin: this.mirrorRootMargin(this.dateRootMarginValue),
       threshold: 0,
     })
   }
 
   disconnect() {
     this.dateForwardObserver.disconnect()
-    this.dateBackwardObserver.disconnect()
   }
 
   dateSentinelTargetConnected(element) {
@@ -81,23 +85,9 @@ export default class extends Controller {
     this.dateForwardObserver.unobserve(element)
   }
 
-  dateStartSentinelTargetConnected(element) {
-    this.dateBackwardObserver.observe(element)
-  }
-
-  dateStartSentinelTargetDisconnected(element) {
-    this.dateBackwardObserver.unobserve(element)
-  }
-
   handleDateForwardIntersect = (entries) => {
     for (const entry of entries) {
       if (entry.isIntersecting) this.loadMoreDates(entry.target)
-    }
-  }
-
-  handleDateBackwardIntersect = (entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) this.loadEarlierDates(entry.target)
     }
   }
 
@@ -116,14 +106,20 @@ export default class extends Controller {
     }
   }
 
-  async loadEarlierDates(sentinel) {
-    const url = sentinel.dataset.prevPage
+  // Bound via `data-action="click->atomic-view--gantt#loadEarlierDates"` on
+  // the `dateStartTrigger` button -- see this class's docs for why backward
+  // pagination is a click rather than a scroll-triggered sentinel.
+  async loadEarlierDates(event) {
+    const trigger = event.currentTarget
+    const url = trigger.dataset.prevPage
     if (!url || this.dateBackwardLoading) return
 
     this.dateBackwardLoading = true
+    trigger.disabled = true
     this.toggleLoader(this.hasDateStartLoaderTarget ? this.dateStartLoaderTarget : null, true)
 
     const widthBefore = this.hasDatesTarget ? this.datesTarget.scrollWidth : 0
+    const anchoredBeforeRender = new Set(this.originAnchoredTargets)
 
     try {
       await this.renderStream(url, "earlier date columns")
@@ -135,12 +131,46 @@ export default class extends Controller {
       // looking at.
       if (this.hasDatesTarget && this.hasScrollerTarget) {
         const addedWidth = this.datesTarget.scrollWidth - widthBefore
-        if (addedWidth > 0) this.scrollerTarget.scrollLeft += addedWidth
+        if (addedWidth > 0) {
+          this.scrollerTarget.scrollLeft += addedWidth
+          this.rebaseOriginAnchored(anchoredBeforeRender, addedWidth)
+        }
       }
     } finally {
       this.dateBackwardLoading = false
+      // `trigger` may have just been replaced by the stream response (a new
+      // page's worth of `data-prev-page`) -- re-read the current element
+      // via the target rather than re-enabling the stale reference.
+      if (this.hasDateStartTriggerTarget) this.dateStartTriggerTarget.disabled = false
       this.toggleLoader(this.hasDateStartLoaderTarget ? this.dateStartLoaderTarget : null, false)
     }
+  }
+
+  // Prepending date-header cells shifts the header's own flow-based
+  // coordinate system right by `addedWidth` -- see `GanttComponent`'s class
+  // docs, "How the grid is laid out" -- without moving anything positioned
+  // in pixels from a fixed `origin:` instead (item bars, the today strip;
+  // anything carrying `data-atomic-view--gantt-target="originAnchored"`).
+  // Elements already on the page before this response need nudging right by
+  // that same `addedWidth` to stay under the header cell they belong to.
+  // Ones this response just backfilled (new bars for the newly-loaded date
+  // range) were positioned by the server against the *original* origin with
+  // no knowledge of drift accumulated by earlier backward loads on this
+  // page, so they need the full running total instead.
+  //
+  // NOTE: this only rebases bars/the today strip backfilled by *this* date
+  // axis. A row loaded afterward via `next_rows_path`, or a bar backfilled
+  // by a *forward* `next_dates_path` response, is rendered fresh from the
+  // same unshifted origin math and would need this same treatment to stay
+  // aligned once `prependedWidth` is nonzero -- not wired up, since neither
+  // path currently has a hook to apply it from.
+  rebaseOriginAnchored(anchoredBeforeRender, addedWidth) {
+    for (const el of this.originAnchoredTargets) {
+      const delta = anchoredBeforeRender.has(el) ? addedWidth : this.prependedWidth + addedWidth
+      const left = Number.parseFloat(el.style.left) || 0
+      el.style.left = `${left + delta}px`
+    }
+    this.prependedWidth += addedWidth
   }
 
   async renderStream(url, description) {
@@ -165,13 +195,5 @@ export default class extends Controller {
 
   toggleLoader(loader, visible) {
     if (loader) loader.hidden = !visible
-  }
-
-  // IntersectionObserver rootMargin is "top right bottom left" -- the
-  // backward observer needs its margin expanded on the left (where its
-  // sentinel sits) instead of the right, everything else the same.
-  mirrorRootMargin(margin) {
-    const [top, right, bottom, left] = margin.split(/\s+/)
-    return `${top} ${left} ${bottom} ${right}`
   }
 }

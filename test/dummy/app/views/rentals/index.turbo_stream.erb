@@ -22,9 +22,10 @@
 <% end %>
 
 <%# The rows just appended above need to be reachable the next time either
-    date sentinel fires -- both carry `rows_loaded:`, so both need
-    refreshing here even though no *dates* changed. See RentalsController's
-    class docs, "How the two pagination axes stay in sync". %>
+    date axis loads more (the forward sentinel or a click on "Load earlier
+    days") -- both carry `rows_loaded:`, so both need refreshing here even
+    though no *dates* changed. See RentalsController's class docs, "How the
+    two pagination axes stay in sync". %>
 <%= turbo_stream.replace("site-schedule_date_sentinel") do %>
   <div
     id="site-schedule_date_sentinel"
@@ -34,13 +35,16 @@
   ></div>
 <% end %>
 
-<% if @dates.first > RentalsController::MIN_DATE %>
-  <%= turbo_stream.replace("site-schedule_date_start_sentinel") do %>
-    <div
-      id="site-schedule_date_start_sentinel"
-      class="w-px flex-none self-stretch"
-      data-atomic-view--gantt-target="dateStartSentinel"
-      data-prev-page="<%= rentals_dates_path(origin: @origin, before: @dates.first, rows_loaded: @rows_loaded) %>"
-    ></div>
-  <% end %>
+<%= turbo_stream.replace("site-schedule_date_start_trigger") do %>
+  <button
+    type="button"
+    id="site-schedule_date_start_trigger"
+    class="flex items-center gap-1.5 rounded-btn px-2 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    data-atomic-view--gantt-target="dateStartTrigger"
+    data-action="click->atomic-view--gantt#loadEarlierDates"
+    data-prev-page="<%= rentals_dates_path(origin: @origin, before: @dates.first, rows_loaded: @rows_loaded) %>"
+  >
+    <span id="site-schedule_date_start_loader" class="size-3.5 flex-none animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" data-atomic-view--gantt-target="dateStartLoader" hidden aria-hidden="true"></span>
+    Load earlier days
+  </button>
 <% end %>

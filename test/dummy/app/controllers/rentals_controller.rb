@@ -24,27 +24,33 @@
 # that existed when the *sentinel* was last rendered, silently missing any
 # rows loaded in between.
 #
-# == How "which dates are new" is decided -- and why there's no dedup
+# == How "which dates are new" is decided -- one calendar month at a time
 #
 # `after:`/`before:` is the one date already at the edge of what's loaded
-# (`@dates.last`/`@dates.first`). The next/previous batch is computed as
-# everything strictly beyond it -- `after + 1`..`after + DATE_BATCH`, or
-# the mirror image going backward (see `#dates`). Because each batch is
-# defined *relative to what was just rendered* rather than an absolute
-# offset the client tracks separately, there's no way for the same date to
-# be requested twice, so nothing needs to deduplicate the result -- neither
-# this controller nor the `atomic-view--gantt` Stimulus controller does.
+# (`@dates.last`/`@dates.first`). Every batch here is exactly one whole
+# calendar month -- `after:` is always a month's last day, so the next batch
+# starts clean on the 1st; `before:` is always a month's first day, so the
+# previous batch is the *entire* preceding month. That's a deliberate
+# simplification available because every batch is defined *relative to what
+# was just rendered*: it keeps every `next_dates_path`/`prev_dates_path`
+# response's month band update to exactly one new, fully-labeled
+# `MonthBandComponent` segment (see `dates.turbo_stream.erb`), with no need
+# to chunk a batch that straddles a month boundary or track which month a
+# previous response's segment already labeled. It also means there's no way
+# for the same date to be requested twice, so nothing needs to deduplicate
+# the result -- neither this controller nor the `atomic-view--gantt`
+# Stimulus controller does.
+#
+# Backward pagination has no floor -- `prev_dates_path` is offered
+# unconditionally, so scrolling left keeps loading earlier months forever.
 class RentalsController < ApplicationController
   include Pagy::Method
 
   ROW_LIMIT = 8
-  DATE_WINDOW = 21
-  DATE_BATCH = 14
-  MIN_DATE = 120.days.ago.to_date
 
   def index
     @origin = parse_date(params[:origin]) || Date.current.beginning_of_month
-    @dates = (@origin...(@origin + DATE_WINDOW)).to_a
+    @dates = (@origin...@origin.next_month).to_a
     @pagy, @sites = pagy(:keyset, Site.order(:code, :id), limit: ROW_LIMIT)
     @rows_loaded = @sites.size
 
@@ -64,12 +70,13 @@ class RentalsController < ApplicationController
     if params[:after].present?
       after = parse_date(params[:after])
       @direction = :forward
-      @new_dates = (1..DATE_BATCH).map { |n| after + n }
+      month_start = (after + 1).beginning_of_month
+      @new_dates = (month_start...month_start.next_month).to_a
     else
       before = parse_date(params[:before])
       @direction = :backward
-      floor = [before - DATE_BATCH, MIN_DATE].max
-      @new_dates = (floor...before).to_a
+      month_start = (before - 1).beginning_of_month
+      @new_dates = (month_start...before).to_a
     end
 
     respond_to { |format| format.turbo_stream }

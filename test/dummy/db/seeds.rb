@@ -41,10 +41,27 @@ sites.each_with_index do |site, index|
   end
 end
 
+# RentalsController shows rows in `Site.order(:code, :id)` -- alphabetical by
+# code, not creation order -- so a demo-critical booking needs to land on one
+# of *those* first few rows to be visible without also scrolling down through
+# row pagination first. `sites.first`/`sites.second` (Ruby array order, which
+# follows `parks`, Riverside-first) don't match that: single-word park names
+# collapse to a one-letter prefix (`"Riverside".split` has nothing to join,
+# so its prefix is just "R"), and "ER"/"GM" both alphabetically precede "R".
+first_page_sites = Site.order(:code, :id).limit(2)
+
 # Force at least one clearly overlapping pair so the demo's lane-packing
 # (GanttComponent.pack_lanes) has something real to pack.
-overlap_site = sites.first
+overlap_site = first_page_sites.first
 Booking.create!(site: overlap_site, camper_name: "Karen Wilson", starts_on: origin, ends_on: origin + 19, status: "active")
 Booking.create!(site: overlap_site, camper_name: "Inquiry · overlaps stay", starts_on: origin + 14, ends_on: origin + 17, status: "pending")
+
+# A booking spanning ~2.5 months, crossing several month boundaries -- lets
+# you scroll right through `next_dates_path` and watch the same bar stay
+# correctly rendered (and the month band correctly split) as more of it
+# comes into view, rather than only ever seeing short bookings that fit
+# inside a single loaded page of dates.
+long_stay_site = first_page_sites.second
+Booking.create!(site: long_stay_site, camper_name: "The Whitfield Family · Seasonal", starts_on: origin + 5, ends_on: origin + 85, status: "active")
 
 puts "Seeded #{Site.count} sites and #{Booking.count} bookings."

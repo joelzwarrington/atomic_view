@@ -25,6 +25,19 @@ class AtomicView::Components::GanttComponent::ItemComponentTest < ViewComponent:
     assert_includes(actual, "Karen Wilson")
   end
 
+  test "positions the label sticky, clear of the default label column width" do
+    actual = render_inline(AtomicView::Components::GanttComponent::ItemComponent.new(starts_on: ORIGIN, ends_on: ORIGIN, origin: ORIGIN, label: "Karen Wilson")).to_html
+
+    assert_includes(actual, "class=\"sticky truncate\"")
+    assert_includes(actual, "left: #{AtomicView::Components::GanttComponent::DEFAULT_LABEL_WIDTH + 8}px")
+  end
+
+  test "offsets the sticky label past a custom label_width" do
+    actual = render_inline(AtomicView::Components::GanttComponent::ItemComponent.new(starts_on: ORIGIN, ends_on: ORIGIN, origin: ORIGIN, label: "Karen Wilson", label_width: 200)).to_html
+
+    assert_includes(actual, "left: 208px")
+  end
+
   test "renders block content instead of the label when given" do
     actual = render_inline(AtomicView::Components::GanttComponent::ItemComponent.new(starts_on: ORIGIN, ends_on: ORIGIN, origin: ORIGIN, label: "ignored")) {
       "<span class=\"custom-content\">Custom</span>".html_safe
@@ -94,18 +107,6 @@ class AtomicView::Components::GanttComponent::ItemComponentTest < ViewComponent:
 
     assert_includes(actual, "cursor-pointer")
     assert_includes(actual, "focus-visible:ring-2")
-  end
-
-  test "positions the bar fractionally within a week column at the week scale" do
-    actual = render_inline(AtomicView::Components::GanttComponent::ItemComponent.new(starts_on: ORIGIN + 3, ends_on: ORIGIN + 3, origin: ORIGIN, cell_width: 70, scale: :week)).to_html
-
-    assert_includes(actual, "left: 30px")
-  end
-
-  test "sizes a bar spanning exactly one month to one cell at the month scale" do
-    actual = render_inline(AtomicView::Components::GanttComponent::ItemComponent.new(starts_on: ORIGIN, ends_on: Date.new(2026, 9, 30), origin: ORIGIN, cell_width: 60, scale: :month)).to_html
-
-    assert_includes(actual, "width: 60px")
   end
 
   test "renders no id by default" do

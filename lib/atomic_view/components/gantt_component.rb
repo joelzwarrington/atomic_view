@@ -5,9 +5,9 @@ module AtomicView
     # Gantt
     #
     # A resource-scheduling grid -- rows are resources (sites, rooms, staff),
-    # columns are a date scale (day/week/month), and each row's bookings
-    # render as bars positioned by real date math. Both axes load more data
-    # independently via Turbo, no full page reload:
+    # columns are days, and each row's bookings render as bars positioned by
+    # real date math. Both axes load more data independently via Turbo, no
+    # full page reload:
     #
     #   render(GanttComponent.new(
     #     id: "site-schedule",
@@ -28,35 +28,38 @@ module AtomicView
     # component despite the shared "timeline" vocabulary in casual use), a
     # Gantt's date columns must line up across every row -- that's the whole
     # point of the chart. So horizontal pagination here is *grid-wide*: one
-    # sentinel loads more days for every row at once, rather than each row
+    # trigger loads more days for every row at once, rather than each row
     # scrolling its own independent strip of items. See `RowComponent` and
     # `ItemComponent` for the per-row/per-bar API.
     #
     # == How the grid is laid out
     #
-    # There's no CSS Grid and no client-side column bookkeeping. The label
-    # column is `sticky left-0`; each row is a flex box of (label, track).
-    # Every row's track is `width: 100%` of a `width: max-content` inner
-    # wrapper shared with the date header -- so as the header grows (more
-    # date cells appended), every row's track grows with it automatically,
-    # via ordinary CSS reflow. Bars are positioned with `position: absolute`
-    # and inline `left`/`width` in pixels, computed from real dates (see
-    # `.offset_px`/`.span_px` below) -- not from column indices, which would
-    # require the server or client to track how many columns have loaded so
-    # far. This is also why `origin:` exists (below): it's the one thing that
-    # *does* need to stay consistent across requests.
+    # The label column is `sticky left-0`; each row is a flex box of (label,
+    # track). Every row's track is `width: 100%` of a `width: max-content`
+    # inner wrapper shared with the date header -- so as the header grows
+    # (more date cells appended), every row's track grows with it
+    # automatically, via ordinary CSS reflow.
     #
-    # == `scale:`
+    # The date header and month band are each a CSS Grid (`grid-auto-flow:
+    # column`, `grid-auto-columns: <cell_width>`) -- one declaration on the
+    # container sizes every column, so a `DateHeaderComponent` cell carries no
+    # width of its own, and a `MonthBandComponent` segment just declares
+    # `grid-column: span <day count>` rather than a computed pixel width. This
+    # is deliberately plain flow/grid layout, not client-side column
+    # bookkeeping: appending or prepending a cell is nothing more than
+    # inserting a DOM node, and the grid places it.
     #
-    # `:day` (default), `:week`, or `:month` -- what one column represents.
-    # `dates:` is always "one `Date` per column" regardless of scale: every
-    # day for `:day`, the first day of each week for `:week`, the first of
-    # each month for `:month`. Bars still take real `starts_on`/`ends_on`
-    # dates and position themselves proportionally *within* a week/month
-    # column (e.g. a booking starting mid-month renders partway into that
-    # column, not snapped to its edge) -- see `.offset_px`/`.span_px`.
+    # Bars are the one thing that *can't* live on that grid -- a booking
+    # starting or ending mid-render isn't a concept here (every date is a
+    # whole day, and a bar always starts/ends on one), but a bar can still
+    # begin before the currently-loaded window, and grid line numbers aren't
+    # stable across a `prepend` the way real calendar dates are (see
+    # "`origin:` has to round-trip through every request" below). So bars
+    # stay `position: absolute` with inline `left`/`width` in pixels, computed
+    # from real dates (see `.offset_px`/`.span_px`) rather than a column
+    # index or grid line.
     #
-    # == `origin:` and `scale:` have to round-trip through every request
+    # == `origin:` has to round-trip through every request
     #
     # `RowComponent` and `ItemComponent` both take `origin:` -- the `Date`
     # that renders at pixel 0 (the leftmost edge of the whole grid, not just
@@ -68,19 +71,15 @@ module AtomicView
     # typically by round-tripping it through the pagination URLs as a param
     # (see the worked example below). Getting this wrong doesn't break any
     # single response in isolation; it just misaligns bars appended later
-    # against columns rendered earlier. At `:week`/`:month` scale, `origin`
-    # should fall on a column boundary (a week/month start) for the same
-    # reason `dates:` entries do.
+    # against columns rendered earlier.
     #
-    # `scale:` has the exact same requirement, for the exact same reason --
-    # it's not stored anywhere Turbo knows about; a stream response is just
-    # HTML, so whichever scale is "currently showing" only exists because
-    # your controller keeps putting the same `scale:` value into every
-    # response for as long as the user is looking at that view. If the day/
-    # week/month toggle in your UI is a link/form that reloads the page (the
-    # simplest option), the new `scale` param naturally becomes the one
-    # in-flight value everything downstream reads from; nothing needs to
-    # "remember" the old scale once the page has re-rendered in the new one.
+    # A `prev_dates_path` response prepending earlier days shifts the date
+    # header's own grid (new columns land at its start, pushing the rest
+    # right) without moving any bar already positioned in pixels against the
+    # fixed `origin:` -- the `atomic-view--gantt` Stimulus controller
+    # compensates by nudging every already-rendered bar (and the today strip)
+    # right by however much width the header just grew by; see that
+    # controller's docs.
     #
     # == Wiring this up with real data (Pagy keyset + Turbo Streams)
     #
@@ -99,7 +98,6 @@ module AtomicView
     #   class RentalsController < ApplicationController
     #     def index
     #       @origin = parse_date(params[:origin]) || Date.current.beginning_of_month
-    #       @scale = params[:scale]&.to_sym || GanttComponent::DEFAULT_SCALE
     #       @dates = (@origin...(@origin + 30)).to_a
     #       @pagy, @sites = pagy(:keyset, Site.order(:prefix, :name, :id))
     #
@@ -114,22 +112,21 @@ module AtomicView
     #   <%= render(AtomicView::Components::GanttComponent.new(
     #         id: "site-schedule",
     #         dates: @dates,
-    #         scale: @scale,
-    #         next_rows_path: (@pagy.next && rentals_path(page: @pagy.next, origin: @origin, scale: @scale, format: :turbo_stream)),
-    #         next_dates_path: more_dates_path(origin: @origin, scale: @scale, after: @dates.last)
+    #         next_rows_path: (@pagy.next && rentals_path(page: @pagy.next, origin: @origin, format: :turbo_stream)),
+    #         next_dates_path: more_dates_path(origin: @origin, after: @dates.last)
     #       )) do |gantt|
-    #     @sites.each { |site| render_site_row(gantt, site, @origin, @scale, @dates) }
+    #     @sites.each { |site| render_site_row(gantt, site, @origin, @dates) }
     #   end %>
     #
     #   # index.turbo_stream.erb -- reached when the row_pagination frame's
     #   # lazily-loaded `src` fires (see "Loading more rows" below)
     #   <%= turbo_stream.append("site-schedule_rows") do %>
-    #     <% @sites.each { |site| render_site_row(gantt, site, @origin, @scale, @dates) } %>
+    #     <% @sites.each { |site| render_site_row(gantt, site, @origin, @dates) } %>
     #   <% end %>
     #   <%= turbo_stream.replace("site-schedule_row_pagination") do %>
     #     <%= tag.turbo_frame(
     #           id: "site-schedule_row_pagination",
-    #           src: (@pagy.next && rentals_path(page: @pagy.next, origin: @origin, scale: @scale, format: :turbo_stream)),
+    #           src: (@pagy.next && rentals_path(page: @pagy.next, origin: @origin, format: :turbo_stream)),
     #           loading: :lazy
     #         ) %>
     #   <% end %>
@@ -139,30 +136,28 @@ module AtomicView
     # anywhere within `@dates` (see "New rows outside the currently-loaded
     # date window" below for why):
     #
-    #   def render_site_row(gantt, site, origin, scale, dates)
+    #   def render_site_row(gantt, site, origin, dates)
     #     bookings = site.bookings.select { |b| GanttComponent.overlaps_range?(b.starts_on, b.ends_on, dates.first, dates.last) }
-    #     gantt.with_row(id: dom_id(site, :row), label: site.code, sublabel: site.park.name, origin: origin, scale: scale) do |row|
-    #       bookings.each { |b| row.with_item(starts_on: b.starts_on, ends_on: b.ends_on, label: b.camper_name, origin: origin, scale: scale, variant: :success, href: booking_path(b)) }
+    #     gantt.with_row(id: dom_id(site, :row), label: site.code, sublabel: site.park.name, origin: origin) do |row|
+    #       bookings.each { |b| row.with_item(starts_on: b.starts_on, ends_on: b.ends_on, label: b.camper_name, origin: origin, variant: :success, href: booking_path(b)) }
     #     end
     #   end
     #
     # *Dates* aren't an AR relation at all -- "the next 30 days" is just date
     # arithmetic, so `next_dates_path` is simpler custom logic rather than
     # Pagy: a `MoreDatesController` (or an action alongside the one above)
-    # that takes `after:` (the last date currently loaded), `origin:`, and
-    # `scale:`, computes the next batch of `Date`s, and returns a stream
-    # that appends both new date header cells *and* any new bars those dates
-    # bring into range -- neither one is optional, and this is genuinely two
-    # separate append operations, since the header cells and the bars live
-    # in different DOM containers (`#{id}_dates` vs. each row's own
-    # `track_id`):
+    # that takes `after:` (the last date currently loaded) and `origin:`,
+    # computes the next batch of `Date`s, and returns a stream that appends
+    # both new date header cells *and* any new bars those dates bring into
+    # range -- neither one is optional, and this is genuinely two separate
+    # append operations, since the header cells and the bars live in
+    # different DOM containers (`#{id}_dates` vs. each row's own `track_id`):
     #
     #   class MoreDatesController < ApplicationController
     #     def show
     #       origin = parse_date(params[:origin])
-    #       scale = params[:scale].to_sym
     #       after = parse_date(params[:after])
-    #       new_dates = next_batch_of_dates(after: after, scale: scale) # your own date-arithmetic helper
+    #       new_dates = next_batch_of_dates(after: after) # your own date-arithmetic helper
     #       @sites = authorized(Site.all).order(:prefix, :name, :id) # the same rows currently on the page -- see below
     #     end
     #   end
@@ -170,7 +165,7 @@ module AtomicView
     #   # show.turbo_stream.erb
     #   <% new_dates.each do |date| %>
     #     <%= turbo_stream.append("site-schedule_dates") do %>
-    #       <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, scale: scale, today: Date.current)) %>
+    #       <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, today: Date.current)) %>
     #     <% end %>
     #   <% end %>
     #
@@ -178,13 +173,13 @@ module AtomicView
     #     <% bookings = site.bookings.select { |b| AtomicView::Components::GanttComponent.overlaps_range?(b.starts_on, b.ends_on, new_dates.first, new_dates.last) } %>
     #     <% bookings.each do |b| %>
     #       <%= turbo_stream.append(dom_id(site, :row) + "_track") do %>
-    #         <%= render(AtomicView::Components::GanttComponent::ItemComponent.new(starts_on: b.starts_on, ends_on: b.ends_on, origin: origin, scale: scale, label: b.camper_name, variant: :success, href: booking_path(b))) %>
+    #         <%= render(AtomicView::Components::GanttComponent::ItemComponent.new(starts_on: b.starts_on, ends_on: b.ends_on, origin: origin, label: b.camper_name, variant: :success, href: booking_path(b))) %>
     #       <% end %>
     #     <% end %>
     #   <% end %>
     #
     #   <%= turbo_stream.replace("site-schedule_date_sentinel") do %>
-    #     <div id="site-schedule_date_sentinel" data-atomic-view--gantt-target="dateSentinel" data-next-page="<%= more_dates_path(origin: origin, scale: scale, after: new_dates.last) %>"></div>
+    #     <div id="site-schedule_date_sentinel" data-atomic-view--gantt-target="dateSentinel" data-next-page="<%= more_dates_path(origin: origin, after: new_dates.last) %>"></div>
     #   <% end %>
     #
     # That response needs to know which rows are currently rendered (to
@@ -193,7 +188,7 @@ module AtomicView
     # round-tripped alongside `after:`, or (simpler, if the row page is
     # small) have the client send the visible row ids and scope the query to
     # just those. `prev_dates_path`'s response is the same shape with every
-    # `append` swapped for `prepend`, targeting `#{id}_date_start_sentinel`
+    # `append` swapped for `prepend`, targeting `#{id}_date_start_trigger`
     # instead.
     #
     # == New rows outside the currently-loaded date window
@@ -224,6 +219,15 @@ module AtomicView
     # needed for "a row that was loaded after the date window had already
     # moved."
     #
+    # A booking that starts *before* `origin` is the mirror case (e.g. an
+    # already-in-progress booking on the very first render) -- its bar's
+    # `left` is negative from the start, extending into scroll space that
+    # hasn't been unlocked by any `prev_dates_path` prepend yet. That's why
+    # `ItemComponent`'s label is `position: sticky` rather than flowing at
+    # the bar's own true start: without it, the label would sit somewhere
+    # the user can't scroll to (yet), rendering the bar with no visible text
+    # at all until they've scrolled back far enough to reach it.
+    #
     # == Turbo Stream contract
     #
     # === Loading more rows
@@ -242,14 +246,23 @@ module AtomicView
     #
     # === Loading more days, in either direction
     #
-    # `next_dates_path` (scrolling right) and `prev_dates_path` (scrolling
-    # left) are each watched by their own sentinel, both handled by a small
-    # Stimulus controller (`atomic-view--gantt`) -- unlike the row frame,
-    # these sentinels' intersection has to be measured against the grid's
-    # own horizontally-scrolling container, not the page viewport, which a
-    # plain `loading="lazy"` frame can't do (it only ever watches the page
-    # viewport). Fetched the same way, with `Accept:
-    # text/vnd.turbo-stream.html`.
+    # Both directions are handled by a small Stimulus controller
+    # (`atomic-view--gantt`), but deliberately *not* the same way:
+    #
+    #   - `next_dates_path` (scrolling right) is watched by a trailing
+    #     sentinel (`#{id}_date_sentinel`) via IntersectionObserver, rooted
+    #     at the grid's own horizontally-scrolling container rather than the
+    #     page viewport (a plain `loading="lazy"` frame can't do that -- it
+    #     only ever watches the page viewport).
+    #   - `prev_dates_path` (scrolling left) is loaded by a plain button the
+    #     user clicks (`#{id}_date_start_trigger`), not auto-loaded on
+    #     scroll -- see the Stimulus controller's own docs for why an
+    #     IntersectionObserver-driven sentinel doesn't work well for this
+    #     direction (in short: it sits right where the grid is already
+    #     scrolled to on a normal page load, so there's no clean way to tell
+    #     "the user scrolled here" apart from "this is just where it starts").
+    #
+    # Both fetch the same way, with `Accept: text/vnd.turbo-stream.html`.
     #
     # A `next_dates_path` response must:
     #   1. `append`s new `DateHeaderComponent` cells to `#{id}_dates`
@@ -258,15 +271,22 @@ module AtomicView
     #      that row's `RowComponent#track_id`
     #   3. `replace`s `#{id}_date_sentinel` with an updated one, or `remove`s
     #      it when there are no more days ahead
+    #   4. `append`s one or more `MonthBandComponent` segments to
+    #      `#{id}_month_band`, covering the same newly-loaded dates -- see
+    #      that class's docs, "Loading more days"
     #
     # A `prev_dates_path` response is the mirror image -- `prepend` instead
-    # of `append` to `#{id}_dates` and each row's track (bars are absolutely
-    # positioned, so prepend vs. append only matters for the date header
-    # cells' visual order), and it targets `#{id}_date_start_sentinel`
-    # instead. After that stream renders, the controller adds the newly-
-    # prepended width to the scroller's `scrollLeft` so the content the user
-    # was already looking at doesn't visually jump -- the same scroll-anchor
-    # correction any "load older messages above" infinite-scroll UI needs.
+    # of `append` to `#{id}_dates`/`#{id}_month_band` and each row's track
+    # (bars are absolutely positioned, so prepend vs. append only matters for
+    # the date header cells' visual order), and it `replace`s
+    # `#{id}_date_start_trigger` with an updated one (new `data-prev-page`),
+    # or `remove`s it when there are no earlier days behind. After that
+    # stream renders, the controller adds the newly-prepended width to the
+    # scroller's `scrollLeft` so the content the user was already looking at
+    # doesn't visually jump -- the same scroll-anchor correction any "load
+    # older messages above" infinite-scroll UI needs -- and rebases every
+    # bar/today strip already on the page by that same amount (see
+    # "`origin:` has to round-trip through every request" above).
     #
     # See "New rows outside the currently-loaded date window" above for what
     # happens when a bar's dates fall outside what `next_dates_path`/
@@ -283,8 +303,6 @@ module AtomicView
     class GanttComponent < AtomicView::Component
       DEFAULT_CELL_WIDTH = 42
       DEFAULT_LABEL_WIDTH = 176
-      DEFAULT_SCALE = :day
-      SCALES = %i[day week month].freeze
 
       # Bar height, the gap below it before the next lane, and the gap above
       # the first lane -- see `ItemComponent#lane`/`RowComponent#lanes` and
@@ -297,15 +315,14 @@ module AtomicView
       renders_many :rows, "AtomicView::Components::GanttComponent::RowComponent"
 
       attr_reader :id, :dates, :next_rows_path, :next_dates_path, :prev_dates_path, :cell_width, :label_width,
-        :scale, :today, :date_root_margin, :empty_message
+        :today, :date_root_margin, :empty_message
 
       # @param id [String] unique DOM id for this grid; every other id
       #   (rows/dates containers, sentinels, frames) is derived from it.
       # @param dates [Array<Date>] the date columns to render *this call* --
       #   for the initial render, the first page of the visible range; a
       #   `next_dates_path`/`prev_dates_path` response renders only the
-      #   newly-appended/prepended dates. One entry per column regardless of
-      #   `scale` -- see "`scale:`" above.
+      #   newly-appended/prepended dates.
       # @param next_rows_path [String, nil] URL for the next page of rows,
       #   rendered as a lazily-loaded turbo-frame. Omit (nil) when there are
       #   no more rows to load.
@@ -315,20 +332,18 @@ module AtomicView
       # @param prev_dates_path [String, nil] URL for the previous page of
       #   date columns, loaded when the grid scrolls left. Omit when there
       #   are no earlier days to load.
-      # @param cell_width [Integer] pixel width of one column. Must match
+      # @param cell_width [Integer] pixel width of one day column. Must match
       #   whatever `RowComponent`/`ItemComponent` instances use for this same
       #   grid (they default to the same constant, so leave this alone unless
       #   you're overriding it everywhere).
       # @param label_width [Integer] pixel width of the sticky label column.
-      # @param scale [Symbol] one of #{SCALES.join(", ")} -- what one column
-      #   represents. Must match every `RowComponent`/`ItemComponent` in this
-      #   grid, same as `cell_width`.
       # @param today [Date, nil] highlights the column `today` falls within.
       # @param date_root_margin [String] IntersectionObserver rootMargin for
-      #   the horizontal date sentinels, rooted at the grid's own scroll
-      #   container rather than the viewport. Applied as given to the
-      #   trailing (right/`next_dates_path`) sentinel and mirrored
-      #   left-for-right for the leading (left/`prev_dates_path`) one.
+      #   the trailing (right/`next_dates_path`) date sentinel, rooted at the
+      #   grid's own scroll container rather than the viewport. Only the
+      #   forward direction uses an observer -- see "Loading more days, in
+      #   either direction" above for why the backward one is a plain button
+      #   instead.
       # @param empty_message [String] shown when there are no rows at all.
       def initialize(
         id:,
@@ -338,7 +353,6 @@ module AtomicView
         prev_dates_path: nil,
         cell_width: DEFAULT_CELL_WIDTH,
         label_width: DEFAULT_LABEL_WIDTH,
-        scale: DEFAULT_SCALE,
         today: nil,
         date_root_margin: "0px 400px 0px 0px",
         empty_message: "Nothing scheduled.",
@@ -352,42 +366,17 @@ module AtomicView
         @prev_dates_path = prev_dates_path
         @cell_width = cell_width
         @label_width = label_width
-        @scale = scale.to_sym
         @today = today
         @date_root_margin = date_root_margin
         @empty_message = empty_message
         @options = options
       end
 
-      # Absolute position of `date`, in column units, for the given `scale`.
-      # Epoch-independent (only ever used as a difference between two calls,
-      # in `.offset_px`/`.span_px` below) -- fractional for `:week`/`:month`,
-      # e.g. a date 3 days into a 7-day week column is `3/7.0` past that
-      # column's own whole-number position.
-      def self.position(date, scale: DEFAULT_SCALE)
-        date = date.to_date
-        case scale.to_sym
-        when :week
-          date.jd / 7.0
-        when :month
-          (date.year * 12 + date.month) + (date.day - 1).to_f / Date.civil(date.year, date.month, -1).day
-        else
-          date.jd
-        end
-      end
-
-      # The first date of the column `date` falls within -- `date` itself
-      # for `:day`, the column's week/month start otherwise. Used to snap a
-      # single date (e.g. `today`) to its column's left edge, as opposed to
-      # `.offset_px`, which places a date at its exact proportional position
-      # *within* a column.
-      def self.period_start(date, scale: DEFAULT_SCALE)
-        date = date.to_date
-        case scale.to_sym
-        when :week then date.beginning_of_week
-        when :month then date.beginning_of_month
-        else date
-        end
+      # Absolute position of `date`, in days. Epoch-independent (only ever
+      # used as a difference between two calls, in `.offset_px`/`.span_px`
+      # below).
+      def self.position(date)
+        date.to_date.jd
       end
 
       # Whether `starts_on`..`ends_on` shares any inclusive day with
@@ -406,27 +395,15 @@ module AtomicView
       # that started before the currently-loaded window); callers don't need
       # to clip this themselves, it just renders (partially) off the
       # scroller's left edge.
-      def self.offset_px(date, origin:, cell_width: DEFAULT_CELL_WIDTH, scale: DEFAULT_SCALE)
-        round_px((position(date, scale: scale) - position(origin, scale: scale)) * cell_width)
+      def self.offset_px(date, origin:, cell_width: DEFAULT_CELL_WIDTH)
+        (position(date) - position(origin)) * cell_width
       end
 
       # Pixel width of a bar spanning `starts_on`..`ends_on`, inclusive of
       # both end dates.
-      def self.span_px(starts_on, ends_on, cell_width: DEFAULT_CELL_WIDTH, scale: DEFAULT_SCALE)
-        round_px((position(ends_on.to_date + 1, scale: scale) - position(starts_on, scale: scale)) * cell_width)
+      def self.span_px(starts_on, ends_on, cell_width: DEFAULT_CELL_WIDTH)
+        (position(ends_on.to_date + 1) - position(starts_on)) * cell_width
       end
-
-      # Rounds a computed pixel value to 2 decimal places -- enough to erase
-      # the floating-point noise `:week`/`:month` math produces (e.g.
-      # `30.000000000582077`) without losing meaningful sub-pixel precision
-      # -- and drops the decimal entirely when it rounds to a whole number,
-      # so `:day`-scale math (already exact integers) keeps rendering plain
-      # ("120px", not "120.0px").
-      def self.round_px(value)
-        rounded = value.round(2)
-        (rounded == rounded.to_i) ? rounded.to_i : rounded
-      end
-      private_class_method :round_px
 
       # Greedily assigns each `[starts_on, ends_on]` pair in `ranges` to the
       # lowest-numbered lane that doesn't overlap anything already placed
@@ -455,19 +432,39 @@ module AtomicView
         lanes
       end
 
+      # One entry per distinct calendar month present in `dates`, clipped to
+      # whatever's currently loaded -- e.g. `dates` starting mid-September
+      # yields a first segment covering just `dates.first`..(Sep 30), not the
+      # 1st..30th (`count` is the number of *loaded* days, not the month's
+      # real length). `count` is exactly what `MonthBandComponent#span`
+      # wants.
+      def month_segments
+        dates.chunk { |date| date.beginning_of_month }.map do |month_start, days|
+          {month_start: month_start, count: days.size}
+        end
+      end
+
       def scroller_id = "#{id}_scroller"
+      def month_band_id = "#{id}_month_band"
       def dates_id = "#{id}_dates"
       def rows_id = "#{id}_rows"
       def row_pagination_id = "#{id}_row_pagination"
       def date_sentinel_id = "#{id}_date_sentinel"
       def date_loader_id = "#{id}_date_loader"
-      def date_start_sentinel_id = "#{id}_date_start_sentinel"
+      def date_start_trigger_id = "#{id}_date_start_trigger"
       def date_start_loader_id = "#{id}_date_start_loader"
 
       def paginated_rows? = next_rows_path.present?
       def paginated_dates_forward? = next_dates_path.present?
       def paginated_dates_backward? = prev_dates_path.present?
       def empty? = rows.empty?
+
+      # Shared by the date header and month band containers -- both are a
+      # single-row CSS Grid (`grid-auto-flow: column`) so their children
+      # (`DateHeaderComponent` cells, `MonthBandComponent` segments) never
+      # need a pixel width of their own. See "How the grid is laid out"
+      # above.
+      def column_grid_style = "grid-auto-columns: #{cell_width}px"
 
       def html_options
         @options.except(:class, :data)

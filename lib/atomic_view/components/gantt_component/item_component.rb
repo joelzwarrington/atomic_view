@@ -57,7 +57,7 @@ module AtomicView
       class ItemComponent < AtomicView::Component
         VARIANTS = %i[primary success warning destructive muted outline].freeze
 
-        attr_reader :id, :starts_on, :ends_on, :origin, :cell_width, :scale, :lane, :label, :href, :variant
+        attr_reader :id, :starts_on, :ends_on, :origin, :cell_width, :label_width, :lane, :label, :href, :variant
 
         # @param id [String, nil] DOM id for this bar. Omit if you never need
         #   to target it directly; give it one (e.g. `dom_id(booking, :bar)`)
@@ -72,8 +72,10 @@ module AtomicView
         # @param origin [Date] must match the `origin:` every other row/item
         #   in this grid uses -- the date that renders at pixel 0.
         # @param cell_width [Integer] must match the parent `GanttComponent`'s.
-        # @param scale [Symbol] must match the parent `GanttComponent`'s --
-        #   see that class's docs for what it changes about positioning.
+        # @param label_width [Integer] must match the parent `GanttComponent`'s
+        #   -- used only to keep the label clear of the sticky label column
+        #   when this bar's own true start is scrolled out of view (see
+        #   `label_style`).
         # @param lane [Integer] which horizontal lane (0-based) this bar
         #   renders in, for when it overlaps another item in the same row --
         #   see "Overlapping bars in the same row" above. `0` (the default)
@@ -87,14 +89,14 @@ module AtomicView
         #   the gem's existing success/warning/destructive/muted tokens
         #   rather than domain-specific statuses, so map your own status
         #   values onto these however fits.
-        def initialize(starts_on:, ends_on:, origin:, id: nil, cell_width: GanttComponent::DEFAULT_CELL_WIDTH, scale: GanttComponent::DEFAULT_SCALE, lane: 0, label: nil, href: nil, variant: :primary, **options)
+        def initialize(starts_on:, ends_on:, origin:, id: nil, cell_width: GanttComponent::DEFAULT_CELL_WIDTH, label_width: GanttComponent::DEFAULT_LABEL_WIDTH, lane: 0, label: nil, href: nil, variant: :primary, **options)
           super()
           @id = id
           @starts_on = starts_on
           @ends_on = ends_on
           @origin = origin
           @cell_width = cell_width
-          @scale = scale.to_sym
+          @label_width = label_width
           @lane = lane
           @label = label
           @href = href
@@ -103,18 +105,50 @@ module AtomicView
         end
 
         def html_options
-          @options.except(:class)
+          @options.except(:class, :data)
+        end
+
+        # Marks this bar as a Turbo-target for the `atomic-view--gantt`
+        # Stimulus controller's backward-pagination rebasing -- see
+        # `GanttComponent`'s class docs, "How the grid is laid out": a bar's
+        # `left` is fixed in pixels against `origin:`, so unlike the flow-
+        # positioned date header cells above it, it needs nudging whenever a
+        # `prev_dates_path` response prepends earlier day columns ahead of
+        # it.
+        def data_attributes
+          (@options[:data] || {}).merge("atomic-view--gantt-target" => "originAnchored")
         end
 
         def position_style
-          left = GanttComponent.offset_px(starts_on, origin: origin, cell_width: cell_width, scale: scale)
-          width = GanttComponent.span_px(starts_on, ends_on, cell_width: cell_width, scale: scale)
+          left = GanttComponent.offset_px(starts_on, origin: origin, cell_width: cell_width)
+          width = GanttComponent.span_px(starts_on, ends_on, cell_width: cell_width)
           top = GanttComponent::LANE_TOP_PADDING + (lane * GanttComponent::LANE_HEIGHT)
           "left: #{left}px; width: #{width}px; top: #{top}px; height: #{GanttComponent::BAR_HEIGHT}px"
         end
 
+        # `sticky`, so a bar starting well before the currently-loaded window
+        # -- rendered with a large negative `left` in `position_style` above,
+        # per "New rows outside the currently-loaded date window" in
+        # `GanttComponent`'s class docs -- keeps its label visible near
+        # whichever edge of the bar is currently on screen, instead of the
+        # label sitting at the bar's own (unreachably off-screen) true start.
+        # Offset past `label_width` so a stuck label never renders underneath
+        # the sticky row-label column.
+        #
+        # Only reachable in the plain `label:` path (see the template) --
+        # `position: sticky` computes relative to the *nearest* ancestor with
+        # non-visible `overflow`, so it only works here because that path
+        # skips `overflow_class` below; custom block content still gets
+        # wrapped in an `overflow-hidden` bar (needed to clip it to
+        # `rounded-btn`'s corners), which would silently break stickiness --
+        # its nearest non-visible-overflow ancestor would become the bar
+        # itself instead of the real scrolling container.
+        def label_style
+          "left: #{label_width + 8}px"
+        end
+
         def html_class
-          class_names(base_classes, href.present? ? interactive_classes : nil, variant_classes, @options[:class])
+          class_names(base_classes, overflow_class, href.present? ? interactive_classes : nil, variant_classes, @options[:class])
         end
 
         def tag_name
@@ -123,8 +157,15 @@ module AtomicView
 
         private
 
+        # See `label_style` above for why this only applies when there's
+        # custom block content to clip -- the plain-label path needs to stay
+        # free of it for the sticky label to work.
+        def overflow_class
+          "overflow-hidden" if content.present?
+        end
+
         def base_classes
-          "absolute z-[1] flex items-center overflow-hidden rounded-btn px-2.5 text-xs font-semibold whitespace-nowrap"
+          "absolute z-[1] flex items-center rounded-btn px-2.5 text-xs font-semibold whitespace-nowrap"
         end
 
         def interactive_classes

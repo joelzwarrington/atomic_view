@@ -1,3 +1,7 @@
-<%= content_tag(tag_name, **html_options, id: id, href: href, style: position_style, class: html_class) do %>
-  <span class="truncate"><%= content.presence || label %></span>
+<%= content_tag(tag_name, **html_options, id: id, href: href, style: position_style, class: html_class, data: data_attributes) do %>
+  <% if content.present? %>
+    <%= content %>
+  <% else %>
+    <span class="sticky truncate" style="<%= label_style %>"><%= label %></span>
+  <% end %>
 <% end %>

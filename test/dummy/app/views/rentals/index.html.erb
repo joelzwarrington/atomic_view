@@ -3,7 +3,8 @@
   <p class="text-sm text-muted-foreground">
     <%= Site.count %> sites, <%= Booking.count %> bookings -- a real ActiveRecord + Turbo Streams demo of
     <code>AtomicView::Components::GanttComponent</code>. Scroll down to load more sites (Pagy keyset,
-    a lazily-loaded turbo-frame); scroll the grid itself left/right to load earlier/later days.
+    a lazily-loaded turbo-frame); scroll the grid right for later days, or click "Load earlier days"
+    for earlier ones.
   </p>
 </div>
 
@@ -13,7 +14,7 @@
       today: Date.current,
       next_rows_path: (@pagy.next && rentals_path(page: @pagy.next, origin: @origin, format: :turbo_stream)),
       next_dates_path: rentals_dates_path(origin: @origin, after: @dates.last, rows_loaded: @rows_loaded),
-      prev_dates_path: ((@dates.first > RentalsController::MIN_DATE) ? rentals_dates_path(origin: @origin, before: @dates.first, rows_loaded: @rows_loaded) : nil)
+      prev_dates_path: rentals_dates_path(origin: @origin, before: @dates.first, rows_loaded: @rows_loaded)
     )) do |gantt| %>
   <% @sites.each do |site| %>
     <% bookings, lanes = row_bookings_and_lanes(site, @dates) %>

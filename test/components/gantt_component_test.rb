@@ -62,18 +62,20 @@ class AtomicView::Components::GanttComponentTest < ViewComponent::TestCase
     assert_includes(actual, "data-atomic-view--gantt-target=\"dateSentinel\"")
   end
 
-  test "renders no date start sentinel when prev_dates_path is omitted" do
+  test "renders no date start trigger when prev_dates_path is omitted" do
     actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: DATES)).to_html
 
-    assert_not_includes(actual, "site-schedule_date_start_sentinel")
+    assert_not_includes(actual, "site-schedule_date_start_trigger")
   end
 
-  test "renders a date start sentinel carrying prev_dates_path when given" do
+  test "renders a date start trigger button carrying prev_dates_path when given" do
     actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: DATES, prev_dates_path: "/dates?before=2026-09-01")).to_html
 
-    assert_includes(actual, "id=\"site-schedule_date_start_sentinel\"")
+    assert_includes(actual, "id=\"site-schedule_date_start_trigger\"")
     assert_includes(actual, "data-prev-page=\"/dates?before=2026-09-01\"")
-    assert_includes(actual, "data-atomic-view--gantt-target=\"dateStartSentinel\"")
+    assert_includes(actual, "data-atomic-view--gantt-target=\"dateStartTrigger\"")
+    assert_includes(actual, "data-action=\"click->atomic-view--gantt#loadEarlierDates\"")
+    assert_includes(actual, "<button")
   end
 
   test "renders the empty message when there are no rows" do
@@ -117,46 +119,54 @@ class AtomicView::Components::GanttComponentTest < ViewComponent::TestCase
     assert_includes(actual, "data-testid=\"gantt\"")
   end
 
-  test "renders day/weekday header labels at the default (day) scale" do
+  test "renders day/weekday header labels" do
     actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: [Date.new(2026, 9, 1)])).to_html
 
     assert_includes(actual, ">1<")
     assert_includes(actual, ">Tue<")
   end
 
-  test "renders month/day and 'Week' header labels at the week scale" do
-    actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: [Date.new(2026, 9, 1)], scale: :week)).to_html
+  test "date header cells carry no width of their own -- the grid container sizes them" do
+    actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: [Date.new(2026, 9, 1)], cell_width: 40))
 
-    assert_includes(actual, ">Sep 1<")
-    assert_includes(actual, ">Week<")
+    dates_container = actual.css("#site-schedule_dates").first
+    assert_includes(dates_container["class"], "grid")
+    assert_includes(dates_container["style"], "grid-auto-columns: 40px")
+
+    cell = actual.css("#site-schedule_dates > div").first
+    assert_nil(cell["style"])
   end
 
-  test "renders month name and year header labels at the month scale" do
-    actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: [Date.new(2026, 9, 1)], scale: :month)).to_html
+  test "renders a month/year band above the day header" do
+    actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: [Date.new(2026, 9, 1)]))
 
-    assert_includes(actual, ">Sep 1<")
-    assert_includes(actual, ">2026<")
+    segment = actual.css("#site-schedule_month_band > div").first
+    assert(segment)
+    assert_equal("September 2026", segment.text.strip)
   end
 
-  test "GanttComponent.offset_px matches simple day math at the day scale" do
+  test "splits the month band into one grid segment per calendar month, spanning its day count" do
+    dates = (Date.new(2026, 8, 30)..Date.new(2026, 9, 2)).to_a # Aug 30, 31, Sep 1, 2
+    actual = render_inline(AtomicView::Components::GanttComponent.new(id: "site-schedule", dates: dates, cell_width: 40))
+
+    month_band = actual.css("#site-schedule_month_band").first
+    assert_includes(month_band["class"], "grid")
+    assert_includes(month_band["style"], "grid-auto-columns: 40px")
+
+    segments = actual.css("#site-schedule_month_band > div")
+    assert_equal(2, segments.size)
+
+    assert_equal("August 2026", segments[0].text.strip)
+    assert_includes(segments[0]["style"], "grid-column: span 2")
+
+    assert_equal("September 2026", segments[1].text.strip)
+    assert_includes(segments[1]["style"], "grid-column: span 2")
+  end
+
+  test "GanttComponent.offset_px matches simple day math" do
     origin = Date.new(2026, 9, 1)
     assert_equal(0, AtomicView::Components::GanttComponent.offset_px(origin, origin: origin, cell_width: 40))
     assert_equal(120, AtomicView::Components::GanttComponent.offset_px(origin + 3, origin: origin, cell_width: 40))
-  end
-
-  test "GanttComponent.offset_px positions a full week later at exactly one cell width at the week scale" do
-    origin = Date.new(2026, 9, 1)
-    assert_equal(40, AtomicView::Components::GanttComponent.offset_px(origin + 7, origin: origin, cell_width: 40, scale: :week))
-  end
-
-  test "GanttComponent.offset_px positions fractionally within a week column at the week scale" do
-    origin = Date.new(2026, 9, 1)
-    assert_in_delta(120.0 / 7, AtomicView::Components::GanttComponent.offset_px(origin + 3, origin: origin, cell_width: 40, scale: :week), 0.01)
-  end
-
-  test "GanttComponent.offset_px positions fractionally within a month column at the month scale" do
-    origin = Date.new(2026, 9, 1)
-    assert_equal(40, AtomicView::Components::GanttComponent.offset_px(Date.new(2026, 10, 1), origin: origin, cell_width: 40, scale: :month).round)
   end
 
   test "GanttComponent.pack_lanes keeps non-overlapping ranges in the same lane" do

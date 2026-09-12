@@ -58,21 +58,6 @@ class AtomicView::Components::GanttComponent::RowComponentTest < ViewComponent::
     assert_includes(actual, "left: 80px")
   end
 
-  test "snaps the today strip to the containing week's start at the week scale" do
-    week_origin = ORIGIN.beginning_of_week
-    actual = render_inline(AtomicView::Components::GanttComponent::RowComponent.new(id: "row-1", label: "RS002", origin: week_origin, today: ORIGIN + 2, cell_width: 40, scale: :week)).to_html
-
-    assert_includes(actual, "bg-primary/5")
-    assert_includes(actual, "left: 0px")
-  end
-
-  test "does not include misleading floating-point noise in the today strip position" do
-    week_origin = ORIGIN.beginning_of_week
-    actual = render_inline(AtomicView::Components::GanttComponent::RowComponent.new(id: "row-1", label: "RS002", origin: week_origin, today: ORIGIN + 2, cell_width: 40, scale: :week)).to_html
-
-    assert_not_includes(actual, "0.0000")
-  end
-
   test "sizes the track for a single lane by default" do
     actual = render_inline(AtomicView::Components::GanttComponent::RowComponent.new(id: "row-1", label: "RS002", origin: ORIGIN)).to_html
 

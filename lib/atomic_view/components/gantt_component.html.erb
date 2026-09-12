@@ -1,27 +1,41 @@
 <%= tag.div(id: id, **html_options, class: html_class, data: data_attributes) do %>
+  <% if paginated_dates_backward? %>
+    <div class="flex items-center border-b border-border px-3 py-1.5">
+      <button
+        type="button"
+        id="<%= date_start_trigger_id %>"
+        class="flex items-center gap-1.5 rounded-btn px-2 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        data-atomic-view--gantt-target="dateStartTrigger"
+        data-action="click->atomic-view--gantt#loadEarlierDates"
+        data-prev-page="<%= prev_dates_path %>"
+      >
+        <span id="<%= date_start_loader_id %>" class="size-3.5 flex-none animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" data-atomic-view--gantt-target="dateStartLoader" hidden aria-hidden="true"></span>
+        Load earlier days
+      </button>
+    </div>
+  <% end %>
+
   <div id="<%= scroller_id %>" class="overflow-x-auto" data-atomic-view--gantt-target="scroller">
     <div class="w-max min-w-full">
       <div class="flex">
         <div class="sticky left-0 top-0 z-30 flex-none border-b border-r border-border bg-surface" style="width: <%= label_width %>px"></div>
 
-        <div id="<%= date_start_loader_id %>" class="flex flex-none items-center justify-center px-3" data-atomic-view--gantt-target="dateStartLoader" hidden>
-          <span class="size-3.5 animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" aria-hidden="true"></span>
-          <span class="sr-only">Loading earlier days…</span>
-        </div>
+        <div class="flex flex-col">
+          <div id="<%= month_band_id %>" class="grid h-5 flex-none grid-flow-col border-b border-border/60 bg-surface" style="<%= column_grid_style %>">
+            <% month_segments.each do |segment| %>
+              <%= render(AtomicView::Components::GanttComponent::MonthBandComponent.new(
+                    id: "#{month_band_id}_#{segment[:month_start].strftime("%Y-%m")}",
+                    label: segment[:month_start].strftime("%B %Y"),
+                    span: segment[:count]
+                  )) %>
+            <% end %>
+          </div>
 
-        <% if paginated_dates_backward? %>
-          <div
-            id="<%= date_start_sentinel_id %>"
-            class="w-px flex-none self-stretch"
-            data-atomic-view--gantt-target="dateStartSentinel"
-            data-prev-page="<%= prev_dates_path %>"
-          ></div>
-        <% end %>
-
-        <div id="<%= dates_id %>" class="flex" data-atomic-view--gantt-target="dates">
-          <% dates.each do |date| %>
-            <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, cell_width: cell_width, scale: scale, today: today)) %>
-          <% end %>
+          <div id="<%= dates_id %>" class="grid grid-flow-col" style="<%= column_grid_style %>" data-atomic-view--gantt-target="dates">
+            <% dates.each do |date| %>
+              <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, today: today)) %>
+            <% end %>
+          </div>
         </div>
 
         <div id="<%= date_loader_id %>" class="flex flex-none items-center justify-center px-3" data-atomic-view--gantt-target="dateLoader" hidden>

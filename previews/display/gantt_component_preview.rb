@@ -3,14 +3,13 @@ module Display
     # Gantt
     # -----
     # A resource-scheduling grid -- rows are resources (here, campsites),
-    # columns are a date scale (day/week/month), and bookings render as bars
-    # positioned by real date math rather than a column index. The label
-    # column stays pinned while the grid scrolls sideways; scroll the grid
-    # down or sideways in a real app (`next_rows_path`/`next_dates_path`/
-    # `prev_dates_path`, omitted here since this preview has no backend to
-    # fetch from) to load more sites or more days via Turbo -- see
-    # `GanttComponent`'s class docs for the full pagination contract,
-    # including a worked Pagy-keyset example.
+    # columns are days, and bookings render as bars positioned by real date
+    # math rather than a column index. The label column stays pinned while
+    # the grid scrolls sideways; scroll the grid down or sideways in a real
+    # app (`next_rows_path`/`next_dates_path`/`prev_dates_path`, omitted here
+    # since this preview has no backend to fetch from) to load more sites or
+    # more days via Turbo -- see `GanttComponent`'s class docs for the full
+    # pagination contract, including a worked Pagy-keyset example.
     #
     # `variant:` on each bar maps onto the gem's existing success/warning/
     # destructive/muted/outline tokens -- map your own domain statuses
@@ -31,46 +30,6 @@ module Display
     def default
       render(AtomicView::Components::GanttComponent.new(id: "rentals-preview", dates: dates, today: today)) do |gantt|
         sites.each { |site| row_for(gantt, site) }
-      end
-    end
-
-    # Weekly scale
-    # ------------
-    # `scale: :week` -- each column is a week (`dates:` is one entry per
-    # week start), and bars position themselves proportionally *within* a
-    # week column rather than snapping to it, so a booking starting
-    # mid-week still renders partway into that column.
-    def weekly
-      week_origin = origin.beginning_of_week
-      week_dates = (0..7).map { |n| week_origin + n.weeks }
-
-      render(AtomicView::Components::GanttComponent.new(id: "rentals-weekly-preview", dates: week_dates, scale: :week, today: today)) do |gantt|
-        gantt.with_row(id: "rs002", label: "RS002", sublabel: "Riverside", origin: week_origin, scale: :week) do |row|
-          row.with_item(starts_on: origin, ends_on: origin + 13, origin: week_origin, scale: :week, label: "Karen Wilson · Seasonal", variant: :success)
-        end
-
-        gantt.with_row(id: "rs006", label: "RS006", sublabel: "Riverside", origin: week_origin, scale: :week) do |row|
-          row.with_item(starts_on: origin + 9, ends_on: origin + 30, origin: week_origin, scale: :week, label: "S. Okafor · Seasonal", variant: :warning)
-        end
-      end
-    end
-
-    # Monthly scale
-    # -------------
-    # `scale: :month` -- each column is a calendar month, uniform width
-    # regardless of how many days that month actually has.
-    def monthly
-      month_origin = origin.beginning_of_month
-      month_dates = (0..5).map { |n| month_origin + n.months }
-
-      render(AtomicView::Components::GanttComponent.new(id: "rentals-monthly-preview", dates: month_dates, scale: :month, today: today)) do |gantt|
-        gantt.with_row(id: "rs002", label: "RS002", sublabel: "Riverside", origin: month_origin, scale: :month) do |row|
-          row.with_item(starts_on: origin, ends_on: origin + 4.months, origin: month_origin, scale: :month, label: "Karen Wilson · Seasonal", variant: :success)
-        end
-
-        gantt.with_row(id: "rs003", label: "RS003", sublabel: "Riverside", origin: month_origin, scale: :month) do |row|
-          row.with_item(starts_on: origin + 1.month + 10, ends_on: origin + 2.months, origin: month_origin, scale: :month, label: "Tom Bennett", variant: :warning)
-        end
       end
     end
 
