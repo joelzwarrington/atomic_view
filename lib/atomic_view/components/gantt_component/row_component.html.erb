@@ -1,0 +1,22 @@
+<%= tag.div(id: id, **html_options, class: html_class) do %>
+  <div class="sticky left-0 z-10 flex-none border-r border-b border-border bg-surface px-3 py-2" style="width: <%= label_width %>px">
+    <% if href.present? %>
+      <%= link_to label, href, class: "block truncate text-sm font-semibold text-foreground hover:underline" %>
+    <% else %>
+      <div class="truncate text-sm font-semibold text-foreground"><%= label %></div>
+    <% end %>
+    <% if sublabel.present? %>
+      <div class="truncate text-xs text-muted-foreground"><%= sublabel %></div>
+    <% end %>
+  </div>
+
+  <div id="<%= track_id %>" class="relative flex-1 border-b border-border" style="<%= track_style %>">
+    <% if today_offset_px %>
+      <div class="absolute inset-y-0 bg-primary/5" data-atomic-view--gantt-target="originAnchored" style="left: <%= today_offset_px %>px; width: <%= cell_width %>px"></div>
+    <% end %>
+
+    <% items.each do |item| %>
+      <%= item %>
+    <% end %>
+  </div>
+<% end %>

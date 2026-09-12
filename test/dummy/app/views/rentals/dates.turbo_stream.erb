@@ -1,0 +1,84 @@
+<%# Reached by the atomic-view--gantt Stimulus controller -- either the
+    grid scrolling right (forward, the sentinel) or a click on "Load earlier
+    days" (backward, the button) -- see GanttComponent's class docs, "Loading
+    more days, in either direction". @new_dates is already exactly the batch
+    that needs adding: RentalsController computes it relative to `after:`/
+    `before:` (the one date already at the edge of what's loaded), so it's
+    never a date already on the page. Nothing here deduplicates anything.
+    Every batch is exactly one calendar month (see RentalsController's class
+    docs), so the month band never needs to chunk or continue a label across
+    requests -- each response adds exactly one new, fully-labeled
+    MonthBandComponent segment alongside its day cells. %>
+
+<% if @direction == :forward %>
+  <% @new_dates.each do |date| %>
+    <%= turbo_stream.append("site-schedule_dates") do %>
+      <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, today: Date.current)) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%# Prepending has to happen in reverse (latest-of-the-new-batch first) --
+      each prepend pushes the previous one further right, so prepending in
+      ascending order would leave the batch reading backward. %>
+  <% @new_dates.reverse.each do |date| %>
+    <%= turbo_stream.prepend("site-schedule_dates") do %>
+      <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, today: Date.current)) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.send(@direction == :forward ? :append : :prepend, "site-schedule_month_band") do %>
+  <%= render(AtomicView::Components::GanttComponent::MonthBandComponent.new(
+        id: "site-schedule_month_band_#{@new_dates.first.strftime("%Y-%m")}",
+        label: @new_dates.first.strftime("%B %Y"),
+        span: @new_dates.size
+      )) %>
+<% end %>
+
+<% @sites.each do |site| %>
+  <% bookings = site.bookings_within(@new_dates.first, @new_dates.last) %>
+  <% bookings.each do |booking| %>
+    <%# lane: 0 is a simplification -- correctly packing a bar appended
+        this way would mean re-fetching and re-laying-out this row's
+        *entire* currently-loaded booking list, not just this new slice
+        (see ItemComponent's class docs, "Overlapping bars in the same
+        row"). Fine here since the seeded overlap already falls inside
+        the initial render's window. %>
+    <%= turbo_stream.send(@direction == :forward ? :append : :prepend, "#{dom_id(site, :row)}_track") do %>
+      <%= render(AtomicView::Components::GanttComponent::ItemComponent.new(
+            id: dom_id(booking, :bar),
+            starts_on: booking.starts_on,
+            ends_on: booking.ends_on,
+            origin: @origin,
+            lane: 0,
+            label: booking.camper_name,
+            variant: booking.variant
+          )) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @direction == :forward %>
+  <%= turbo_stream.replace("site-schedule_date_sentinel") do %>
+    <div
+      id="site-schedule_date_sentinel"
+      class="w-px flex-none self-stretch"
+      data-atomic-view--gantt-target="dateSentinel"
+      data-next-page="<%= rentals_dates_path(origin: @origin, after: @new_dates.last, rows_loaded: @rows_loaded) %>"
+    ></div>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace("site-schedule_date_start_trigger") do %>
+    <button
+      type="button"
+      id="site-schedule_date_start_trigger"
+      class="flex items-center gap-1.5 rounded-btn px-2 py-1 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      data-atomic-view--gantt-target="dateStartTrigger"
+      data-action="click->atomic-view--gantt#loadEarlierDates"
+      data-prev-page="<%= rentals_dates_path(origin: @origin, before: @new_dates.first, rows_loaded: @rows_loaded) %>"
+    >
+      <span id="site-schedule_date_start_loader" class="size-3.5 flex-none animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" data-atomic-view--gantt-target="dateStartLoader" hidden aria-hidden="true"></span>
+      Load earlier days
+    </button>
+  <% end %>
+<% end %>

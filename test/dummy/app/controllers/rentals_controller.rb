@@ -1,0 +1,93 @@
+# frozen_string_literal: true
+
+# A real ActiveRecord + Turbo Streams demo of GanttComponent -- everything
+# GanttComponent's class docs describe in the abstract (Pagy keyset row
+# pagination, bidirectional date pagination, lane-packed overlaps) wired up
+# against real `Site`/`Booking` records, not pseudocode. Visit /rentals.
+#
+# == How the two pagination axes stay in sync
+#
+# `next_dates_path`/`prev_dates_path` need to know which *rows* are
+# currently on the page, so their responses can backfill new bars into all
+# of them -- not just the first page of sites, if the user has already
+# scrolled down and loaded more. This controller tracks that with a plain
+# `rows_loaded:` count (how many sites, in the stable `:code, :id` order,
+# have been rendered so far) rather than re-deriving Pagy's own keyset
+# cursor -- simpler, and sites are already deterministically ordered, so
+# "the first N" is exactly "everything loaded via next_rows_path so far".
+#
+# That count has to stay current on *both* date sentinels even when only
+# rows change -- see `index.turbo_stream.erb`, which replaces them with
+# updated URLs every time a new page of rows loads, even though no dates
+# changed. Skipping that step wouldn't break the very next date-pagination
+# request, but the one after it: it would backfill bars into only the rows
+# that existed when the *sentinel* was last rendered, silently missing any
+# rows loaded in between.
+#
+# == How "which dates are new" is decided -- one calendar month at a time
+#
+# `after:`/`before:` is the one date already at the edge of what's loaded
+# (`@dates.last`/`@dates.first`). Every batch here is exactly one whole
+# calendar month -- `after:` is always a month's last day, so the next batch
+# starts clean on the 1st; `before:` is always a month's first day, so the
+# previous batch is the *entire* preceding month. That's a deliberate
+# simplification available because every batch is defined *relative to what
+# was just rendered*: it keeps every `next_dates_path`/`prev_dates_path`
+# response's month band update to exactly one new, fully-labeled
+# `MonthBandComponent` segment (see `dates.turbo_stream.erb`), with no need
+# to chunk a batch that straddles a month boundary or track which month a
+# previous response's segment already labeled. It also means there's no way
+# for the same date to be requested twice, so nothing needs to deduplicate
+# the result -- neither this controller nor the `atomic-view--gantt`
+# Stimulus controller does.
+#
+# Backward pagination has no floor -- `prev_dates_path` is offered
+# unconditionally, so scrolling left keeps loading earlier months forever.
+class RentalsController < ApplicationController
+  include Pagy::Method
+
+  ROW_LIMIT = 8
+
+  def index
+    @origin = parse_date(params[:origin]) || Date.current.beginning_of_month
+    @dates = (@origin...@origin.next_month).to_a
+    @pagy, @sites = pagy(:keyset, Site.order(:code, :id), limit: ROW_LIMIT)
+    @rows_loaded = @sites.size
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream # only reached by the row_pagination frame's lazy src
+    end
+  end
+
+  # GET /rentals/dates -- exactly one of `after:`/`before:` is given, never
+  # both; see the class docs above for what each does.
+  def dates
+    @origin = parse_date(params[:origin])
+    @rows_loaded = params[:rows_loaded].to_i
+    @sites = Site.order(:code, :id).limit(@rows_loaded)
+
+    if params[:after].present?
+      after = parse_date(params[:after])
+      @direction = :forward
+      month_start = (after + 1).beginning_of_month
+      @new_dates = (month_start...month_start.next_month).to_a
+    else
+      before = parse_date(params[:before])
+      @direction = :backward
+      month_start = (before - 1).beginning_of_month
+      @new_dates = (month_start...before).to_a
+    end
+
+    respond_to { |format| format.turbo_stream }
+  end
+
+  private
+
+  def parse_date(value)
+    Date.iso8601(value) if value.present?
+  rescue ArgumentError
+    nil
+  end
+  helper_method :parse_date
+end
