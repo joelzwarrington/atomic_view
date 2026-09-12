@@ -35,9 +35,10 @@ class AtomicView::Components::DatetimeSelectComponentTest < ViewComponent::TestC
     assert_includes actual, %(<select id="test_model_appointment_time_4i" name="test_model[appointment_time(4i)]" class="#{CHROME_CLASS}">)
     assert_includes actual, %(<select id="test_model_appointment_time_5i" name="test_model[appointment_time(5i)]" class="#{CHROME_CLASS}">)
 
-    # Check for month options
+    # Check for month options -- December is selected since @object's
+    # appointment_time is Dec 25, 2023
     assert_includes actual, '<option value="1">January</option>'
-    assert_includes actual, '<option value="12">December</option>'
+    assert_includes actual, '<option value="12" selected="selected">December</option>'
 
     # Check for hour options
     assert_includes actual, '<option value="00">00</option>'
