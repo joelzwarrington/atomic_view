@@ -1,0 +1,62 @@
+<%= tag.div(id: id, **html_options, class: html_class, data: data_attributes) do %>
+  <div id="<%= scroller_id %>" class="overflow-x-auto" data-atomic-view--gantt-target="scroller">
+    <div class="w-max min-w-full">
+      <div class="flex">
+        <div class="sticky left-0 top-0 z-30 flex-none border-b border-r border-border bg-surface" style="width: <%= label_width %>px"></div>
+
+        <div id="<%= date_start_loader_id %>" class="flex flex-none items-center justify-center px-3" data-atomic-view--gantt-target="dateStartLoader" hidden>
+          <span class="size-3.5 animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" aria-hidden="true"></span>
+          <span class="sr-only">Loading earlier days…</span>
+        </div>
+
+        <% if paginated_dates_backward? %>
+          <div
+            id="<%= date_start_sentinel_id %>"
+            class="w-px flex-none self-stretch"
+            data-atomic-view--gantt-target="dateStartSentinel"
+            data-prev-page="<%= prev_dates_path %>"
+          ></div>
+        <% end %>
+
+        <div id="<%= dates_id %>" class="flex" data-atomic-view--gantt-target="dates">
+          <% dates.each do |date| %>
+            <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, cell_width: cell_width, scale: scale, today: today)) %>
+          <% end %>
+        </div>
+
+        <div id="<%= date_loader_id %>" class="flex flex-none items-center justify-center px-3" data-atomic-view--gantt-target="dateLoader" hidden>
+          <span class="size-3.5 animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" aria-hidden="true"></span>
+          <span class="sr-only">Loading more days…</span>
+        </div>
+
+        <% if paginated_dates_forward? %>
+          <div
+            id="<%= date_sentinel_id %>"
+            class="w-px flex-none self-stretch"
+            data-atomic-view--gantt-target="dateSentinel"
+            data-next-page="<%= next_dates_path %>"
+          ></div>
+        <% end %>
+      </div>
+
+      <div id="<%= rows_id %>" class="flex flex-col">
+        <% rows.each do |row| %>
+          <%= row %>
+        <% end %>
+      </div>
+
+      <% if empty? %>
+        <p class="px-4 py-6 text-center text-sm text-muted-foreground"><%= empty_message %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <% if paginated_rows? %>
+    <%= tag.turbo_frame(id: row_pagination_id, src: next_rows_path, loading: :lazy, class: "flex items-center justify-center gap-2 border-t border-border py-3") do %>
+      <span class="size-3.5 animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" aria-hidden="true"></span>
+      <span class="sr-only">Loading more rows…</span>
+    <% end %>
+  <% else %>
+    <%= tag.turbo_frame(id: row_pagination_id) %>
+  <% end %>
+<% end %>

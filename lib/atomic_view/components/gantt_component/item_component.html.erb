@@ -1,0 +1,3 @@
+<%= content_tag(tag_name, **html_options, id: id, href: href, style: position_style, class: html_class) do %>
+  <span class="truncate"><%= content.presence || label %></span>
+<% end %>

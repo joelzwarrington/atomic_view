@@ -27,6 +27,12 @@ gem "tailwindcss-rails", "~> 4.6"
 gem "lookbook"
 gem "view_component-form"
 
+# Not a dependency of atomic_view itself -- used only by the dummy app's
+# RentalsController (test/dummy/app/controllers/rentals_controller.rb), a
+# real ActiveRecord-backed demo of GanttComponent's row pagination, keyset-
+# paginating Site the same way GanttComponent's class docs document.
+gem "pagy", "~> 43.0"
+
 group :development do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
   gem "standardrb"

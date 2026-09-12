@@ -1,0 +1,24 @@
+<div class="mb-4">
+  <h1 class="text-xl font-bold text-foreground">Rentals</h1>
+  <p class="text-sm text-muted-foreground">
+    <%= Site.count %> sites, <%= Booking.count %> bookings -- a real ActiveRecord + Turbo Streams demo of
+    <code>AtomicView::Components::GanttComponent</code>. Scroll down to load more sites (Pagy keyset,
+    a lazily-loaded turbo-frame); scroll the grid itself left/right to load earlier/later days.
+  </p>
+</div>
+
+<%= render(AtomicView::Components::GanttComponent.new(
+      id: "site-schedule",
+      dates: @dates,
+      today: Date.current,
+      next_rows_path: (@pagy.next && rentals_path(page: @pagy.next, origin: @origin, format: :turbo_stream)),
+      next_dates_path: rentals_dates_path(origin: @origin, after: @dates.last, rows_loaded: @rows_loaded),
+      prev_dates_path: ((@dates.first > RentalsController::MIN_DATE) ? rentals_dates_path(origin: @origin, before: @dates.first, rows_loaded: @rows_loaded) : nil)
+    )) do |gantt| %>
+  <% @sites.each do |site| %>
+    <% bookings, lanes = row_bookings_and_lanes(site, @dates) %>
+    <% gantt.with_row(**row_attrs(site, @origin, lanes)) do |row| %>
+      <% with_row_items(row, bookings, lanes, @origin) %>
+    <% end %>
+  <% end %>
+<% end %>

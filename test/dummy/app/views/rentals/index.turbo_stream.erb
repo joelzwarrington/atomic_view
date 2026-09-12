@@ -1,0 +1,46 @@
+<%# Reached only via the row_pagination turbo-frame's lazily-loaded `src`
+    (GanttComponent's class docs, "Loading more rows") -- one more page of
+    sites, keyset-paginated the same way any other index action in a real
+    app would be. %>
+
+<%= turbo_stream.append("site-schedule_rows") do %>
+  <% @sites.each do |site| %>
+    <% bookings, lanes = row_bookings_and_lanes(site, @dates) %>
+    <%= render(AtomicView::Components::GanttComponent::RowComponent.new(**row_attrs(site, @origin, lanes))) do |row| %>
+      <% with_row_items(row, bookings, lanes, @origin) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace("site-schedule_row_pagination") do %>
+  <%= tag.turbo_frame(
+        id: "site-schedule_row_pagination",
+        src: (@pagy.next && rentals_path(page: @pagy.next, origin: @origin, format: :turbo_stream)),
+        loading: :lazy,
+        class: "flex items-center justify-center gap-2 border-t border-border py-3"
+      ) %>
+<% end %>
+
+<%# The rows just appended above need to be reachable the next time either
+    date sentinel fires -- both carry `rows_loaded:`, so both need
+    refreshing here even though no *dates* changed. See RentalsController's
+    class docs, "How the two pagination axes stay in sync". %>
+<%= turbo_stream.replace("site-schedule_date_sentinel") do %>
+  <div
+    id="site-schedule_date_sentinel"
+    class="w-px flex-none self-stretch"
+    data-atomic-view--gantt-target="dateSentinel"
+    data-next-page="<%= rentals_dates_path(origin: @origin, after: @dates.last, rows_loaded: @rows_loaded) %>"
+  ></div>
+<% end %>
+
+<% if @dates.first > RentalsController::MIN_DATE %>
+  <%= turbo_stream.replace("site-schedule_date_start_sentinel") do %>
+    <div
+      id="site-schedule_date_start_sentinel"
+      class="w-px flex-none self-stretch"
+      data-atomic-view--gantt-target="dateStartSentinel"
+      data-prev-page="<%= rentals_dates_path(origin: @origin, before: @dates.first, rows_loaded: @rows_loaded) %>"
+    ></div>
+  <% end %>
+<% end %>

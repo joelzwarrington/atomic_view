@@ -1,0 +1,70 @@
+<%# Reached by the atomic-view--gantt Stimulus controller, scrolling the
+    grid itself left or right (GanttComponent's class docs, "Loading more
+    days, in either direction") -- @new_dates is already exactly the batch
+    that needs adding: RentalsController computes it relative to `after:`/
+    `before:` (the one date already at the edge of what's loaded), so it's
+    never a date already on the page. Nothing here deduplicates anything. %>
+
+<% if @direction == :forward %>
+  <% @new_dates.each do |date| %>
+    <%= turbo_stream.append("site-schedule_dates") do %>
+      <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, today: Date.current)) %>
+    <% end %>
+  <% end %>
+<% else %>
+  <%# Prepending has to happen in reverse (latest-of-the-new-batch first) --
+      each prepend pushes the previous one further right, so prepending in
+      ascending order would leave the batch reading backward. %>
+  <% @new_dates.reverse.each do |date| %>
+    <%= turbo_stream.prepend("site-schedule_dates") do %>
+      <%= render(AtomicView::Components::GanttComponent::DateHeaderComponent.new(date: date, today: Date.current)) %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @new_dates.any? %>
+  <% @sites.each do |site| %>
+    <% bookings = site.bookings_within(@new_dates.first, @new_dates.last) %>
+    <% bookings.each do |booking| %>
+      <%# lane: 0 is a simplification -- correctly packing a bar appended
+          this way would mean re-fetching and re-laying-out this row's
+          *entire* currently-loaded booking list, not just this new slice
+          (see ItemComponent's class docs, "Overlapping bars in the same
+          row"). Fine here since the seeded overlap already falls inside
+          the initial render's window. %>
+      <%= turbo_stream.send(@direction == :forward ? :append : :prepend, "#{dom_id(site, :row)}_track") do %>
+        <%= render(AtomicView::Components::GanttComponent::ItemComponent.new(
+              id: dom_id(booking, :bar),
+              starts_on: booking.starts_on,
+              ends_on: booking.ends_on,
+              origin: @origin,
+              lane: 0,
+              label: booking.camper_name,
+              variant: booking.variant
+            )) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @direction == :forward %>
+  <%= turbo_stream.replace("site-schedule_date_sentinel") do %>
+    <div
+      id="site-schedule_date_sentinel"
+      class="w-px flex-none self-stretch"
+      data-atomic-view--gantt-target="dateSentinel"
+      data-next-page="<%= rentals_dates_path(origin: @origin, after: @new_dates.last, rows_loaded: @rows_loaded) %>"
+    ></div>
+  <% end %>
+<% elsif @new_dates.any? %>
+  <%= turbo_stream.replace("site-schedule_date_start_sentinel") do %>
+    <div
+      id="site-schedule_date_start_sentinel"
+      class="w-px flex-none self-stretch"
+      data-atomic-view--gantt-target="dateStartSentinel"
+      data-prev-page="<%= rentals_dates_path(origin: @origin, before: @new_dates.first, rows_loaded: @rows_loaded) %>"
+    ></div>
+  <% end %>
+<% else %>
+  <%= turbo_stream.remove("site-schedule_date_start_sentinel") %>
+<% end %>
