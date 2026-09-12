@@ -84,6 +84,14 @@ class AtomicView::Components::TimelineComponentTest < ViewComponent::TestCase
     assert_not_includes(actual, "bg-border")
   end
 
+  test "renders a connecting line past the last item when continues is true" do
+    actual = render_inline(AtomicView::Components::TimelineComponent.new(continues: true)) { |timeline|
+      timeline.with_item(icon: "flag", description: "Only item")
+    }.to_html
+
+    assert_includes(actual, "bg-border")
+  end
+
   test "merges custom class and forwards other options onto the container" do
     actual = render_inline(AtomicView::Components::TimelineComponent.new(class: "custom-timeline", id: "park-activity")) { |timeline|
       timeline.with_item(icon: "flag", description: "created this park")

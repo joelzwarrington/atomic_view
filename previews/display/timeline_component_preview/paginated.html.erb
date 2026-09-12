@@ -1,0 +1,28 @@
+<%= render(AtomicView::Components::TimelineComponent.new(continues: true)) do |timeline| %>
+  <% timeline.with_item(
+       icon: "flag",
+       actor: "Joel W",
+       description: "created this park",
+       time: 1.year.ago
+     ) %>
+
+  <% timeline.with_item(
+       avatar: "JW",
+       actor: "Joel W",
+       description: "commented",
+       time: 3.hours.ago
+     ) do %>
+    <div class="mt-2 rounded-btn bg-offset p-2.5 text-sm text-foreground">Following up with QuickBooks support about the sync delay on last month's invoices.</div>
+  <% end %>
+<% end %>
+
+<%= render(AtomicView::Components::TimelineComponent.new) do |timeline| %>
+  <% timeline.with_item(
+       avatar: "CS",
+       actor: "Camped Support",
+       description: "commented",
+       time: 1.hour.ago
+     ) do %>
+    <div class="mt-2 rounded-btn bg-offset p-2.5 text-sm text-foreground">Reached out to QuickBooks on your behalf — sync should resume within 24 hours.</div>
+  <% end %>
+<% end %>

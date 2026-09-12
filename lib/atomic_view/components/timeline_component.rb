@@ -34,8 +34,9 @@ module AtomicView
     class TimelineComponent < AtomicView::Component
       renders_many :items, "ItemComponent"
 
-      def initialize(**options)
+      def initialize(continues: false, **options)
         super()
+        @continues = continues
         @options = options
       end
 
@@ -43,12 +44,15 @@ module AtomicView
         class_names("flex flex-col", @options[:class])
       end
 
+      # `continues:` says this render is one page of a longer feed -- the connector
+      # keeps going past the last item, into whatever the next turbo frame appends
+      # or the stream prepends above.
       def item_wrapper_class(index)
-        class_names("relative flex gap-3.5", "pb-6" => !last?(index))
+        class_names("relative flex gap-3.5", "pb-6" => !last?(index) || @continues)
       end
 
       def render_line?(index)
-        !last?(index)
+        !last?(index) || @continues
       end
 
       private

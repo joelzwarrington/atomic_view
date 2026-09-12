@@ -51,6 +51,16 @@ module Display
       end
     end
 
+    # Paginated
+    # ---------
+    # `continues:` marks a render as one page of a longer feed, so the
+    # connecting line runs past the last item instead of stopping there --
+    # into whatever the next turbo frame appends below. Stacked here to
+    # show the seam between two pages of the same feed.
+    def paginated
+      render_with_template
+    end
+
     private
 
     def diff_content(from, to)
