@@ -45,6 +45,20 @@ module Display
       render_with_template
     end
 
+    # Default trigger from label
+    # ---------------------------
+    # Passing `label:` without a `trigger` slot renders a default trigger
+    # button for you, styled with the same ring-based border/focus treatment
+    # as `TextFieldComponent`/`SelectComponent` (via `FieldChrome`) rather
+    # than a hand-rolled `border border-border` button -- so a filter
+    # dropdown sitting next to a search field lines up instead of looking
+    # like it came from a different design system. Still fully overridable:
+    # pass a `trigger` slot (as in the examples above) whenever the default
+    # button isn't enough.
+    def default_trigger_from_label
+      render_with_template
+    end
+
     # @!endgroup
   end
 end

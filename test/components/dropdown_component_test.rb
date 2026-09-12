@@ -93,4 +93,41 @@ class AtomicView::Components::DropdownComponentTest < ViewComponent::TestCase
     assert_not_includes(actual, "trigger_class")
     assert_not_includes(actual, "trigger-class")
   end
+
+  test "renders a default trigger button when label is given without a trigger slot" do
+    actual = render_inline(AtomicView::Components::DropdownComponent.new(label: "All sites")).to_html
+
+    assert_includes(actual, "All sites")
+    assert_includes(actual, "<button")
+    assert_includes(actual, "aria-haspopup=\"menu\"")
+  end
+
+  test "styles the default trigger with the same ring-based border as form fields" do
+    actual = render_inline(AtomicView::Components::DropdownComponent.new(label: "All sites")).to_html
+
+    assert_includes(actual, "ring-ring/10")
+    assert_includes(actual, "border-0")
+    assert_not_includes(actual, "border-border")
+  end
+
+  test "does not render a default trigger when label is blank" do
+    actual = render_inline(AtomicView::Components::DropdownComponent.new).to_html
+
+    assert_not_includes(actual, "<button")
+  end
+
+  test "prefers an explicit trigger slot over label" do
+    actual = render_inline(AtomicView::Components::DropdownComponent.new(label: "All sites")) do |dropdown|
+      dropdown.with_trigger { "Custom trigger" }
+    end.to_html
+
+    assert_includes(actual, "Custom trigger")
+    assert_not_includes(actual, "All sites")
+  end
+
+  test "does not forward label as an html attribute on the root" do
+    actual = render_inline(AtomicView::Components::DropdownComponent.new(label: "All sites")).to_html
+
+    assert_not_includes(actual, "label=\"All sites\"")
+  end
 end

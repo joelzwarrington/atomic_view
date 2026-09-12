@@ -1,6 +1,13 @@
 <%= tag.div(**html_options, class: html_class, data: data_attributes) do %>
   <%= tag.div(class: trigger_class, data: trigger_data_attributes) do %>
-    <%= trigger %>
+    <% if trigger? %>
+      <%= trigger %>
+    <% elsif default_trigger? %>
+      <%= tag.button(type: "button", class: default_trigger_class, aria: {haspopup: "menu"}) do %>
+        <%= label %>
+        <%= icon("chevron-down", variant: :mini, options: {class: "size-4 shrink-0 text-muted-foreground"}) %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <% if menu? %>

@@ -24,13 +24,33 @@ module AtomicView
       renders_one :trigger
       renders_one :menu
 
-      def initialize(**options)
+      attr_reader :label
+
+      def initialize(label: nil, **options)
         super()
+        @label = label
         @options = options
       end
 
       def html_options
         @options.except(:class, :data, :trigger_class)
+      end
+
+      # True when no `trigger` slot was given but `label:` was -- the
+      # template falls back to rendering a button with `default_trigger_class`,
+      # styled to match `FieldChrome` (the same ring-based border/focus
+      # treatment as text fields and selects), instead of every consumer
+      # hand-rolling a `border border-border` button that looks subtly
+      # different from the rest of the form chrome.
+      def default_trigger?
+        !trigger? && label.present?
+      end
+
+      def default_trigger_class
+        "inline-flex h-8 items-center gap-1.5 rounded-btn border-0 px-3 text-sm font-medium shadow-xs ring-1 " \
+          "bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 hover:bg-offset " \
+          "focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring " \
+          "disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled-foreground disabled:ring-disabled-ring"
       end
 
       def html_class

@@ -1,0 +1,13 @@
+<div class="flex items-center gap-2">
+  <%= render AtomicView::Components::DropdownComponent.new(label: "All sites") do |dropdown| %>
+    <% dropdown.with_menu do %>
+      <div class="w-56 p-1">
+        <a href="#" class="block rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">All sites</a>
+        <a href="#" class="block rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">Summit Meadows</a>
+        <a href="#" class="block rounded-btn px-2 py-1.5 text-sm text-foreground hover:bg-offset">Ridgeline Campground</a>
+      </div>
+    <% end %>
+  <% end %>
+
+  <input type="text" placeholder="Search..." class="block w-56 appearance-none h-8 min-w-0 rounded-btn border-0 py-1 px-3 shadow-xs ring-1 text-sm bg-transparent dark:bg-white/5 text-foreground ring-ring/10 dark:ring-white/10 placeholder:text-placeholder focus:ring-focus-ring focus:border-ring/20 dark:focus:ring-focus-ring">
+</div>
