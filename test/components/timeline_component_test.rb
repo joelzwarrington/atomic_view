@@ -100,4 +100,23 @@ class AtomicView::Components::TimelineComponentTest < ViewComponent::TestCase
     assert_includes(actual, "custom-timeline")
     assert_includes(actual, "id=\"park-activity\"")
   end
+
+  test "forwards an item's html options onto its own row wrapper" do
+    actual = render_inline(AtomicView::Components::TimelineComponent.new) { |timeline|
+      timeline.with_item(icon: "flag", description: "created this park", id: "comment_1", data: {empty_state_target: "item"})
+    }.to_html
+
+    assert_includes(actual, "id=\"comment_1\"")
+    assert_includes(actual, "data-empty-state-target=\"item\"")
+  end
+
+  test "merges an item's custom class onto its row wrapper alongside the base classes" do
+    actual = render_inline(AtomicView::Components::TimelineComponent.new) { |timeline|
+      timeline.with_item(icon: "flag", description: "created this park", class: "custom-row")
+      timeline.with_item(icon: "flag", description: "and another")
+    }.to_html
+
+    assert_includes(actual, "custom-row")
+    assert_includes(actual, "relative flex gap-3.5")
+  end
 end

@@ -47,8 +47,8 @@ module AtomicView
       # `continues:` says this render is one page of a longer feed -- the connector
       # keeps going past the last item, into whatever the next turbo frame appends
       # or the stream prepends above.
-      def item_wrapper_class(index)
-        class_names("relative flex gap-3.5", "pb-6" => !last?(index) || @continues)
+      def item_wrapper_class(index, item)
+        class_names("relative flex gap-3.5", {"pb-6" => !last?(index) || @continues}, item.html_options[:class])
       end
 
       def render_line?(index)

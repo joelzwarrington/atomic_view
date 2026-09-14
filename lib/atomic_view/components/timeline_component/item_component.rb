@@ -16,16 +16,23 @@ module AtomicView
       # (aging into a full date over time) client-side once the host app
       # loads local_time's JS -- see `config/importmap.rb`'s "local-time"
       # pin comment for that setup.
+      #
+      # Any other keyword argument (`id:`, `data:`, `class:`, ...) passes
+      # through to the row's outer wrapper `<div>` in
+      # `TimelineComponent`'s template, so a caller can address a whole
+      # row -- marker, meta line, and content -- for e.g. a Turbo Stream
+      # `remove`/`replace`, or wire up a Stimulus target on the row itself.
       class ItemComponent < AtomicView::Component
-        attr_reader :icon_name, :avatar, :actor, :description, :time
+        attr_reader :icon_name, :avatar, :actor, :description, :time, :html_options
 
-        def initialize(description:, icon: nil, avatar: nil, actor: nil, time: nil)
+        def initialize(description:, icon: nil, avatar: nil, actor: nil, time: nil, **html_options)
           super()
           @icon_name = icon
           @avatar = avatar
           @actor = actor
           @description = description
           @time = time
+          @html_options = html_options
         end
 
         def marker

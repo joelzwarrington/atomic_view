@@ -1,10 +1,10 @@
 <%= tag.div(**@options.except(:class), class: container_class) do %>
   <% items.each_with_index do |item, index| %>
-    <div class="<%= item_wrapper_class(index) %>">
+    <%= tag.div(**item.html_options.except(:class), class: item_wrapper_class(index, item)) do %>
       <% if render_line?(index) %>
         <div class="absolute left-[13px] top-7 -bottom-6 w-px bg-border"></div>
       <% end %>
       <%= item %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>
