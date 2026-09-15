@@ -8,7 +8,7 @@
     real content, not a stand-in, so the drawer's backdrop has something to
     dim. The drawer below renders `open: true` and opens itself the moment
     the page loads, no trigger button needed. %>
-<%= render AtomicView::Components::ShowPageComponent.new do |page| %>
+<%= render AtomicView::Components::PageComponent.new do |page| %>
   <% page.with_breadcrumbs { link_to "Products", "#", class: "text-xs font-semibold text-primary" } %>
   <% page.with_title { "Camped" } %>
   <% page.with_badge { render(AtomicView::Components::BadgeComponent.new) { "Active" } } %>

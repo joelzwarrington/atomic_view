@@ -2,9 +2,9 @@
 
 require "test_helper"
 
-class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
+class AtomicView::Components::PageComponentTest < ViewComponent::TestCase
   test "renders the title via the internal page header" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new) { |page|
       page.with_title { "RS002 · Karen Wilson" }
     }.to_html
 
@@ -13,7 +13,7 @@ class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
   end
 
   test "renders the breadcrumbs, badge, subtitle, and actions slots via the internal page header" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new) { |page|
       page.with_title { "RS002 · Karen Wilson" }
       page.with_breadcrumbs { "Rentals" }
       page.with_badge { "<span class=\"status-badge\">Active</span>".html_safe }
@@ -28,7 +28,7 @@ class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
   end
 
   test "renders the highlight slot as a full-width region above the body" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new) { |page|
       page.with_title { "RS002 · Karen Wilson" }
       page.with_highlight { "<div class=\"stepper\">stepper content</div>".html_safe }
     }.to_html
@@ -37,7 +37,7 @@ class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
   end
 
   test "does not render a highlight wrapper when the slot is not given" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new) { |page|
       page.with_title { "RS002 · Karen Wilson" }
     }.to_html
 
@@ -45,7 +45,7 @@ class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
   end
 
   test "renders default block content as the main column" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new) { |page|
       page.with_title { "RS002 · Karen Wilson" }
       "<section>Overview</section>".html_safe
     }.to_html
@@ -54,7 +54,7 @@ class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
   end
 
   test "renders the sidebar slot as a second column" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new) { |page|
       page.with_title { "RS002 · Karen Wilson" }
       page.with_sidebar { "<div class=\"details-panel\">Details</div>".html_safe }
       "Main content"
@@ -65,7 +65,7 @@ class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
   end
 
   test "does not add the two-column grid classes when there is no sidebar" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new) { |page|
       page.with_title { "RS002 · Karen Wilson" }
       "Main content"
     }.to_html
@@ -74,11 +74,11 @@ class AtomicView::Components::ShowPageComponentTest < ViewComponent::TestCase
   end
 
   test "merges custom class and forwards other options onto the container" do
-    actual = render_inline(AtomicView::Components::ShowPageComponent.new(class: "custom-show-page", id: "rental-show")) { |page|
+    actual = render_inline(AtomicView::Components::PageComponent.new(class: "custom-page", id: "rental-page")) { |page|
       page.with_title { "RS002 · Karen Wilson" }
     }.to_html
 
-    assert_includes(actual, "custom-show-page")
-    assert_includes(actual, "id=\"rental-show\"")
+    assert_includes(actual, "custom-page")
+    assert_includes(actual, "id=\"rental-page\"")
   end
 end

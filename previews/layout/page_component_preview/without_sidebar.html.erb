@@ -1,4 +1,4 @@
-<%= render(AtomicView::Components::ShowPageComponent.new) do |page| %>
+<%= render(AtomicView::Components::PageComponent.new) do |page| %>
   <% page.with_title { "Riverside RV Park" } %>
   <% page.with_breadcrumbs { link_to "Parks", "#", class: "text-xs font-semibold text-primary" } %>
 

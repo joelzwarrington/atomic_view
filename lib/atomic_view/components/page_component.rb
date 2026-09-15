@@ -2,13 +2,14 @@
 
 module AtomicView
   module Components
-    # ShowPage
+    # Page
     #
-    # The layout shell for a single-record detail page: a PageHeaderComponent
-    # up top, an optional full-width `highlight` region below it, then a
+    # The layout shell for a single-record page: a PageHeaderComponent up
+    # top, an optional full-width `highlight` region below it, then a
     # two-column body -- the default content block as the main column, and an
     # optional `sidebar` slot as a second column. This is layout only -- it
-    # has no opinion about what a record's detail page actually contains.
+    # has no opinion about what the page actually contains, so it fits show,
+    # edit, and new pages alike (a form is just content in the main column).
     # `highlight` is deliberately not called "stepper" or "progress": it's
     # just a full-width slot for whatever sits between the header and the
     # body (a lifecycle stepper, a banner, nothing at all) -- naming it after
@@ -17,7 +18,7 @@ module AtomicView
     # "details panel" -- fill it with a CardComponent, a plain `<dl>`,
     # whatever the record calls for.
     #
-    #   render(AtomicView::Components::ShowPageComponent.new) do |page|
+    #   render(AtomicView::Components::PageComponent.new) do |page|
     #     page.with_breadcrumbs { link_to "Rentals", rentals_path, class: "text-xs font-semibold text-primary" }
     #     page.with_title { "RS002 · Karen Wilson" }
     #     page.with_badge { render(BadgeComponent.new) { "Active" } }
@@ -38,7 +39,7 @@ module AtomicView
     # the main column from `sm:` up) matches every existing hand-rolled show
     # page in the consuming app -- that's the "good defaults" this component
     # exists to stop re-typing, not a novel layout choice.
-    class ShowPageComponent < AtomicView::Component
+    class PageComponent < AtomicView::Component
       renders_one :breadcrumbs
       renders_one :title
       renders_one :badge

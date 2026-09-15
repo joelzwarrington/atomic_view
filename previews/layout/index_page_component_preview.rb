@@ -4,7 +4,7 @@ module Layout
     # -----------
     # Every region filled in: header (title + count subtitle + actions), a
     # `filters` row of status pills, a `toolbar` row, a table as the default
-    # content, and `pagination`. Like ShowPageComponent, this component owns
+    # content, and `pagination`. Like PageComponent, this component owns
     # layout only — it never references TableComponent itself; the table in
     # this example is just what the caller chose to render into the content
     # region.

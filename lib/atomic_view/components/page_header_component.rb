@@ -5,7 +5,7 @@ module AtomicView
     # PageHeader
     #
     # The title/breadcrumb/badge/actions cluster shared by IndexPageComponent
-    # and ShowPageComponent (and usable standalone, e.g. above a lazily-loaded
+    # and PageComponent (and usable standalone, e.g. above a lazily-loaded
     # turbo-frame fragment that has no page shell of its own). Every region is
     # a free-form slot -- this component only lays them out, it has no
     # opinion about hrefs, badge variants, or what an action is.
