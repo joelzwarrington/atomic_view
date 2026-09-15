@@ -62,8 +62,13 @@ module AtomicView
         "-mb-px border-b-2 pb-3 text-sm font-semibold"
       end
 
+      # Neutral foreground text (not `text-accent`) -- matches
+      # SegmentedControlComponent's active segment, which raises the
+      # selected option in `text-foreground` rather than an accent color.
+      # The accent only shows up in the underline, as the one colored
+      # signal of which tab is active.
       def active_classes
-        "border-accent text-accent"
+        "border-accent text-foreground"
       end
 
       def inactive_classes
