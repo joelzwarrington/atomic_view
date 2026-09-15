@@ -74,7 +74,7 @@ class AtomicView::Components::TableComponentTest < ViewComponent::TestCase
     actual = render_inline(AtomicView::Components::TableComponent.new(model: Booking)) { |table|
       table.with_column(attribute: :camper_name)
       table.with_column(attribute: :status, align: :center)
-      "<tbody></tbody>".html_safe
+      "".html_safe
     }.to_html
 
     assert_includes(actual, "<thead")
@@ -87,5 +87,42 @@ class AtomicView::Components::TableComponentTest < ViewComponent::TestCase
     render_inline(component) { |table| table.with_column(attribute: :camper_name) }
 
     assert_equal(Booking, component.columns.first.model)
+  end
+
+  test "wraps rows in a tbody once columns are given, same as the raw block would have" do
+    actual = render_inline(AtomicView::Components::TableComponent.new(model: Booking)) { |table|
+      table.with_column(attribute: :camper_name)
+      "<tr><td>Karen Wilson</td></tr>".html_safe
+    }.to_html
+
+    assert_includes(actual, "<tbody")
+    assert_includes(actual, "<tr><td>Karen Wilson</td></tr>")
+  end
+
+  test "defaults the tbody id to the model's plural name" do
+    actual = render_inline(AtomicView::Components::TableComponent.new(model: Booking)) { |table|
+      table.with_column(attribute: :camper_name)
+      "".html_safe
+    }.to_html
+
+    assert_includes(actual, '<tbody id="bookings">')
+  end
+
+  test "body_id overrides the default tbody id" do
+    actual = render_inline(AtomicView::Components::TableComponent.new(model: Booking, body_id: "custom_body")) { |table|
+      table.with_column(attribute: :camper_name)
+      "".html_safe
+    }.to_html
+
+    assert_includes(actual, '<tbody id="custom_body">')
+  end
+
+  test "renders a bare tbody with no id when there is no model or body_id" do
+    actual = render_inline(AtomicView::Components::TableComponent.new) { |table|
+      table.with_column(label: "Name")
+      "".html_safe
+    }.to_html
+
+    assert_includes(actual, "<tbody>")
   end
 end

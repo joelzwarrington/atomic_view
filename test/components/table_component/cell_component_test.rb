@@ -59,6 +59,20 @@ class AtomicView::Components::TableComponent::CellComponentTest < ViewComponent:
     assert_includes(actual, "text-right")
   end
 
+  test "makes plain content pointer-events-none so it doesn't shadow the stretched link" do
+    actual = render_inline(AtomicView::Components::TableComponent::CellComponent.new(path: "/bookings/1", label: "Karen Wilson", first: true)) { "Karen Wilson" }.to_html
+
+    assert_includes(actual, "pointer-events-none")
+    assert_not_includes(actual, "pointer-events-auto")
+  end
+
+  test "flips content to pointer-events-auto when interactive" do
+    actual = render_inline(AtomicView::Components::TableComponent::CellComponent.new(path: "/bookings/1", label: "Karen Wilson", first: true, interactive: true)) { "Edit" }.to_html
+
+    assert_includes(actual, "pointer-events-auto")
+    assert_not_includes(actual, "pointer-events-none")
+  end
+
   test "merges custom class and forwards other options" do
     actual = render_inline(AtomicView::Components::TableComponent::CellComponent.new(path: "/bookings/1", label: "Karen Wilson", first: true, class: "custom-cell", title: "Karen Wilson")) { "Karen Wilson" }.to_html
 

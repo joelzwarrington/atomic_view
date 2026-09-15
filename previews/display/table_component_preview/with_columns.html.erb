@@ -3,13 +3,11 @@
   <% table.with_column(attribute: :status, align: :center) %>
   <% table.with_column(label: "") %>
 
-  <tbody>
-    <% bookings.each do |booking| %>
-      <%= render(AtomicView::Components::TableComponent::RowComponent.new(record: booking, label: booking.camper_name, path: "#")) do |row| %>
-        <% row.with_cell { booking.camper_name } %>
-        <% row.with_cell(align: :center) { render(AtomicView::Components::BadgeComponent.new) { booking.status.humanize } } %>
-        <% row.with_cell { render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Edit" } } %>
-      <% end %>
+  <% bookings.each do |booking| %>
+    <%= render(AtomicView::Components::TableComponent::RowComponent.new(record: booking, label: booking.camper_name, path: "#")) do |row| %>
+      <% row.with_cell { booking.camper_name } %>
+      <% row.with_cell(align: :center) { render(AtomicView::Components::BadgeComponent.new) { booking.status.humanize } } %>
+      <% row.with_cell(interactive: true) { render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Edit" } } %>
     <% end %>
-  </tbody>
+  <% end %>
 <% end %>

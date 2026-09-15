@@ -14,14 +14,19 @@ module Display
 
     # With columns and rows
     # ----------------------
-    # The opt-in, model-aware alternative to hand-building `<thead>`: give
-    # `TableComponent` a `model:` and one or more `with_column`s and it
-    # renders the header row itself, defaulting each column's label from
-    # `model.human_attribute_name`. Rows use `TableComponent::RowComponent`
-    # -- every `with_cell` becomes its own stretched link back to `path`,
-    # so the whole row is clickable, but only the first cell's link stays
-    # in the tab order. A column with no backing attribute (the blank
-    # header over the "Edit" links) just passes `label:` directly instead.
+    # The opt-in, model-aware alternative to hand-building `<thead>`/
+    # `<tbody>`: give `TableComponent` a `model:` and one or more
+    # `with_column`s and it renders the header row itself (label defaults
+    # from `model.human_attribute_name`) and wraps your rows in a `<tbody>`
+    # keyed by the model's plural name. Rows use
+    # `TableComponent::RowComponent` -- every `with_cell` becomes its own
+    # stretched link back to `path`, so the whole row is clickable, but
+    # only the first cell's link stays in the tab order. A column with no
+    # backing attribute (the blank header over the "Edit" links) just
+    # passes `label:` directly instead. Cells default to
+    # `pointer-events-none` on their content so plain text doesn't shadow
+    # the row-wide link -- the "Edit" cell passes `interactive: true` since
+    # it renders a real link of its own that needs to win the click.
     def with_columns
       render_with_template(locals: {bookings: bookings})
     end
