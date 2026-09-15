@@ -1,0 +1,27 @@
+<%= tag.dialog(**html_options, id: id, class: html_class, data: data_attributes) do %>
+  <div class="flex items-center justify-between gap-4 border-b border-border p-4">
+    <% if title.present? %>
+      <h2 class="font-body text-lg font-semibold text-foreground"><%= title %></h2>
+    <% end %>
+
+    <div class="ml-auto flex items-center gap-2">
+      <% if actions? %>
+        <%= actions %>
+      <% end %>
+
+      <%= tag.button(type: "button", class: "inline-flex shrink-0 items-center text-muted-foreground hover:text-foreground", data: {action: "click->atomic-view--drawer#close"}, aria: {label: "Close"}) do %>
+        <%= close_icon %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-4 text-sm text-foreground">
+    <%= content %>
+  </div>
+
+  <% if footer? %>
+    <div class="flex justify-end gap-2 border-t border-border p-4">
+      <%= footer %>
+    </div>
+  <% end %>
+<% end %>

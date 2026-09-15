@@ -1,0 +1,35 @@
+<%= render AtomicView::Components::ButtonComponent.new(nil, "#{side == :left ? "Open from left" : "Open drawer"}", {
+  variant: :primary,
+  onclick: "document.getElementById('#{id}').showModal()"
+}) %>
+
+<%
+  # The footer renders in its own div, outside the <form> below -- a plain
+  # nested submit button wouldn't belong to it. Give the form an explicit
+  # `id` instead, and point the footer's submit button at it with the
+  # HTML5 `form="..."` attribute, which associates a button with a form by
+  # id regardless of where in the DOM the button actually lives.
+  form_id = "#{id}-form"
+%>
+
+<%= render AtomicView::Components::DrawerComponent.new(id: id, title: title, side: side) do |drawer| %>
+  <% drawer.with_actions do %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Save as draft", {variant: :outline}) %>
+  <% end %>
+
+  <%= form_with model: AtomicView::Model.new, url: "#", id: form_id do |form| %>
+    <%= form.label :attribute, "Name (required)" %>
+    <p class="-mt-1 mb-2 text-sm text-muted-foreground">Name of the product or service, visible to customers.</p>
+    <%= form.text_field :attribute, placeholder: "" %>
+  <% end %>
+
+  <p class="mt-4 text-sm text-muted-foreground">The rest of the form goes here -- the drawer only supplies the frame around it.</p>
+
+  <% drawer.with_footer do %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Cancel", {
+      variant: :outline,
+      data: {action: "click->atomic-view--drawer#close"}
+    }) %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Add product", {variant: :primary, type: "submit", form: form_id}) %>
+  <% end %>
+<% end %>

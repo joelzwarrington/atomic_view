@@ -1,0 +1,66 @@
+<%
+  lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod " \
+    "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " \
+    "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+%>
+
+<%# This whole show page is the "underlying" page (e.g. a product catalogue) --
+    real content, not a stand-in, so the drawer's backdrop has something to
+    dim. The drawer below renders `open: true` and opens itself the moment
+    the page loads, no trigger button needed. %>
+<%= render AtomicView::Components::ShowPageComponent.new do |page| %>
+  <% page.with_breadcrumbs { link_to "Products", "#", class: "text-xs font-semibold text-primary" } %>
+  <% page.with_title { "Camped" } %>
+  <% page.with_badge { render(AtomicView::Components::BadgeComponent.new) { "Active" } } %>
+  <% page.with_subtitle { "prod_9f21ba7c" } %>
+  <% page.with_actions do %>
+    <%= render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Edit" } %>
+    <%= render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Archive" } %>
+  <% end %>
+
+  <% page.with_sidebar do %>
+    <%= render(AtomicView::Components::CardComponent.new) do %>
+      <h2 class="mb-2 text-lg font-semibold text-foreground">Details</h2>
+      <dl class="flex flex-col gap-2 text-sm">
+        <div>
+          <dt class="font-semibold text-foreground">Price</dt>
+          <dd>$39.00 / month</dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-foreground">Tax code</dt>
+          <dd>txcd_10000000</dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-foreground">Type</dt>
+          <dd><%= render(AtomicView::Components::BadgeComponent.new(variant: :outline)) { "Recurring" } %></dd>
+        </div>
+      </dl>
+    <% end %>
+  <% end %>
+
+  <%= tag.section(class: "mb-8") do %>
+    <h2 class="mb-2 text-lg font-semibold text-foreground">Description</h2>
+    <%= render(AtomicView::Components::CardComponent.new) { lorem } %>
+  <% end %>
+
+  <%= tag.section do %>
+    <h2 class="mb-2 text-lg font-semibold text-foreground">Activity</h2>
+    <%= render(AtomicView::Components::CardComponent.new) { "#{lorem} #{lorem}" } %>
+  <% end %>
+<% end %>
+
+<%= render AtomicView::Components::DrawerComponent.new(id: "drawer-component-preview-opened-directly", title: "Add a product", open: true) do |drawer| %>
+  <%= form_with model: AtomicView::Model.new, url: "#", id: "drawer-component-preview-opened-directly-form" do |form| %>
+    <%= form.label :attribute, "Name (required)" %>
+    <p class="-mt-1 mb-2 text-sm text-muted-foreground">Name of the product or service, visible to customers.</p>
+    <%= form.text_field :attribute, placeholder: "" %>
+  <% end %>
+
+  <% drawer.with_footer do %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Cancel", {
+      variant: :outline,
+      data: {action: "click->atomic-view--drawer#close"}
+    }) %>
+    <%= render AtomicView::Components::ButtonComponent.new(nil, "Add product", {variant: :primary, type: "submit", form: "drawer-component-preview-opened-directly-form"}) %>
+  <% end %>
+<% end %>
