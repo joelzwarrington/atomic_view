@@ -63,4 +63,29 @@ class AtomicView::Components::TableComponentTest < ViewComponent::TestCase
 
     assert_equal(expected, actual)
   end
+
+  test "renders no thead when no columns are given, same as before" do
+    actual = render_inline(AtomicView::Components::TableComponent.new) { "<tbody><tr><td>Content</td></tr></tbody>".html_safe }.to_html
+
+    assert_not_includes(actual, "<thead")
+  end
+
+  test "renders a thead built from with_column" do
+    actual = render_inline(AtomicView::Components::TableComponent.new(model: Booking)) { |table|
+      table.with_column(attribute: :camper_name)
+      table.with_column(attribute: :status, align: :center)
+      "<tbody></tbody>".html_safe
+    }.to_html
+
+    assert_includes(actual, "<thead")
+    assert_includes(actual, "<th scope=\"col\" class=\"p-2 font-medium\">Camper name</th>")
+    assert_includes(actual, "<th scope=\"col\" class=\"p-2 font-medium text-center\">Status</th>")
+  end
+
+  test "passes the table's model through to with_column automatically" do
+    component = AtomicView::Components::TableComponent.new(model: Booking)
+    render_inline(component) { |table| table.with_column(attribute: :camper_name) }
+
+    assert_equal(Booking, component.columns.first.model)
+  end
 end

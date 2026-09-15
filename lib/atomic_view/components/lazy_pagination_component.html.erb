@@ -1,0 +1,8 @@
+<% if next_page? %>
+  <%= tag.turbo_frame(id: id, loading: :lazy, src: next_page_path, class: "flex items-center justify-center gap-2 py-3") do %>
+    <span class="size-3.5 animate-spin rounded-full border-2 border-border border-t-foreground motion-reduce:animate-none" aria-hidden="true"></span>
+    <span class="sr-only">Loading more…</span>
+  <% end %>
+<% else %>
+  <%= tag.turbo_frame(id: id) %>
+<% end %>

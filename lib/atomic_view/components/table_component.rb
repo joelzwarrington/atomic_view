@@ -4,10 +4,10 @@ module AtomicView
   module Components
     # Table
     #
-    # A thin styling wrapper around <table>. Consistent with the rest of the
-    # gem, this does not own row/column iteration -- the consuming view
-    # builds its own <thead>/<tbody> markup and calls the yielded component's
-    # #head_class / #row_class helpers to pick up the shared styling.
+    # A thin styling wrapper around <table>. By default this owns no
+    # row/column concept -- the consuming view builds its own
+    # <thead>/<tbody> markup and calls the yielded component's #head_class
+    # / #row_class helpers to pick up the shared styling:
     #
     #   <%= render AtomicView::Components::TableComponent.new do |table| %>
     #     <thead>
@@ -21,17 +21,53 @@ module AtomicView
     #       </tr>
     #     </tbody>
     #   <% end %>
+    #
+    # `with_column` is an opt-in alternative to hand-building the <thead>:
+    # give it at least one column and TableComponent renders the header row
+    # itself, from `<th>`s built by TableComponent::ColumnComponent -- you
+    # still own `<tbody>` content (typically TableComponent::RowComponent
+    # rows) in the block, same as before:
+    #
+    #   <%= render AtomicView::Components::TableComponent.new(model: Booking) do |table| %>
+    #     <% table.with_column(attribute: :camper_name) %>
+    #     <% table.with_column(attribute: :status, align: :center) %>
+    #     <% table.with_column(label: "") %>
+    #
+    #     <tbody>
+    #       <% @bookings.each do |booking| %>
+    #         <%= render(AtomicView::Components::TableComponent::RowComponent.new(record: booking, label: booking.camper_name, path: booking_path(booking))) do |row| %>
+    #           <% row.with_cell { booking.camper_name } %>
+    #           <% row.with_cell(align: :center) { render(BadgeComponent.new) { booking.status } } %>
+    #           <% row.with_cell { render(LinkComponent.new(edit_booking_path(booking), variant: :outline)) { "Edit" } } %>
+    #         <% end %>
+    #       <% end %>
+    #     </tbody>
+    #   <% end %>
+    #
+    # A table with no columns given renders exactly as before -- `with_column`
+    # is opt-in, not a second required API. `model:` is passed through to
+    # each column so `with_column(attribute: :camper_name)` can default its
+    # label via `model.human_attribute_name(:camper_name)`; a column with no
+    # backing attribute (like the blank "" header above, for an actions
+    # column) just passes `label:` directly instead.
     class TableComponent < AtomicView::Component
       HEAD_ROW_CLASSES = "text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground border-b border-border"
       BODY_ROW_CLASSES = "border-b border-border hover:bg-offset"
 
-      def initialize(**options)
+      renders_many :columns, ->(**kwargs) { ColumnComponent.new(model: model, **kwargs) }
+
+      attr_reader :model
+
+      def initialize(model: nil, **options)
         super()
+        @model = model
         @options = options
       end
 
       def call
-        tag.table(**@options.except(:class), class: class_names(base_classes, @options[:class])) { content }
+        tag.table(**@options.except(:class), class: class_names(base_classes, @options[:class])) do
+          safe_join([columns_header, content].compact)
+        end
       end
 
       def head_class(**options)
@@ -43,6 +79,15 @@ module AtomicView
       end
 
       private
+
+      def columns_header
+        return unless columns?
+        tag.thead { tag.tr(class: head_class) { safe_join(columns) } }
+      end
+
+      def columns?
+        columns.any?
+      end
 
       def base_classes
         "w-full text-sm"

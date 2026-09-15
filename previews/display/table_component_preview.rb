@@ -11,5 +11,29 @@ module Display
     def default
       render_with_template
     end
+
+    # With columns and rows
+    # ----------------------
+    # The opt-in, model-aware alternative to hand-building `<thead>`: give
+    # `TableComponent` a `model:` and one or more `with_column`s and it
+    # renders the header row itself, defaulting each column's label from
+    # `model.human_attribute_name`. Rows use `TableComponent::RowComponent`
+    # -- every `with_cell` becomes its own stretched link back to `path`,
+    # so the whole row is clickable, but only the first cell's link stays
+    # in the tab order. A column with no backing attribute (the blank
+    # header over the "Edit" links) just passes `label:` directly instead.
+    def with_columns
+      render_with_template(locals: {bookings: bookings})
+    end
+
+    private
+
+    def bookings
+      [
+        Booking.new(camper_name: "Karen Wilson", status: "active"),
+        Booking.new(camper_name: "Jordan Lee", status: "pending"),
+        Booking.new(camper_name: "Sam Patel", status: "active")
+      ]
+    end
   end
 end

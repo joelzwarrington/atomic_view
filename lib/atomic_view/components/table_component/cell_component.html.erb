@@ -1,0 +1,6 @@
+<%= tag.td(**html_options, class: html_class) do %>
+  <% if linked? %>
+    <%= link_to "", path, class: "absolute inset-0", tabindex: (first ? 0 : -1), "aria-hidden": (first ? nil : "true"), "aria-label": (first ? label : nil), data: {row_link: true} %>
+  <% end %>
+  <%= tag.span(content, class: "relative") %>
+<% end %>

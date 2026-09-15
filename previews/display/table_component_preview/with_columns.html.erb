@@ -1,0 +1,15 @@
+<%= render AtomicView::Components::TableComponent.new(model: Booking) do |table| %>
+  <% table.with_column(attribute: :camper_name) %>
+  <% table.with_column(attribute: :status, align: :center) %>
+  <% table.with_column(label: "") %>
+
+  <tbody>
+    <% bookings.each do |booking| %>
+      <%= render(AtomicView::Components::TableComponent::RowComponent.new(record: booking, label: booking.camper_name, path: "#")) do |row| %>
+        <% row.with_cell { booking.camper_name } %>
+        <% row.with_cell(align: :center) { render(AtomicView::Components::BadgeComponent.new) { booking.status.humanize } } %>
+        <% row.with_cell { render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Edit" } } %>
+      <% end %>
+    <% end %>
+  </tbody>
+<% end %>
