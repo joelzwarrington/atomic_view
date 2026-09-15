@@ -2,6 +2,20 @@
 
 module AtomicView
   module Components
+    # Badge
+    #
+    # A small rectangular status/label pill. `default`/`secondary` are solid
+    # fills for general-purpose emphasis (a count, a category tag);
+    # `success`/`warning`/`destructive`/`info` are soft, bordered/tinted
+    # semantic colors for actual state (active/upcoming/cancelled/etc.) --
+    # the same `border-x bg-x/10 text-x` treatment AlertComponent already
+    # uses for its variants, just as a compact pill instead of a banner.
+    # `outline` is the neutral, colorless version of that same bordered
+    # style, for a status that doesn't map to any of the semantic colors.
+    #
+    # Every variant carries a `border` (transparent on the solid fills) so
+    # badges of different variants sitting side by side stay the same
+    # height regardless of which ones happen to have a visible border.
     class BadgeComponent < AtomicView::Component
       attr_reader :variant
 
@@ -18,19 +32,25 @@ module AtomicView
       private
 
       def base_classes
-        "inline-flex items-center rounded-pill px-1.5 py-0.5 text-xs font-medium"
+        "inline-flex items-center rounded-btn border px-1.5 py-0.5 text-xs font-medium"
       end
 
       def variant_classes
         case variant
         when :secondary
-          "bg-secondary text-secondary-foreground"
+          "border-transparent bg-secondary text-secondary-foreground"
         when :destructive
-          "bg-destructive text-destructive-foreground"
+          "border-destructive bg-destructive/10 text-destructive"
+        when :success
+          "border-success bg-success/10 text-success"
+        when :warning
+          "border-warning bg-warning/10 text-warning"
+        when :info
+          "border-info bg-info/10 text-info"
         when :outline
-          "bg-transparent border border-border text-foreground"
+          "border-border bg-transparent text-foreground"
         else
-          "bg-primary text-primary-foreground"
+          "border-transparent bg-primary text-primary-foreground"
         end
       end
     end
