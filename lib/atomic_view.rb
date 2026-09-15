@@ -4,6 +4,7 @@ require 'atomic_view/version'
 require 'atomic_view/engine'
 require 'atomic_view/configuration'
 
+require "ostruct"
 require "tailwind_merge"
 require "heroicons"
 require "local_time"
