@@ -1,0 +1,31 @@
+<%= render(AtomicView::Components::CardComponent.new(variant: :destructive)) do |card| %>
+  <% card.with_section do %>
+    <%= tag.div(class: "flex items-center justify-between gap-4") do %>
+      <%= tag.div do %>
+        <%= tag.p("Cancel future billing", class: "font-medium text-foreground") %>
+        <%= tag.p("Stops all future billing ticks for this rental. Past invoices are kept.", class: "text-sm text-muted-foreground") %>
+      <% end %>
+      <%= render(AtomicView::Components::LinkComponent.new("#", variant: :destructive)) { "Cancel billing" } %>
+    <% end %>
+  <% end %>
+
+  <% card.with_section do %>
+    <%= tag.div(class: "flex items-center justify-between gap-4") do %>
+      <%= tag.div do %>
+        <%= tag.p("Archive this rental", class: "font-medium text-foreground") %>
+        <%= tag.p("Hides this rental from active lists and stops future billing ticks.", class: "text-sm text-muted-foreground") %>
+      <% end %>
+      <%= render(AtomicView::Components::LinkComponent.new("#", variant: :muted)) { "Archive" } %>
+    <% end %>
+  <% end %>
+
+  <% card.with_section do %>
+    <%= tag.div(class: "flex items-center justify-between gap-4") do %>
+      <%= tag.div do %>
+        <%= tag.p("Delete this rental", class: "font-medium text-foreground") %>
+        <%= tag.p("Permanently removes this rental and its history. This cannot be undone.", class: "text-sm text-muted-foreground") %>
+      <% end %>
+      <%= render(AtomicView::Components::LinkComponent.new("#", variant: :muted)) { "Delete" } %>
+    <% end %>
+  <% end %>
+<% end %>

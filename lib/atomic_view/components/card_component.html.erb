@@ -1,0 +1,11 @@
+<%= tag.div(**@options.except(:class), class: html_class) do %>
+  <% if sectioned? %>
+    <%= tag.div(class: divider_class) do %>
+      <% sections.each do |section| %>
+        <%= section %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= content %>
+  <% end %>
+<% end %>
