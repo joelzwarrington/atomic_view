@@ -1,0 +1,11 @@
+<div class="flex items-center gap-8 p-12">
+  <% %w[top bottom left right].each do |placement| %>
+    <%= render AtomicView::Components::TooltipComponent.new(text: placement.capitalize, placement: placement) do |tooltip| %>
+      <% tooltip.with_trigger do %>
+        <button type="button" class="rounded-btn border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-offset">
+          <%= placement %>
+        </button>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,9 @@
+<div class="p-12">
+  <%= render AtomicView::Components::TooltipComponent.new(text: "Save changes") do |tooltip| %>
+    <% tooltip.with_trigger do %>
+      <button type="button" class="rounded-btn border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-offset">
+        Save
+      </button>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,16 @@
+<div class="p-12">
+  <%= render AtomicView::Components::TooltipComponent.new do |tooltip| %>
+    <% tooltip.with_trigger do %>
+      <button type="button" class="rounded-btn border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-offset">
+        Plan usage
+      </button>
+    <% end %>
+
+    <% tooltip.with_body do %>
+      <div class="flex flex-col gap-0.5">
+        <span class="font-semibold">82 / 100 sites booked</span>
+        <span class="text-surface/70">Renews Oct 1</span>
+      </div>
+    <% end %>
+  <% end %>
+</div>

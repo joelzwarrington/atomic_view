@@ -1,0 +1,13 @@
+<%= tag.span(**html_options, class: html_class, data: data_attributes) do %>
+  <%= tag.span(class: "inline-block", data: trigger_data_attributes, aria: {describedby: content_id}) do %>
+    <%= trigger %>
+  <% end %>
+
+  <%= tag.span(id: content_id, role: "tooltip", class: content_class, data: content_data_attributes) do %>
+    <% if body? %>
+      <%= body %>
+    <% else %>
+      <%= text %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,9 @@
+<div class="p-12">
+  <%= render AtomicView::Components::TooltipComponent.new(text: "Delete") do |tooltip| %>
+    <% tooltip.with_trigger do %>
+      <button type="button" aria-label="Delete" class="rounded-btn border border-border bg-surface p-2 text-muted-foreground hover:bg-offset hover:text-destructive">
+        <%= icon("trash", variant: :mini, options: {class: "size-4"}).to_s.html_safe %>
+      </button>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,25 @@
+<div class="flex gap-12 p-12">
+  <%= render AtomicView::Components::TooltipComponent.new(text: "This label is long enough to show how tightly max-w-xs wraps it, even though there's plenty of room on screen.") do |tooltip| %>
+    <% tooltip.with_trigger do %>
+      <button type="button" class="rounded-btn border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-offset">
+        Default (max-w-xs)
+      </button>
+    <% end %>
+  <% end %>
+
+  <%= render AtomicView::Components::TooltipComponent.new(text: "The same label, but content_class: \"max-w-sm\" gives it more room before wrapping.", content_class: "max-w-sm") do |tooltip| %>
+    <% tooltip.with_trigger do %>
+      <button type="button" class="rounded-btn border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-offset">
+        content_class: "max-w-sm"
+      </button>
+    <% end %>
+  <% end %>
+
+  <%= render AtomicView::Components::TooltipComponent.new(text: "And content_class: \"max-w-lg\" gives it more room still -- the same label barely wraps at all now.", content_class: "max-w-lg") do |tooltip| %>
+    <% tooltip.with_trigger do %>
+      <button type="button" class="rounded-btn border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-offset">
+        content_class: "max-w-lg"
+      </button>
+    <% end %>
+  <% end %>
+</div>
