@@ -35,7 +35,7 @@ class AtomicView::Components::TabsComponentTest < ViewComponent::TestCase
     overview_link = actual.css("a").find { |node| node.text == "Overview" }
     activity_link = actual.css("a").find { |node| node.text == "Activity" }
 
-    assert_includes(activity_link["class"], "border-accent")
+    assert_includes(activity_link["class"], "border-foreground")
     assert_includes(activity_link["class"], "text-foreground")
     assert_equal("true", activity_link["aria-current"])
 

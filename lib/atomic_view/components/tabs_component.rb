@@ -14,7 +14,7 @@ module AtomicView
     #
     # Unlike SegmentedControlComponent's pill track (mutually-exclusive
     # filter chips raised on a muted background), tabs read as page-level
-    # navigation -- a plain row of links with a colored underline on the
+    # navigation -- a plain row of links with a neutral underline on the
     # active one, sharing a bottom divider with the rest of the row.
     #
     # Pass `turbo_frame:` to swap tabs without a full page load: every tab
@@ -62,13 +62,12 @@ module AtomicView
         "-mb-px border-b-2 pb-3 text-sm font-semibold"
       end
 
-      # Neutral foreground text (not `text-accent`) -- matches
-      # SegmentedControlComponent's active segment, which raises the
-      # selected option in `text-foreground` rather than an accent color.
-      # The accent only shows up in the underline, as the one colored
-      # signal of which tab is active.
+      # Neutral foreground for both the text and the underline (not
+      # `text-accent`/`border-accent`) -- matches SegmentedControlComponent's
+      # active segment, which raises the selected option in
+      # `text-foreground` rather than an accent color.
       def active_classes
-        "border-accent text-foreground"
+        "border-foreground text-foreground"
       end
 
       def inactive_classes
