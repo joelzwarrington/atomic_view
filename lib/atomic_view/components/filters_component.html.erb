@@ -1,0 +1,23 @@
+<%= form_with(url: url, method: method, builder: AtomicView::FormBuilder, **html_options, class: html_class, data: data_attributes) do |form| %>
+  <% assign_form(form) %>
+
+  <% preserve.each do |key, value| %>
+    <%= hidden_field_tag(key, value) %>
+  <% end %>
+
+  <% chips.each do |chip| %>
+    <div class="flex flex-wrap items-center gap-2"><%= chip %></div>
+  <% end %>
+
+  <% if row? %>
+    <div class="flex flex-col gap-2 sm:flex-row items-stretch w-full">
+      <% if search? %>
+        <div class="sm:flex-[2]"><%= search %></div>
+      <% end %>
+
+      <% filters.each do |filter| %>
+        <div class="sm:flex-1"><%= filter %></div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

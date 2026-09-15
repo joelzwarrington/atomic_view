@@ -97,6 +97,26 @@ class AtomicView::Components::SelectComponentTest < ViewComponent::TestCase
     assert_equal(expected, actual)
   end
 
+  test "renders a hidden, sr-only select plus a trigger/search/list combobox when searchable" do
+    choices = [["Admin", "admin"], ["User", "user"]]
+    actual = render_inline(AtomicView::Components::SelectComponent.new(@form, :test_model, :role, choices, {searchable: true})).to_html
+
+    assert_includes(actual, "sr-only")
+    assert_includes(actual, 'data-controller="atomic-view--dropdown atomic-view--searchable-select"')
+    assert_includes(actual, 'data-atomic-view--searchable-select-target="select"')
+    assert_includes(actual, 'data-atomic-view--searchable-select-target="input"')
+    assert_includes(actual, 'data-atomic-view--searchable-select-target="list"')
+    assert_includes(actual, 'data-atomic-view--searchable-select-target="label"')
+  end
+
+  test "does not render the combobox wrapper when not searchable" do
+    choices = [["Admin", "admin"]]
+    actual = render_inline(AtomicView::Components::SelectComponent.new(@form, :test_model, :role, choices)).to_html
+
+    assert_not_includes(actual, "atomic-view--searchable-select")
+    assert_not_includes(actual, "sr-only")
+  end
+
   test "renders select with different attribute" do
     choices = [["Category 1", "cat1"], ["Category 2", "cat2"]]
     actual = render_inline(AtomicView::Components::SelectComponent.new(@form, :test_model, :category, choices)).to_html.strip

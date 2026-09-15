@@ -1,4 +1,4 @@
-<%= content_tag :div, class: container_html_class do %>
+<%= content_tag :div, class: container_html_class, data: searchable_container_data do %>
   <% if left_section? %>
     <% if left_section_addon? %>
       <span class="inline-flex items-center rounded-l-btn border border-r-0 border-ring/10 dark:border-white/10 bg-transparent dark:bg-white/5 px-3 text-primary dark:text-white sm:text-sm"><%= left_section %></span>
@@ -11,6 +11,20 @@
     <% end %>
   <% end %>
   <%= select_tag %>
+  <% if searchable? %>
+    <button type="button" data-atomic-view--dropdown-target="trigger" data-action="click->atomic-view--dropdown#toggle" class="<%= field_chrome_classes(size: :sm) %> flex items-center justify-between gap-2 text-left">
+      <span data-atomic-view--searchable-select-target="label" class="truncate"></span>
+      <%= icon "chevron-down", variant: :micro, options: {class: "text-muted-foreground shrink-0"} %>
+    </button>
+
+    <div data-atomic-view--dropdown-target="menu" class="hidden absolute z-50 w-full bg-surface border border-border rounded-card shadow-panel p-1">
+      <div class="relative px-1 pb-1.5 pt-1">
+        <%= icon "magnifying-glass", variant: :micro, options: {class: "pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground"} %>
+        <input type="search" autocomplete="off" data-atomic-view--searchable-select-target="input" data-action="input->atomic-view--searchable-select#filter" class="w-full rounded-well border border-input bg-surface py-1.5 pl-8 pr-2 text-sm text-foreground placeholder:text-placeholder focus:border-ring focus:outline-none">
+      </div>
+      <div data-atomic-view--searchable-select-target="list" class="max-h-64 overflow-y-auto"></div>
+    </div>
+  <% end %>
   <% if right_section? %>
     <% if right_section_addon? %>
       <span class="inline-flex items-center rounded-r-btn border border-l-0 border-ring/10 dark:border-white/10 bg-transparent dark:bg-white/5 px-3 text-primary dark:text-white sm:text-sm"><%= right_section %></span>

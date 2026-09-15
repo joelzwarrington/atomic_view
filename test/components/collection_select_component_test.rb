@@ -152,4 +152,22 @@ class AtomicView::Components::CollectionSelectComponentTest < ViewComponent::Tes
 
     assert_equal(expected, actual)
   end
+
+  test "renders a hidden, sr-only select plus a trigger/search/list combobox when searchable" do
+    options = [["Admin", "admin"], ["User", "user"]]
+    actual = render_inline(AtomicView::Components::CollectionSelectComponent.new(@form, :test_model, :role, options, :second, :first, {searchable: true})).to_html
+
+    assert_includes(actual, "sr-only")
+    assert_includes(actual, 'data-controller="atomic-view--dropdown atomic-view--searchable-select"')
+    assert_includes(actual, 'data-atomic-view--searchable-select-target="select"')
+    assert_includes(actual, 'data-atomic-view--searchable-select-target="list"')
+  end
+
+  test "does not render the combobox wrapper when not searchable" do
+    options = [["Admin", "admin"]]
+    actual = render_inline(AtomicView::Components::CollectionSelectComponent.new(@form, :test_model, :role, options, :second, :first)).to_html
+
+    assert_not_includes(actual, "atomic-view--searchable-select")
+    assert_not_includes(actual, "sr-only")
+  end
 end

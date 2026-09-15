@@ -3,6 +3,7 @@ module AtomicView
     class SelectComponent < ViewComponent::Form::SelectComponent
       include AtomicView::Components::Concerns::FieldChrome
       include AtomicView::Components::Concerns::SectionSupport
+      include AtomicView::Components::Concerns::Searchable
 
       def html_class
         class_names(
@@ -11,7 +12,8 @@ module AtomicView
           "pl-10" => left_section? && !(left_section_addon? || left_section_interaction?),
           "pr-10" => right_section? && !(right_section_addon? || right_section_interaction?),
           "shadow-none rounded-none rounded-r-btn ring-inset" => left_section_addon? || left_section_interaction?,
-          "shadow-none rounded-none rounded-l-btn ring-inset" => right_section_addon? || right_section_interaction?
+          "shadow-none rounded-none rounded-l-btn ring-inset" => right_section_addon? || right_section_interaction?,
+          "sr-only" => searchable?
         )
       end
 
@@ -22,7 +24,7 @@ module AtomicView
           @view_context,
           choices,
           options,
-          html_options,
+          searchable_html_options,
           &content
         ).render
       end
