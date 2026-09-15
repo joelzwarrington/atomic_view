@@ -1,0 +1,10 @@
+<%= render(AtomicView::Components::PageHeaderComponent.new) do |header| %>
+  <% header.with_breadcrumbs { link_to "Rentals", "#", class: "text-xs font-semibold text-primary" } %>
+  <% header.with_title { "RS002 · Karen Wilson" } %>
+  <% header.with_badge { render(AtomicView::Components::BadgeComponent.new) { "Active" } } %>
+  <% header.with_subtitle { "rental_9f21ba7c" } %>
+  <% header.with_actions do %>
+    <%= render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Edit" } %>
+    <%= render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Archive" } %>
+  <% end %>
+<% end %>

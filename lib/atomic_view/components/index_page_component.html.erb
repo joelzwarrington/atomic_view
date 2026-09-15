@@ -1,0 +1,35 @@
+<% breadcrumbs_content = breadcrumbs.to_s %>
+<% title_content = title.to_s %>
+<% badge_content = badge.to_s %>
+<% subtitle_content = subtitle.to_s %>
+<% actions_content = actions.to_s %>
+
+<%= tag.div(**@options.except(:class, :id), id: html_id, class: html_class) do %>
+  <%= tag.div(class: "mb-4") do %>
+    <%= render(AtomicView::Components::PageHeaderComponent.new) do |header| %>
+      <% header.with_breadcrumbs { breadcrumbs_content } if breadcrumbs? %>
+      <% header.with_title { title_content } if title? %>
+      <% header.with_badge { badge_content } if badge? %>
+      <% header.with_subtitle { subtitle_content } if subtitle? %>
+      <% header.with_actions { actions_content } if actions? %>
+    <% end %>
+  <% end %>
+
+  <% if filters? %>
+    <%= tag.div(filters, class: "mb-4") %>
+  <% end %>
+
+  <% if toolbar? %>
+    <%= tag.div(toolbar, class: "mb-4") %>
+  <% end %>
+
+  <% if empty? %>
+    <%= empty_state if empty_state? %>
+  <% else %>
+    <%= content %>
+
+    <% if pagination? %>
+      <%= tag.div(pagination, class: "mt-4") %>
+    <% end %>
+  <% end %>
+<% end %>

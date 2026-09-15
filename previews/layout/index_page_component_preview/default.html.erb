@@ -1,0 +1,50 @@
+<%= render(AtomicView::Components::IndexPageComponent.new(dom_id: :rentals)) do |page| %>
+  <% page.with_title { "Rentals" } %>
+  <% page.with_subtitle { "62 rentals across 3 parks" } %>
+
+  <% page.with_actions do %>
+    <%= render(AtomicView::Components::SegmentedControlComponent.new(
+      options: [{label: "List", href: "#"}, {label: "Timeline", href: "#"}, {label: "Availability", href: "#"}],
+      selected: "List"
+    )) %>
+    <%= render(AtomicView::Components::LinkComponent.new("#")) { "New rental" } %>
+  <% end %>
+
+  <% page.with_filters do %>
+    <%= tag.div(class: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between") do %>
+      <%= render(AtomicView::Components::SegmentedControlComponent.new(
+        options: [{label: "All", href: "#"}, {label: "Active", href: "#"}, {label: "Completed", href: "#"}],
+        selected: "All"
+      )) %>
+      <%= form_with model: model, class: "sm:w-64" do |form| %>
+        <%= form.search_field :attribute, placeholder: "Search by camper..." %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% page.with_pagination do %>
+    <%= render(AtomicView::Components::PaginationComponent.new(current_page: 1, total_pages: 3, path_for_page: ->(p) { "?page=#{p}" })) %>
+  <% end %>
+
+  <%= render(AtomicView::Components::TableComponent.new) do |table| %>
+    <thead>
+      <tr class="<%= table.head_class %>">
+        <th class="px-3 py-2">Camper</th>
+        <th class="px-3 py-2">Site</th>
+        <th class="px-3 py-2">Status</th>
+      </tr>
+    </thead>
+    <tbody id="rentals">
+      <tr class="<%= table.row_class %>">
+        <td class="px-3 py-2">Karen Wilson</td>
+        <td class="px-3 py-2">RS002</td>
+        <td class="px-3 py-2"><%= render(AtomicView::Components::BadgeComponent.new) { "Active" } %></td>
+      </tr>
+      <tr class="<%= table.row_class %>">
+        <td class="px-3 py-2">Priya Anand</td>
+        <td class="px-3 py-2">ER014</td>
+        <td class="px-3 py-2"><%= render(AtomicView::Components::BadgeComponent.new) { "Active" } %></td>
+      </tr>
+    </tbody>
+  <% end %>
+<% end %>

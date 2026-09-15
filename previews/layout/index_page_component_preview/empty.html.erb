@@ -1,0 +1,8 @@
+<%= render(AtomicView::Components::IndexPageComponent.new(empty: true)) do |page| %>
+  <% page.with_title { "Rentals" } %>
+  <% page.with_actions { render(AtomicView::Components::LinkComponent.new("#")) { "New rental" } } %>
+
+  <% page.with_empty_state do %>
+    <%= render(AtomicView::Components::EmptyStateComponent.new(title: "No rentals yet", description: "Rentals you create will show up here.")) %>
+  <% end %>
+<% end %>

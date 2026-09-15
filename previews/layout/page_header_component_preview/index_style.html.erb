@@ -1,0 +1,5 @@
+<%= render(AtomicView::Components::PageHeaderComponent.new) do |header| %>
+  <% header.with_title { "Rentals" } %>
+  <% header.with_subtitle { "62 rentals across 3 parks" } %>
+  <% header.with_actions { render(AtomicView::Components::LinkComponent.new("#")) { "New rental" } } %>
+<% end %>

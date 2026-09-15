@@ -1,0 +1,68 @@
+<%= render(AtomicView::Components::ShowPageComponent.new) do |page| %>
+  <% page.with_breadcrumbs { link_to "Rentals", "#", class: "text-xs font-semibold text-primary" } %>
+  <% page.with_title { "RS002 · Karen Wilson" } %>
+  <% page.with_badge { render(AtomicView::Components::BadgeComponent.new) { "Active" } } %>
+  <% page.with_subtitle { "rental_9f21ba7c" } %>
+  <% page.with_actions do %>
+    <%= render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Edit" } %>
+    <%= render(AtomicView::Components::LinkComponent.new("#", variant: :outline)) { "Archive" } %>
+  <% end %>
+
+  <% page.with_highlight do %>
+    <%= tag.div(class: "rounded-card border border-dashed border-border p-4 text-center text-sm text-muted-foreground") do %>
+      `highlight` region — a lifecycle stepper, a banner, or nothing at all. This component has no opinion.
+    <% end %>
+  <% end %>
+
+  <% page.with_sidebar do %>
+    <%= render(AtomicView::Components::CardComponent.new) do %>
+      <h2 class="mb-2 text-lg font-semibold text-foreground">Details</h2>
+      <dl class="flex flex-col gap-2 text-sm">
+        <div>
+          <dt class="font-semibold text-foreground">Camper</dt>
+          <dd><%= link_to "Karen Wilson", "#", class: "text-primary hover:text-primary/80" %></dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-foreground">Site</dt>
+          <dd><%= link_to "RS002", "#", class: "text-primary hover:text-primary/80" %></dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-foreground">Type</dt>
+          <dd><%= render(AtomicView::Components::BadgeComponent.new(variant: :outline)) { "Seasonal" } %></dd>
+        </div>
+      </dl>
+    <% end %>
+  <% end %>
+
+  <%= tag.section(class: "mb-8") do %>
+    <h2 class="mb-2 text-lg font-semibold text-foreground">Overview</h2>
+    <%= render(AtomicView::Components::CardComponent.new) do %>
+      Seasonal rental of site RS002 at Riverside RV Park, May 1 – Oct 15, 2026, billed at $1,180.00 CAD / month.
+    <% end %>
+  <% end %>
+
+  <%= tag.section do %>
+    <h2 class="mb-2 text-lg font-semibold text-foreground">Billing ticks</h2>
+    <%= render(AtomicView::Components::TableComponent.new) do |table| %>
+      <thead>
+        <tr class="<%= table.head_class %>">
+          <th class="px-3 py-2">Period</th>
+          <th class="px-3 py-2">Amount</th>
+          <th class="px-3 py-2">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="<%= table.row_class %>">
+          <td class="px-3 py-2">May 2026</td>
+          <td class="px-3 py-2">$1,180.00</td>
+          <td class="px-3 py-2"><%= render(AtomicView::Components::BadgeComponent.new) { "Paid" } %></td>
+        </tr>
+        <tr class="<%= table.row_class %>">
+          <td class="px-3 py-2">Jun 2026</td>
+          <td class="px-3 py-2">$1,180.00</td>
+          <td class="px-3 py-2"><%= render(AtomicView::Components::BadgeComponent.new) { "Paid" } %></td>
+        </tr>
+      </tbody>
+    <% end %>
+  <% end %>
+<% end %>
