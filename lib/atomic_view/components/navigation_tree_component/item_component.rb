@@ -38,7 +38,8 @@ module AtomicView
         private
 
         def base_classes
-          "flex items-center gap-2 rounded-btn px-2.5 py-1.5 text-sm font-medium"
+          "flex items-center gap-2 rounded-btn px-2.5 py-1.5 text-sm font-medium " \
+            "group-data-[collapsed]/nav:justify-center group-data-[collapsed]/nav:px-2"
         end
 
         def active_classes

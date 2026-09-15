@@ -1,0 +1,14 @@
+<div class="inline-flex rounded-card border border-border bg-surface p-2">
+  <%= render AtomicView::Components::NavigationTreeComponent.new(collapsed: true) do |tree| %>
+    <% tree.with_item(label: "Overview", href: "#", icon: "home", active: true) %>
+
+    <% tree.with_item(label: "Connect", icon: "square-3-stack-3d") do |connect| %>
+      <% connect.with_item(label: "Overview", href: "#") %>
+      <% connect.with_item(label: "Connected accounts", href: "#") %>
+    <% end %>
+
+    <% tree.with_item(label: "Payments", href: "#", icon: "wallet") %>
+    <% tree.with_item(label: "Billing", href: "#", icon: "credit-card") %>
+    <% tree.with_item(label: "Reporting", href: "#", icon: "chart-bar") %>
+  <% end %>
+</div>

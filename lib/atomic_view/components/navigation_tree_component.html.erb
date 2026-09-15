@@ -1,8 +1,16 @@
-<%= tag.nav(**@options.except(:class), class: container_class) do %>
-  <% if label.present? %>
+<%= tag.nav(**html_options, class: container_class, data: data_attributes) do %>
+  <% if label.present? && !collapsed? %>
     <div class="px-2.5 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground"><%= label %></div>
   <% end %>
   <% items.each do |item| %>
-    <%= item %>
+    <% if collapsed? %>
+      <%= render(AtomicView::Components::TooltipComponent.new(text: item.label, placement: tooltip_placement)) do |tooltip| %>
+        <% tooltip.with_trigger do %>
+          <%= item %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= item %>
+    <% end %>
   <% end %>
 <% end %>

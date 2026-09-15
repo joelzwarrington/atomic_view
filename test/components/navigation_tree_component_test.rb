@@ -128,4 +128,75 @@ class AtomicView::Components::NavigationTreeComponentTest < ViewComponent::TestC
 
     assert_not_includes(actual, "<details open")
   end
+
+  test "does not render a collapsed marker by default" do
+    actual = render_inline(AtomicView::Components::NavigationTreeComponent.new) { |tree|
+      tree.with_item(label: "Home", href: "/home")
+    }.to_html
+
+    assert_not_includes(actual, "data-collapsed")
+  end
+
+  test "renders a collapsed marker on the root when collapsed" do
+    actual = render_inline(AtomicView::Components::NavigationTreeComponent.new(collapsed: true)) { |tree|
+      tree.with_item(label: "Home", href: "/home")
+    }.to_html
+
+    assert_includes(actual, "data-collapsed=\"true\"")
+  end
+
+  test "carries the group/nav marker class for icon-only CSS to key off" do
+    actual = render_inline(AtomicView::Components::NavigationTreeComponent.new(collapsed: true)) { |tree|
+      tree.with_item(label: "Home", href: "/home")
+    }.to_html
+
+    assert_includes(actual, "group/nav")
+  end
+
+  test "hides the tree label heading when collapsed" do
+    actual = render_inline(AtomicView::Components::NavigationTreeComponent.new(label: "Products", collapsed: true)) { |tree|
+      tree.with_item(label: "Home", href: "/home")
+    }.to_html
+
+    assert_not_includes(actual, "Products")
+  end
+
+  test "still renders the tree label heading when not collapsed" do
+    actual = render_inline(AtomicView::Components::NavigationTreeComponent.new(label: "Products")) { |tree|
+      tree.with_item(label: "Home", href: "/home")
+    }.to_html
+
+    assert_includes(actual, "Products")
+  end
+
+  test "wraps a leaf item's label in a span hidden via CSS when the tree is collapsed" do
+    actual = render_inline(AtomicView::Components::NavigationTreeComponent.new(collapsed: true)) { |tree|
+      tree.with_item(label: "Home", href: "/home")
+    }.to_html
+
+    assert_match(/<span class="[^"]*group-data-\[collapsed\]\/nav:hidden[^"]*">Home<\/span>/, actual)
+  end
+
+  test "wraps a group item's label and chevron in elements hidden via CSS when the tree is collapsed" do
+    actual = render_inline(AtomicView::Components::NavigationTreeComponent.new(collapsed: true)) { |tree|
+      tree.with_item(label: "Sites") do |sites|
+        sites.with_item(label: "Overview", href: "/sites")
+      end
+    }.to_html
+
+    assert_match(/<span class="[^"]*group-data-\[collapsed\]\/nav:hidden[^"]*">Sites<\/span>/, actual)
+    assert_includes(actual, "group-data-[collapsed]/nav:hidden")
+  end
+
+  test "merges custom class and forwards other options on the root when collapsed" do
+    actual = render_inline(
+      AtomicView::Components::NavigationTreeComponent.new(collapsed: true, class: "custom-tree", data: {testid: "tree"})
+    ) { |tree|
+      tree.with_item(label: "Home", href: "/home")
+    }.to_html
+
+    assert_includes(actual, "custom-tree")
+    assert_includes(actual, "data-testid=\"tree\"")
+    assert_includes(actual, "data-collapsed=\"true\"")
+  end
 end
